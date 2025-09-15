@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Minh Pham - Blog</title>
+    <link rel="icon" type="image/png" sizes="32x32" href="static/favicon.png">
+    <link rel="stylesheet" href="static/style.css">
+</head>
+<body>
+    <div class="dashboard-layout">
+        <nav class="navbar">
+            <div class="navbar-logo">
+                <span class="dashboard-title-navbar">Minh Pham</span>
+            </div>
+            <ul class="navbar-nav">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="about.html">About</a></li>
+                <li><a href="projects.html">Projects</a></li>
+                <li class="active"><a href="blog.html">Blog</a></li>
+                <li><a href="contact.html">Contact</a></li>
+            </ul>
+        </nav>
+        <main class="main-content">
+            <div class="section-intro">
+                <h2 class="section-title"><span class="emoji">📝</span> My Blog</h2>
+                <p class="section-subtitle">Thoughts, learnings, and insights from my journey as a developer. Writing helps me think clearly and share what I discover.</p>
+            </div>
+            <section class="blog-section">
+                <div class="blog-filters">
+                    <button class="filter-btn active" data-filter="all">All Posts</button>
+                    <button class="filter-btn" data-filter="go">Go</button>
+                    <button class="filter-btn" data-filter="learning">Learning</button>
+                    <button class="filter-btn" data-filter="projects">Projects</button>
+                    <button class="filter-btn" data-filter="career">Career</button>
+                </div>
+                <div class="blog-card-grid">
+                    <article class="blog-card" data-tags="go,learning,">
+                        <div class="blog-card-header">
+                            <span class="blog-tag go">go</span>
+                            <span class="blog-date">Dec 15, 2024</span>
+                        </div>
+                        <h3 class="blog-title">
+                            <a href="blog/why-i-love-go.html">Why I Love Go: A Beginner's Perspective</a>
+                        </h3>
+                        <div class="blog-excerpt">After spending several months diving deep into Go, I've discovered what makes this language truly special for building reliable, scalable applications. This isn't just another programming language—it's a philosophy that resonates with how I think about software development.</div>
+                        <div class="blog-meta">
+                            <span class="read-time">5 min read</span>
+                            <span class="blog-category">go</span>
+                        </div>
+                    </article>
+                    
+                    <article class="blog-card" data-tags="learning,">
+                        <div class="blog-card-header">
+                            <span class="blog-tag learning">learning</span>
+                            <span class="blog-date">Dec 19, 2024</span>
+                        </div>
+                        <h3 class="blog-title">
+                            <a href="blog/my-first-year-at-umn.html">My First Year at University of Minnesota, Twin Cities</a>
+                        </h3>
+                        <div class="blog-excerpt">My first year at a foreign country, stayed far away from my family, girlfriend, friends, and all memorable things, has come to the end. Now, at the time I wrote this blog, I'm sitting at my desk and typing each line for you to know more about my person.</div>
+                        <div class="blog-meta">
+                            <span class="read-time">5 min read</span>
+                            <span class="blog-category">learning</span>
+                        </div>
+                    </article>
+                </div>
+                <div class="blog-footer">
+                    <h3>💭 More Coming Soon</h3>
+                    <p>I'm constantly learning and writing about my experiences. Subscribe to stay updated with new posts about Go, software architecture, and my developer journey.</p>
+                </div>
+            </section>
+        </main>
+    </div>
+    <footer class="footer-bar">
+        <div class="footer-motto">Code. Learn. Share.</div>
+        <div class="footer-social">
+            <a href="https://github.com/nhatminh06" class="social-icon" target="_blank" title="GitHub">🐙</a>
+            <a href="https://www.linkedin.com/in/nhat-minh-pham-a870382a8/" class="social-icon" target="_blank" title="LinkedIn">💼</a>
+            <a href="static/Nhat Minh_Resume.pdf" class="social-icon" target="_blank" title="Resume">📄</a>
+        </div>
+    </footer>
+    <script src="static/script.js"></script>
+</body>
+</html>

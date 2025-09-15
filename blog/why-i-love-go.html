@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Why I Love Go: A Beginner's Perspective - Minh Pham</title>
+    <link rel="icon" type="image/png" sizes="32x32" href="../static/favicon.png">
+    <link rel="stylesheet" href="../static/style.css">
+</head>
+<body>
+    <div class="dashboard-layout">
+        <nav class="navbar">
+            <div class="navbar-logo">
+                <span class="dashboard-title-navbar">Minh Pham</span>
+            </div>
+            <ul class="navbar-nav">
+                <li><a href="../index.html">Home</a></li>
+                <li><a href="../about.html">About</a></li>
+                <li><a href="../projects.html">Projects</a></li>
+                <li class="active"><a href="../blog.html">Blog</a></li>
+                <li><a href="../contact.html">Contact</a></li>
+            </ul>
+        </nav>
+        <main class="main-content">
+            <article class="blog-post">
+                <div class="blog-post-header">
+                    <a href="../blog.html" class="back-to-blog">← Back to Blog</a>
+                    <div class="blog-post-meta">
+                        <span class="blog-post-date">Dec 15, 2024</span>
+                        <span class="blog-post-read-time">5 min read</span>
+                    </div>
+                </div>
+                
+                <h1 class="blog-post-title">Why I Love Go: A Beginner's Perspective</h1>
+                
+                <div class="blog-post-content">
+                    <p>After spending several months diving deep into Go, I've discovered what makes this language truly special for building reliable, scalable applications. This isn't just another programming language—it's a philosophy that resonates with how I think about software development.</p>
+
+                    <h2>The Go Philosophy</h2>
+
+                    <p>Go was designed with simplicity and pragmatism in mind. Unlike many modern languages that seem to add features for the sake of features, Go takes a minimalist approach. This might seem limiting at first, but it actually encourages better design decisions.</p>
+
+                    <h3>1. Explicit Over Implicit</h3>
+
+                    <p>Go makes you be explicit about your intentions. There's no magic happening behind the scenes. When you see code, you know exactly what it does. This transparency makes codebases easier to understand and maintain.</p>
+
+                    <h3>2. Composition Over Inheritance</h3>
+
+                    <p>Go doesn't have traditional inheritance. Instead, it uses composition through embedding. This approach often leads to more flexible and maintainable code structures.</p>
+
+                    <h3>3. Concurrency as a First-Class Citizen</h3>
+
+                    <p>Goroutines and channels make concurrent programming feel natural and safe. The famous quote <em>"Don't communicate by sharing memory; share memory by communicating"</em> perfectly captures Go's approach to concurrency.</p>
+
+                    <h2>What I've Built So Far</h2>
+
+                    <p>My journey with Go started with simple CLI tools and has evolved into building web services. Each project has taught me something new about the language and software design in general.</p>
+
+                    <h2>🌱 The Beginner Experience: Frustrations and Wins</h2>
+
+                    <p>Like many newcomers, my first impression of Go was: <em>"Where's the generics?"</em> or <em>"Why is error handling so manual?"</em> But as I kept using it, I realized those choices weren't limitations — they were deliberate.</p>
+
+                    <p><strong>Error handling</strong>, for instance, forces you to think about edge cases early. And <strong>lack of inheritance</strong> nudged me to explore interfaces and decoupling more seriously than I had in other languages.</p>
+
+                    <p>Some wins I'll never forget:</p>
+                    <ul>
+                        <li>My first time spinning up a web server with just <code>net/http</code> and a few lines of code</li>
+                        <li>Understanding how goroutines work by watching logs race across my terminal</li>
+                        <li>Feeling confident shipping CLI tools that compiled to a single, portable binary</li>
+                    </ul>
+
+                    <p>Go is a language that grows on you the more you use it — not by being flashy, but by being dependable.</p>
+
+                    <h2>📦 Tools & Libraries I Love</h2>
+
+                    <p>One of the things I appreciate most about Go is how productive I can be with just the <strong>standard library</strong>. But when I need more, these tools have helped elevate my experience:</p>
+
+                    <ul>
+                        <li><a href="https://github.com/gin-gonic/gin">Gin</a> – Lightweight and blazing fast web framework with middleware support</li>
+                        <li><a href="https://gorm.io/">Gorm</a> – ORM that balances ease of use with power</li>
+                        <li><a href="https://gofiber.io/">Go-Fiber</a> – Inspired by Express.js, great for building modern APIs</li>
+                        <li><a href="https://github.com/spf13/cobra">cobra</a> – For building beautiful CLI apps</li>
+                        <li><a href="https://github.com/cosmtrek/air">air</a> – Live reloading for Go apps (a must-have during development)</li>
+                    </ul>
+
+                    <p>I admire how most Go libraries prioritize clarity and maintainability — rarely do I feel overwhelmed by abstraction.</p>
+
+                    <h2>🛠️ Advice to Fellow Beginners</h2>
+
+                    <p>If you're just starting your Go journey, here's what I wish I'd known:</p>
+
+                    <ul>
+                        <li><strong>Start small but complete</strong>: Build a basic HTTP server or a URL shortener. The value is in finishing.</li>
+                        <li><strong>Read Go source code</strong>: Especially the standard library — it's like a masterclass in clean engineering.</li>
+                        <li><strong>Embrace the idioms</strong>: Use <code>go fmt</code>, follow naming conventions, and learn to love interfaces.</li>
+                        <li><strong>Don't skip <code>go mod</code></strong>: Understanding modules early will save you time with dependencies later.</li>
+                        <li><strong>Practice concurrency early</strong>: Goroutines are simple to start, but designing correct concurrent systems takes discipline.</li>
+                    </ul>
+
+                    <h2>💬 Final Thoughts</h2>
+
+                    <p>Go may not be the flashiest or trendiest language out there — but that's exactly why I love it. It's built for engineers who care about <strong>clarity</strong>, <strong>stability</strong>, and <strong>long-term maintainability</strong>.</p>
+
+                    <p>As someone still early in my software development journey, Go gives me the confidence that I'm building things the right way. It's a language that teaches you good habits while getting out of your way.</p>
+
+                    <p>I don't just want to be a Go developer — I want to be a <strong>better software engineer</strong>. And Go is helping me get there.</p>
+                </div>
+                
+                <div class="blog-post-footer">
+                    <div class="blog-post-nav">
+                        <a href="../blog.html" class="nav-link">
+                            <span>← Back to Blog</span>
+                            <span>All Posts</span>
+                        </a>
+                    </div>
+                </div>
+            </article>
+        </main>
+    </div>
+    <footer class="footer-bar">
+        <div class="footer-motto">Code. Learn. Share.</div>
+        <div class="footer-social">
+            <a href="https://github.com/nhatminh06" class="social-icon" target="_blank" title="GitHub">🐙</a>
+            <a href="https://www.linkedin.com/in/nhat-minh-pham-a870382a8/" class="social-icon" target="_blank" title="LinkedIn">💼</a>
+            <a href="../static/Nhat Minh_Resume.pdf" class="social-icon" target="_blank" title="Resume">📄</a>
+        </div>
+    </footer>
+    <script src="../static/script.js"></script>
+</body>
+</html>

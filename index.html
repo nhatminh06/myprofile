@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Minh Pham</title>
+    <link rel="icon" type="image/png" sizes="32x32" href="static/favicon.png">
+    <link rel="stylesheet" href="static/style.css">
+</head>
+<body>
+    <div class="dashboard-layout">
+        <nav class="navbar">
+            <div class="navbar-logo">
+                <span class="dashboard-title-navbar">Minh Pham</span>
+            </div>
+            <ul class="navbar-nav">
+                <li class="active"><a href="index.html">Home</a></li>
+                <li><a href="about.html">About</a></li>
+                <li><a href="projects.html">Projects</a></li>
+                <li><a href="blog.html">Blog</a></li>
+                <li><a href="contact.html">Contact</a></li>
+            </ul>
+        </nav>
+        <main class="main-content">
+            <div class="section-intro">
+                <h2 class="section-title"><span class="emoji">👋</span> Welcome</h2>
+                <p class="section-subtitle">This is my digital space—where I share my journey, projects, and passion for building meaningful software. Explore, connect, and let's grow together!</p>
+            </div>
+            <section id="home" class="home-section">
+                <div class="home-intro">
+                    <h2 class="typing-title"><span id="typed"></span></h2>
+                    <p>
+                        Welcome to my digital space! I'm a Computer Science student at the University of Minnesota, Twin Cities,
+                        passionate about building software that makes a difference. Whether it's web development, system design,
+                        or solving complex algorithmic problems - I'm all about learning, improving, and creating meaningful projects.
+                    </p>
+                    <p>
+                        This site is where I showcase my <a href="projects.html">projects</a>, write about my <a href="blog.html">learning journey</a>,
+                        and connect with other like-minded individuals. Feel free to explore and reach out if you'd like to collaborate!
+                    </p>
+                    <div class="learning-tags">
+                      <span>Go</span>
+                      <span>React</span>
+                      <span>MongoDB</span>
+                      <span>TypeScript</span>
+                      <span>Docker</span>
+                    </div>
+                </div>
+                <div class="home-highlights">
+                    <h3>✨ Quick Highlights</h3>
+                    <ul>
+                        <li>👨‍💻 Currently working on a full-stack task manager app</li>
+                        <li>📚 Learning: Go, React, and scalable backend architectures</li>
+                        <li>🌱 Recent read: "Clean Architecture" by Robert C. Martin</li>
+                        <li>📬 Always open to tech chats, internships, and coffee!</li>
+                    </ul>
+                </div>
+            </section>
+            <section class="dashboard-cards two-col-layout">
+                <div class="dashboard-card left-card">
+                    <div class="hero-avatar-wrapper">
+                        <img src="static/avatar.jpg" alt="Minh's Avatar" class="avatar-img-large" />
+                    </div>
+                    <h3 class="skill-title">🛠️ Skills & Interests</h3>
+                    <ul class="skills-list">
+                        <li>Web Development</li>
+                        <li>Algorithms</li>
+                        <li>Software Engineering</li>
+                        <li>Problem Solving</li>
+                        <li>Architecture Design</li>
+                    </ul>
+                    <h3 class="projects-title">💻 Projects</h3>
+                    <ul class="projects-list">
+                        <li><strong>Personal Portfolio</strong></li>
+                        <li><strong>Company Research</strong></li>
+                        <li><strong>FSDS Course (in progress)</strong></li>
+                        <li><strong>The Odin Project (in progress)</strong></li>
+                    </ul>
+                </div>
+                <div class="dashboard-card right-card">
+                    <h2 class="hero-title">Minh Pham</h2>
+                    <p class="hero-subtitle">Computer Science Student & Aspiring Developer</p>
+                    <h3 class="about-title">👤 About Me</h3>
+                    <p class="about-description">
+                        I am a passionate student at the University of Minnesota, Twin Cities, exploring the fascinating world of computer science and software development. I love turning complex problems into elegant, user-friendly solutions.
+                    </p>
+                    <h3>📫 Contact</h3>
+                    <ul class="contact-list">
+                        <li><strong>Email:</strong> mphamnhat2006@gmail.com</li>
+                        <li><strong>Location:</strong> Minneapolis, MN / Hanoi, Vietnam</li>
+                        <li><strong>Status:</strong> Open to opportunities and collaborations</li>
+                    </ul>
+                    <h3 class="goals-title">🎯 Goals</h3>
+                    <ul class="goals-list">
+                        <li>Master modern web development technologies</li>
+                        <li>Contribute to open-source projects</li>
+                        <li>Build impactful software for real-world problems</li>
+                        <li>Learn more about the world</li>
+                        <li>Study the FSDS course (to have a better understanding of the tech industry)</li>
+                    </ul>
+                </div>
+            </section>
+        </main>
+    </div>
+    <footer class="footer-bar">
+        <div class="footer-motto">Code. Learn. Share.</div>
+        <div class="footer-social">
+            <a href="https://github.com/nhatminh06" class="social-icon" target="_blank" title="GitHub">🐙</a>
+            <a href="https://www.linkedin.com/in/nhat-minh-pham-a870382a8/" class="social-icon" target="_blank" title="LinkedIn">💼</a>
+            <a href="static/Nhat Minh_Resume.pdf" class="social-icon" target="_blank" title="Resume">📄</a>
+        </div>
+    </footer>
+    <script src="static/script.js"></script>
+    <script>
+    const phrases = [
+      "Hi, I'm Minh - Web Dev",
+      "Hi, I'm Minh - CS Student",
+      "Hi, I'm Minh - Builder"
+    ];
+    let i = 0, j = 0, current = "", isDeleting = false, loopNum = 0, typingSpeed = 90;
+    function type() {
+      const typed = document.getElementById("typed");
+      if (!typed) return;
+      current = phrases[loopNum % phrases.length];
+      if (isDeleting) {
+        typed.textContent = current.substring(0, j--);
+        if (j < 0) {
+          isDeleting = false;
+          loopNum++;
+          setTimeout(type, 600);
+        } else {
+          setTimeout(type, typingSpeed / 2);
+        }
+      } else {
+        typed.textContent = current.substring(0, j++);
+        if (j > current.length) {
+          isDeleting = true;
+          setTimeout(type, 1200);
+        } else {
+          setTimeout(type, typingSpeed);
+        }
+      }
+    }
+    window.addEventListener("DOMContentLoaded", type);
+    </script>
+</body>
+</html>
