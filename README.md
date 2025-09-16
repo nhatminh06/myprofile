@@ -97,7 +97,7 @@ static-website/
 ## 📞 Contact
 
 - **Email**: mphamnhat2006@gmail.com
-- **LinkedIn**: [nhat-minh-pham-a870382a8](https://www.linkedin.com/in/nhat-minh-pham-a870382a8/)
+- **LinkedIn**: [minhpham2418](https://www.linkedin.com/in/minhpham2418/)
 - **GitHub**: [nhatminh06](https://github.com/nhatminh06)
 
 ---
