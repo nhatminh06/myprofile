@@ -1,0 +1,522 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Four-Year DevOps Plan at UMN - Minh Pham</title>
+    <link rel="icon" type="image/png" sizes="32x32" href="../static/favicon.png">
+    <link rel="stylesheet" href="../static/style.css">
+</head>
+<body>
+    <div class="dashboard-layout">
+        <nav class="navbar">
+            <div class="navbar-logo">
+                <span class="dashboard-title-navbar">Minh Pham</span>
+            </div>
+            <ul class="navbar-nav">
+                <li><a href="../index.html">Home</a></li>
+                <li><a href="../about.html">About</a></li>
+                <li><a href="../projects.html">Projects</a></li>
+                <li class="active"><a href="../blog.html">Blog</a></li>
+                <li><a href="../contact.html">Contact</a></li>
+            </ul>
+        </nav>
+        <main class="main-content">
+            <article class="blog-post">
+                <div class="blog-post-header">
+                    <a href="../blog.html" class="back-to-blog">← Back to Blog</a>
+                    <div class="blog-post-meta">
+                        <span class="blog-post-date">Nov 27, 2025</span>
+                        <span class="blog-post-read-time">12 min read</span>
+                    </div>
+                </div>
+                
+                <h1 class="blog-post-title">My Four-Year DevOps Plan at UMN</h1>
+                
+                <div class="blog-post-content">
+                    <blockquote>
+                        <p><em>This is a living plan. I'll adapt it as I meet new mentors, join clubs, or uncover better learning paths. Future Minh, keep iterating!</em></p>
+                    </blockquote>
+
+                    <p>When I first arrived at the University of Minnesota, I knew I wanted to work in tech, but I wasn't sure exactly where. After exploring different areas and building projects, I discovered DevOps and Site Reliability Engineering — the perfect intersection of systems thinking, automation, and problem-solving. This plan maps out how I'm using my CS and Math double major to build the foundation for a career in infrastructure engineering.</p>
+
+                    <h2>Year 1 — Foundations & Habits ✅</h2>
+
+                    <p><strong>Status:</strong> Completed | <strong>Credits:</strong> 34 | <strong>GPA:</strong> 4.000</p>
+
+                    <p>My freshman year was about building strong fundamentals. I focused on getting comfortable with the basics — calculus, discrete math, and introductory programming — while starting to explore what happens behind the scenes when code runs in production.</p>
+
+                    <h3>Academic Foundation</h3>
+
+                    <ul>
+                        <li><strong>Mathematics:</strong> Math 1271 (Calculus I), Math 1372 (Calculus II)
+                            <ul>
+                                <li><em>Why it matters:</em> Strong mathematical thinking is crucial for understanding algorithms, performance optimization, and capacity planning in distributed systems.</li>
+                            </ul>
+                        </li>
+                        <li><strong>Computer Science:</strong>
+                            <ul>
+                                <li>CSE 1001 (First Year Experience) — Introduction to CS community and resources</li>
+                                <li>CSCI 1133 (Intro to Computing and Programming Concepts) — Python fundamentals and problem-solving
+                                    <ul>
+                                        <li><em>Why it matters:</em> Python is widely used in DevOps for automation, infrastructure tooling, and data analysis. This course gave me the programming foundation to write scripts, work with APIs, and build automation tools.</li>
+                                    </ul>
+                                </li>
+                                <li>CSCI 2011 (Discrete Structures) — Logic, proofs, and algorithmic thinking
+                                    <ul>
+                                        <li><em>Why it matters:</em> Discrete structures taught me formal logic and proof techniques, which are essential for reasoning about system correctness, understanding distributed algorithms, and debugging complex infrastructure issues systematically.</li>
+                                    </ul>
+                                </li>
+                            </ul>
+                        </li>
+                        <li><strong>Physics:</strong> PHYS 1301W (Physics I with Writing)
+                            <ul>
+                                <li><em>Why it matters:</em> Understanding systems, forces, and interactions at a fundamental level helps me think about how components interact in distributed systems.</li>
+                            </ul>
+                        </li>
+                        <li><strong>General Education:</strong> GEOG 1372, GEOG 1502, HIST 1811, WRIT 1301 (Libed Requiremnet)
+                            <ul>
+                                <li>Writing skills are crucial for documentation, incident reports, and communicating technical concepts clearly.</li>
+                            </ul>
+                        </li>
+                    </ul>
+
+                    <h3>Technical Skills I Built</h3>
+
+                    <p>Beyond coursework, I focused on practical DevOps fundamentals:</p>
+
+                    <ul>
+                        <li><strong>Git & GitHub fluency</strong> — Version control is the foundation of collaboration</li>
+                        <li><strong>Linux fundamentals + shell scripting</strong> — Most infrastructure runs on Linux; automation starts with scripts</li>
+                        <li><strong>Intro to networking</strong> — Understanding OSI layers, TCP/IP, DNS helps debug connectivity issues</li>
+                    </ul>
+
+                    <h3>Projects & Experiments</h3>
+
+                    <ul>
+                        <li>Automated my dotfile setup with shell scripts (my first taste of infrastructure automation)</li>
+                        <li>Built this personal site and deployed it with GitHub Actions (learning CI/CD early)</li>
+                        <li>Containerized a simple Go app with Docker (understanding isolation and portability)</li>
+                    </ul>
+
+                    <h3>Lessons Learned</h3>
+
+                    <p>The biggest lesson from Year 1: <strong>consistency beats intensity</strong>. I learned to study regularly rather than cramming, which helped me maintain a 4.0 GPA while still having time for side projects. I also discovered that I learn best by building things — reading about Docker is one thing, but actually containerizing an app makes concepts stick.</p>
+
+                    <h2>Year 2 — Tooling & Automation 🚧</h2>
+
+                    <p><strong>Status:</strong> In Progress | <strong>Planned Credits:</strong> 34</p>
+
+                    <p>Sophomore year is where theory meets practice. I'm taking courses that directly relate to understanding how computers work at a low level, which is essential for optimizing systems and debugging production issues.</p>
+
+                    <h3>Current Coursework (Spring 2025)</h3>
+
+                    <ul>
+                        <li><strong>CSCI 1933 (Intro to Algorithms and Data Structures)</strong> — A- | 3.667 GPA
+                            <ul>
+                                <li><em>DevOps connection:</em> Understanding algorithms and data structures is fundamental for optimizing infrastructure code, processing logs/metrics efficiently, and designing scalable systems. This course teaches me how to think about performance and complexity in automation scripts and monitoring pipelines.</li>
+                            </ul>
+                        </li>
+                        <li><strong>MATH 2374 (Multivariable Calculus)</strong> — A | 4.000 GPA
+                            <ul>
+                                <li><em>DevOps connection:</em> Optimization problems in calculus mirror capacity planning and resource allocation challenges in infrastructure.</li>
+                            </ul>
+                        </li>
+                        <li><strong>PHYS 1302W (Physics II with Writing)</strong> — A- | 3.667 GPA
+                            <ul>
+                                <li><em>DevOps connection:</em> Understanding waves, fields, and systems thinking applies to network protocols and distributed system behavior.</li>
+                            </ul>
+                        </li>
+                        <li><strong>STAT 3021 (Intro to Probability and Statistics)</strong> — A | 4.000 GPA
+                            <ul>
+                                <li><em>DevOps connection:</em> This is directly relevant! Monitoring, metrics, and observability all rely on statistical analysis. Understanding probability distributions, confidence intervals, and statistical inference is crucial for making data-driven decisions about reliability, alerting thresholds, and capacity planning in SRE work.</li>
+                            </ul>
+                        </li>
+                    </ul>
+
+                    <h3>Planned Courses (Fall 2025 & Beyond)</h3>
+
+                    <ul>
+                        <li><strong>CSCI 2021 (Machine Architecture & Organization)</strong>
+                            <ul>
+                                <li><em>Why I'm excited:</em> Understanding CPU architecture, memory hierarchy, and instruction sets will help me optimize performance and understand bottlenecks in production systems.</li>
+                            </ul>
+                        </li>
+                        <li><strong>CSCI 2041 (Advanced Programming Principles)</strong>
+                            <ul>
+                                <li><em>Why it matters:</em> Learning design patterns, concurrency models, and software architecture principles will make me a better infrastructure engineer who can design reliable systems.</li>
+                            </ul>
+                        </li>
+                        <li><strong>STAT 3301 (Regression and Statistical Computing)</strong>
+                            <ul>
+                                <li><em>Why it matters:</em> Regression analysis is essential for understanding trends in system metrics, predicting capacity needs, and identifying correlations between different system components. Statistical computing skills will help me build better monitoring dashboards and analyze performance data effectively.</li>
+                            </ul>
+                        </li>
+                        <li><strong>MATH 2142 (Elementary Linear Algebra)</strong>
+                            <ul>
+                                <li><em>Why it matters:</em> Linear algebra is fundamental to machine learning applications in monitoring (anomaly detection, predictive scaling) and understanding how to model and optimize complex systems. These mathematical foundations help me think about system state, transformations, and optimization problems in infrastructure.</li>
+                            </ul>
+                        </li>
+                        <li><strong>MATH 3283W (Sequences, Series, & Foundations)</strong>
+                            <ul>
+                                <li><em>Why it matters:</em> Strengthening mathematical foundations for advanced topics in distributed systems and algorithms.</li>
+                            </ul>
+                        </li>
+                    </ul>
+
+                    <h3>Technical Goals</h3>
+
+                    <p>This year, I'm moving from learning concepts to building real infrastructure:</p>
+
+                    <ul>
+                        <li><strong>Infrastructure as Code (IaC)</strong> — Write Terraform or Pulumi to manage cloud resources</li>
+                        <li><strong>CI/CD pipelines</strong> — Build sophisticated GitHub Actions workflows (beyond simple deploys)</li>
+                        <li><strong>Container orchestration</strong> — Learn Kubernetes fundamentals or explore Nomad for simpler use cases</li>
+                    </ul>
+
+                    <h3>Projects I'm Building</h3>
+
+                    <ul>
+                        <li><strong>"Infrastructure as Code" repo</strong> — Version-controlled infrastructure for deploying this site (Terraform + GitHub Actions)</li>
+                        <li><strong>Monitoring stack demo</strong> — Prometheus + Grafana + alerting to understand observability in practice</li>
+                        <li><strong>Automated testing pipeline</strong> — Apply CI/CD principles to my coursework projects</li>
+                    </ul>
+
+                    <h3>Career Development</h3>
+
+                    <ul>
+                        <li>Exploring DevOps/SRE internships for Summer 2026</li>
+                        <li>Joining tech clubs and attending local DevOps meetups</li>
+                        <li>Building a portfolio that demonstrates infrastructure thinking</li>
+                    </ul>
+
+                    <h3>Reflection Questions</h3>
+
+                    <ul>
+                        <li>How comfortable am I debugging infrastructure issues independently?</li>
+                        <li>Can I explain CI/CD pipelines to non-engineers clearly?</li>
+                        <li>What's the most complex system I've designed and deployed?</li>
+                    </ul>
+
+                    <h2>Year 3 — Scaling & Reliability 📈</h2>
+
+                    <p><strong>Status:</strong> Planned | <strong>Planned Credits:</strong> 36</p>
+
+                    <p>Junior year is about depth. I'll be taking upper-level courses that directly prepare me for working with large-scale distributed systems, understanding how operating systems manage resources, and designing reliable architectures.</p>
+
+                    <h3>Core Computer Science Courses</h3>
+
+                    <ul>
+                        <li><strong>CSCI 4061 (Intro to Operating Systems)</strong>
+                            <ul>
+                                <li><em>Why this is critical:</em> Understanding process management, memory, file systems, and concurrency is fundamental to DevOps. When something breaks in production, I need to know what's happening at the OS level.</li>
+                            </ul>
+                        </li>
+                        <li><strong>CSCI 3923 (Ethics in Computing)</strong>
+                            <ul>
+                                <li><em>Why this matters:</em> As a DevOps engineer, I'll be responsible for systems that handle user data, security, and privacy. Understanding ethical considerations in computing — from data handling to algorithmic bias to system accessibility — is crucial for building responsible infrastructure that serves users well.</li>
+                            </ul>
+                        </li>
+                        <li><strong>CSCI 4041 (Algorithms & Data Structures)</strong>
+                            <ul>
+                                <li><em>Why it's important:</em> Efficient algorithms matter when processing logs, metrics, and traces at scale. This course will help me optimize monitoring pipelines and data processing.</li>
+                            </ul>
+                        </li>
+                        <li><strong>CSCI 3081W (Program Design & Development)</strong>
+                            <ul>
+                                <li><em>Why it matters:</em> Learning to design large software systems translates directly to designing infrastructure architectures. The writing component will improve my technical documentation skills.</li>
+                            </ul>
+                        </li>
+                    </ul>
+
+                    <h3>Advanced Mathematics</h3>
+
+                    <ul>
+                        <li><strong>MATH 5165 (Mathematical Logic I)</strong>
+                            <ul>
+                                <li><em>DevOps connection:</em> Mathematical logic helps me reason about system correctness, understand formal verification methods, and think rigorously about distributed system properties like consistency and fault tolerance. This foundation is valuable for understanding proofs of correctness in system design and debugging complex issues.</li>
+                            </ul>
+                        </li>
+                        <li><strong>MATH 5485 (Introduction to Numerical Methods I)</strong>
+                            <ul>
+                                <li><em>Why it matters:</em> Numerical methods are essential for solving optimization problems in capacity planning, performance tuning, and resource allocation. These computational techniques help me understand how to efficiently solve problems that arise in infrastructure management, from load balancing algorithms to cost optimization.</li>
+                            </ul>
+                        </li>
+                        <li><strong>MATH 5651 (Basic Theory of Probability & Statistics)</strong>
+                            <ul>
+                                <li><em>Critical for SRE:</em> Understanding probability distributions, confidence intervals, and statistical inference is essential for making data-driven decisions about reliability, capacity, and alerting thresholds.</li>
+                            </ul>
+                        </li>
+                        <li><strong>MATH 4242 (Applied Linear Algebra)</strong>
+                            <ul>
+                                <li><em>Why it matters:</em> Applied linear algebra provides practical tools for solving real-world optimization problems in infrastructure. Understanding matrix operations, eigenvalues, and linear transformations helps me model system behavior, optimize resource allocation, and understand machine learning algorithms used in intelligent monitoring systems.</li>
+                            </ul>
+                        </li>
+                    </ul>
+
+                    <h3>General Education</h3>
+
+                    <ul>
+                        <li><strong>JOUR 1501 (Mass Media & Society)</strong> — Completing liberal education requirements</li>
+                        <li><strong>ESCI 1003 (Earth & Its Environments)</strong> — Completing liberal education requirements</li>
+                    </ul>
+
+                    <h3>Deep-Dive Technical Areas</h3>
+
+                    <p>By junior year, I want to have deep expertise in:</p>
+
+                    <ul>
+                        <li><strong>Observability:</strong> Logs, metrics, traces (OpenTelemetry) — the three pillars of understanding system behavior</li>
+                        <li><strong>Security:</strong> Secrets management, IAM, shift-left security testing — security is everyone's responsibility in DevOps</li>
+                        <li><strong>Cost optimization & capacity planning:</strong> Making data-driven decisions about resource allocation</li>
+                    </ul>
+
+                    <h3>Capstone-Worthy Projects</h3>
+
+                    <ul>
+                        <li><strong>Multi-environment pipeline:</strong> Design and implement dev/stage/prod environments for a microservice with proper secrets management, monitoring, and rollback capabilities</li>
+                        <li><strong>Chaos engineering experiment:</strong> Run controlled experiments on a lab cluster to test system resilience</li>
+                        <li><strong>Technical writing:</strong> Publish blog posts or give talks about lessons learned from building infrastructure</li>
+                    </ul>
+
+                    <h3>Industry Experience Goals</h3>
+
+                    <ul>
+                        <li>Secure a DevOps/SRE internship at a company where I can work on real production systems</li>
+                        <li>Contribute to open-source infrastructure projects</li>
+                        <li>Build relationships with engineers in the field</li>
+                    </ul>
+
+                    <h3>Reflection Questions</h3>
+
+                    <ul>
+                        <li>Can I design an end-to-end architecture for a distributed system?</li>
+                        <li>What leadership roles am I ready for (TA, mentor, project lead)?</li>
+                        <li>How do I handle incidents and post-mortems?</li>
+                    </ul>
+
+                    <h2>Year 4 — Specialize & Elevate 🎓</h2>
+
+                    <p><strong>Status:</strong> Planned | <strong>Planned Credits:</strong> 35</p>
+
+                    <p>Senior year is about specialization and transition. I'll take graduate-level courses that push my understanding of distributed systems, databases, and optimization — all critical for senior DevOps/SRE roles.</p>
+
+                    <h3>Advanced Computer Science Courses</h3>
+
+                    <ul>
+                        <li><strong>CSCI 5105 (Intro to Distributed Systems)</strong>
+                            <ul>
+                                <li><em>Why this is the capstone:</em> This is the course that ties everything together. Understanding consensus algorithms, fault tolerance, and distributed coordination is essential for designing reliable infrastructure at scale.</li>
+                            </ul>
+                        </li>
+                        <li><strong>CSCI 5103 (Operating Systems)</strong>
+                            <ul>
+                                <li><em>Why it matters:</em> Graduate-level OS course will deepen my understanding of kernel internals, which helps when debugging performance issues and optimizing system calls.</li>
+                            </ul>
+                        </li>
+                        <li><strong>CSCI 4707 (Practice of Database Systems)</strong>
+                            <ul>
+                                <li><em>Why it's important:</em> Databases are at the heart of most applications. Understanding query optimization, replication, and backup strategies is crucial for database reliability engineering.</li>
+                            </ul>
+                        </li>
+                        <li><strong>CSCI 4211 (Introduction to Computer Networks)</strong>
+                            <ul>
+                                <li><em>Why it matters:</em> Advanced networking concepts for understanding complex network architectures, load balancing, and network security.</li>
+                            </ul>
+                        </li>
+                        <li><strong>CSCI 5751 (Big Data Engineering and Architecture)</strong> — <em>Currently unavailable</em>
+                            <ul>
+                                <li><em>Why I want this:</em> Big data engineering is directly relevant to DevOps at scale. Understanding how to process, store, and analyze massive volumes of logs, metrics, and traces is essential for modern SRE work. This course would teach me distributed data processing, storage systems, and architectures that power observability platforms.</li>
+                            </ul>
+                        </li>
+                    </ul>
+
+                    <h3>Advanced Mathematics & Statistics</h3>
+
+                    <ul>
+                        <li><strong>MATH 5711 (Linear Programming & Combinatorial Optimization)</strong>
+                            <ul>
+                                <li><em>DevOps connection:</em> Resource allocation, scheduling, and capacity planning are optimization problems. This course will give me the mathematical tools to make better infrastructure decisions.</li>
+                            </ul>
+                        </li>
+                        <li><strong>MATH 5486 (Introduction To Numerical Methods II)</strong>
+                            <ul>
+                                <li><em>Why it matters:</em> Advanced numerical methods build on the foundation from Numerical Methods I, giving me more sophisticated tools for solving optimization problems in infrastructure. These techniques are directly applicable to performance tuning, cost optimization, and solving complex resource allocation challenges in distributed systems.</li>
+                            </ul>
+                        </li>
+                        <li><strong>MATH 5707 (Graph Theory and Non-enumerative Combinatorics)</strong>
+                            <ul>
+                                <li><em>Why it's critical:</em> Graph theory is fundamental to understanding network topologies, dependency graphs, and system architectures. Combinatorics helps me reason about system configurations, optimization problems, and the complexity of infrastructure design. These mathematical tools are essential for modeling and analyzing distributed systems.</li>
+                            </ul>
+                        </li>
+                        <li><strong>STAT 5102 (Theory of Statistics II)</strong>
+                            <ul>
+                                <li><em>Why it matters:</em> Advanced statistical methods for analyzing monitoring data and making data-driven reliability decisions.</li>
+                            </ul>
+                        </li>
+                        <li><strong>MATH 4281 (Introduction to Modern Algebra)</strong>
+                            <ul>
+                                <li><em>Why it matters:</em> Completing my math major while strengthening abstract thinking skills.</li>
+                            </ul>
+                        </li>
+                    </ul>
+
+                    <h3>General Education</h3>
+
+                    <ul>
+                        <li><strong>Literature libed requirement</strong> — Finishing liberal education requirements</li>
+                    </ul>
+
+                    <h3>Leadership & Mentorship</h3>
+
+                    <ul>
+                        <li><strong>Teaching Assistant</strong> for DevOps-related courses (if available) or CS courses</li>
+                        <li><strong>Mentor underclassmen</strong> in VSA and tech clubs, sharing what I've learned</li>
+                        <li><strong>Lead infrastructure projects</strong> in student organizations</li>
+                    </ul>
+
+                    <h3>Career Preparation</h3>
+
+                    <ul>
+                        <li><strong>Portfolio with case studies:</strong> Document real infrastructure projects with before/after metrics, challenges faced, and lessons learned</li>
+                        <li><strong>Mock interviews:</strong> Practice system design interviews and incident response scenarios</li>
+                        <li><strong>Job search strategy:</strong> Evaluate offers from cloud companies, startups, and consider grad school for research paths</li>
+                    </ul>
+
+                    <h3>Long-Term Vision</h3>
+
+                    <p>I'm keeping my options open, but I'm particularly interested in:</p>
+
+                    <ul>
+                        <li><strong>SRE at a cloud company</strong> (AWS, GCP, Azure) — Working on infrastructure at massive scale</li>
+                        <li><strong>Platform engineer at a startup</strong> — Building infrastructure from the ground up, wearing many hats</li>
+                        <li><strong>Specialization areas:</strong> Kubernetes, edge computing, or platform security</li>
+                    </ul>
+
+                    <p>The beauty of DevOps is that it's a mindset and skill set that applies everywhere. I want to find a role where I can have real impact while continuing to learn.</p>
+
+                    <h3>Reflection Questions</h3>
+
+                    <ul>
+                        <li>What impact do I want to have in my first 2–3 years after graduation?</li>
+                        <li>What lifelong learning habits will I maintain?</li>
+                        <li>How will I give back to the community that helped me learn?</li>
+                    </ul>
+
+                    <hr>
+
+                    <h2>Academic Progress Summary</h2>
+
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Year</th>
+                                <th>Status</th>
+                                <th>Credits</th>
+                                <th>GPA</th>
+                                <th>Key Focus</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><strong>Freshman</strong></td>
+                                <td>✅ Completed</td>
+                                <td>34</td>
+                                <td>4.000</td>
+                                <td>Foundations & fundamentals</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Sophomore</strong></td>
+                                <td>🚧 In Progress</td>
+                                <td>34</td>
+                                <td>—</td>
+                                <td>Tooling & automation</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Junior</strong></td>
+                                <td>📅 Planned</td>
+                                <td>36</td>
+                                <td>—</td>
+                                <td>Scaling & reliability</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Senior</strong></td>
+                                <td>📅 Planned</td>
+                                <td>35</td>
+                                <td>—</td>
+                                <td>Specialization & transition</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Total</strong></td>
+                                <td>—</td>
+                                <td><strong>139</strong></td>
+                                <td>—</td>
+                                <td>—</td>
+                            </tr>
+                        </tbody>
+                    </table>
+
+                    <h2>Why This Path?</h2>
+
+                    <p>Some people ask why I'm pursuing a double major in CS and Math when I could focus solely on practical DevOps skills. Here's my thinking:</p>
+
+                    <ol>
+                        <li><strong>Deep understanding beats surface knowledge:</strong> When a production system fails at 3 AM, I want to understand what's happening at every layer — from the application code to the network stack to the operating system.</li>
+                        <li><strong>Mathematics is the language of systems:</strong> Probability and statistics help me make data-driven decisions about reliability. Optimization theory helps me allocate resources efficiently. Linear algebra underlies machine learning applications in monitoring.</li>
+                        <li><strong>Long-term career flexibility:</strong> A strong theoretical foundation means I can adapt as technology evolves. The tools change (Terraform today, something new tomorrow), but the principles remain.</li>
+                        <li><strong>I genuinely enjoy it:</strong> I find beauty in elegant algorithms, clean proofs, and well-designed systems. This isn't just a career path — it's what I'm passionate about.</li>
+                    </ol>
+
+                    <h2>Resources & Learning</h2>
+
+                    <p>Beyond coursework, I'm continuously learning through:</p>
+
+                    <ul>
+                        <li><strong>Books:</strong> <em>The Site Reliability Engineering Book</em>, <em>The Phoenix Project</em>, <em>Designing Data-Intensive Applications</em></li>
+                        <li><strong>Podcasts:</strong> <em>Software Engineering Daily</em>, <em>The Changelog</em>, <em>Kubernetes Podcast</em></li>
+                        <li><strong>Communities:</strong> Local DevOps meetups, online forums, open-source contributions</li>
+                        <li><strong>Practice:</strong> Building projects, contributing to open source, writing about what I learn</li>
+                    </ul>
+
+                    <h2>Final Thoughts</h2>
+
+                    <p>This plan is a living document. As I progress, I'll update it with:</p>
+
+                    <ul>
+                        <li>Actual course experiences and what I learned</li>
+                        <li>Projects I've completed</li>
+                        <li>Internships and industry experiences</li>
+                        <li>Adjustments based on new interests or opportunities</li>
+                    </ul>
+
+                    <p>The goal isn't to follow this plan perfectly — it's to have a clear direction while remaining flexible enough to adapt when I discover better paths or new interests.</p>
+
+                    <p>If you're a fellow student or early-career engineer on a similar journey, I'd love to connect and learn together. Building infrastructure is a team sport, and the best learning happens in community.</p>
+
+                    <hr>
+
+                    <p><em>Last updated: November 2025 | This plan is continuously updated as I progress through my degree. Course selections may change based on availability, prerequisites, and evolving interests in DevOps/SRE.</em></p>
+                </div>
+                
+                <div class="blog-post-footer">
+                    <div class="blog-post-nav">
+                        <a href="../blog.html" class="nav-link">
+                            <span>← Back to Blog</span>
+                            <span>All Posts</span>
+                        </a>
+                    </div>
+                </div>
+            </article>
+        </main>
+    </div>
+    <footer class="footer-bar">
+        <div class="footer-motto">Code. Learn. Share.</div>
+        <div class="footer-social">
+            <a href="https://github.com/nhatminh06" class="social-icon" target="_blank" title="GitHub">🐙</a>
+            <a href="https://www.linkedin.com/in/nhat-minh-pham-a870382a8/" class="social-icon" target="_blank" title="LinkedIn">💼</a>
+            <a href="../static/Nhat Minh_Resume.pdf" class="social-icon" target="_blank" title="Resume">📄</a>
+        </div>
+    </footer>
+    <script src="../static/script.js"></script>
+</body>
+</html>
