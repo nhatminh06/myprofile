@@ -23,6 +23,19 @@ if (avatarMini && dropdownMenu) {
 document.addEventListener('DOMContentLoaded', function() {
   const filterButtons = document.querySelectorAll('.filter-btn');
   const blogCards = document.querySelectorAll('.blog-card');
+  const blogGrid = document.querySelector('.blog-card-grid');
+
+  // Sort blog posts by date on page load
+  if (blogGrid && blogCards.length > 0) {
+    const sortedCards = Array.from(blogCards).sort((a, b) => {
+      const dateA = new Date(a.querySelector('.blog-date').textContent);
+      const dateB = new Date(b.querySelector('.blog-date').textContent);
+      return dateB - dateA; // Newest first
+    });
+    
+    // Re-append cards in sorted order
+    sortedCards.forEach(card => blogGrid.appendChild(card));
+  }
 
   if (filterButtons.length > 0 && blogCards.length > 0) {
     filterButtons.forEach(button => {
