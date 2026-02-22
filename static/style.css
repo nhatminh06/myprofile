@@ -979,6 +979,38 @@ a:hover, a:focus {
   display: flex;
   gap: 1.1rem;
 }
+.social-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  color: #61dafb;
+  transition: all 0.3s ease;
+  text-decoration: none;
+}
+.social-icon svg {
+  width: 100%;
+  height: 100%;
+  fill: currentColor;
+}
+.social-icon:hover {
+  color: #ffb86c;
+  transform: translateY(-2px);
+}
+.contact-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 48px;
+  height: 48px;
+  margin-bottom: 1rem;
+}
+.contact-icon svg {
+  width: 100%;
+  height: 100%;
+  fill: #61dafb;
+}
 @media (max-width: 900px) {
   .navbar {
     flex-direction: column;
@@ -2027,16 +2059,19 @@ a:hover, a:focus {
 
 .contact-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-  gap: 2rem;
-  margin-bottom: 4rem;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1.5rem;
+  margin-bottom: 3rem;
+  max-width: 600px;
+  margin-left: auto;
+  margin-right: auto;
 }
 
 .contact-card {
   background: rgba(255, 255, 255, 0.03);
   border: 1px solid rgba(255, 255, 255, 0.08);
-  border-radius: 16px;
-  padding: 2.5rem 2rem;
+  border-radius: 12px;
+  padding: 1.5rem 1.25rem;
   text-align: center;
   transition: all 0.3s ease;
   backdrop-filter: blur(10px);
@@ -2056,32 +2091,37 @@ a:hover, a:focus {
 }
 
 .contact-card .contact-icon {
-  font-size: 3rem;
-  margin-bottom: 1.5rem;
-  display: block;
+  width: 48px;
+  height: 48px;
+  margin: 0 auto 1rem auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .contact-card h3 {
-  font-size: 1.4rem;
+  font-size: 1.2rem;
   font-weight: 600;
   color: #ffffff;
-  margin-bottom: 1rem;
+  margin-bottom: 0.75rem;
 }
 
 .contact-card p {
   color: #a0a0a0;
-  margin-bottom: 1.5rem;
-  line-height: 1.6;
+  margin-bottom: 1rem;
+  line-height: 1.5;
+  font-size: 0.9rem;
 }
 
 .contact-link {
   display: inline-block;
   background: rgba(97, 218, 251, 0.1);
   color: #61dafb;
-  padding: 0.8rem 1.5rem;
-  border-radius: 8px;
+  padding: 0.6rem 1.2rem;
+  border-radius: 6px;
   text-decoration: none;
   font-weight: 500;
+  font-size: 0.9rem;
   transition: all 0.3s ease;
   border: 1px solid rgba(97, 218, 251, 0.2);
 }
@@ -2096,8 +2136,10 @@ a:hover, a:focus {
   display: inline-block;
   background: rgba(255, 184, 108, 0.1);
   color: #ffb86c;
-  padding: 0.6rem 1.2rem;
-  border-radius: 20px;
+  padding: 0.5rem 1rem;
+  border-radius: 6px;
+  font-size: 0.85rem;
+  border: 1px solid rgba(255, 184, 108, 0.2);
   font-size: 0.9rem;
   font-weight: 500;
   border: 1px solid rgba(255, 184, 108, 0.2);
@@ -2259,15 +2301,17 @@ a:hover, a:focus {
 @media (max-width: 768px) {
   .contact-grid {
     grid-template-columns: 1fr;
-    gap: 1.5rem;
+    gap: 1.25rem;
+    max-width: 100%;
   }
   
   .contact-card {
-    padding: 2rem 1.5rem;
+    padding: 1.5rem 1.25rem;
   }
   
   .contact-card .contact-icon {
-    font-size: 2.5rem;
+    width: 40px;
+    height: 40px;
   }
   
   .contact-message {
