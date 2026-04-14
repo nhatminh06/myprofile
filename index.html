@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Minh Pham</title>
+    <title>Minh Pham | DevOps &amp; Backend Engineer</title>
     <link rel="icon" type="image/png" sizes="32x32" href="/static/favicon.png">
     <link rel="stylesheet" href="/static/style.css">
 </head>
@@ -21,84 +21,119 @@
                 <li><a href="contact.html">Contact</a></li>
             </ul>
         </nav>
-        <main class="main-content">
-            <div class="section-intro">
-                <h2 class="section-title">Welcome</h2>
-                <p class="section-subtitle">This is my digital space: where I share my journey, projects, and passion for building meaningful software. Explore, connect, and let's grow together!</p>
-            </div>
-            <section id="home" class="home-section">
-                <div class="home-intro">
-                    <h2 class="typing-title"><span id="typed"></span></h2>
-                    <p>
-                        I'm a Computer Science + Mathematics student at the University of Minnesota exploring how code becomes production systems. I enjoy working with Docker, GitHub Actions, Linux, databases, and backend services, and learning how real-world systems stay fast, observable, and maintainable.
-                    </p>
-                    <p>
-                        This site is where I showcase my <a href="projects.html">projects</a>, write about my <a href="blog.html">learning journey</a>,
-                        and connect with other like-minded individuals. Feel free to explore and reach out if you'd like to collaborate!
-                    </p>
-                    <div class="learning-tags">
-                      <span>Go</span>
-                      <span>React</span>
-                      <span>MongoDB</span>
-                      <span>TypeScript</span>
-                      <span>Docker</span>
-                    </div>
+        <main class="main-content main-content--home">
+            <section class="dashboard-card home-hero-proof-card" aria-labelledby="home-hero-name">
+                <h1 id="home-hero-name" class="home-hero-name">Minh Pham</h1>
+                <p class="home-hero-role">Aspiring DevOps &amp; Backend Engineer</p>
+                <div class="home-hero-copy">
+                    <p>I build reliable, automated systems using backend engineering, CI/CD, containers, and cloud infrastructure.</p>
+                    <p>My current work focuses on Kubernetes, MLOps platforms, and production-style deployment workflows.</p>
                 </div>
-                    <div class="home-highlights">
-                    <h3>Quick Highlights</h3>
-                    <ul>
-                        <li>CS + Math student at UMN</li>
-                        <li>Learning DevOps, backend systems, cloud fundamentals</li>
-                        <li>Building Dockerized ML and data pipelines</li>
-                        <li>Strong interest in automation, systems, and reliability</li>
-                        <li>Former soccer captain (teamwork & leadership)</li>
-                    </ul>
+                <div class="home-hero-cta">
+                    <a href="projects.html" class="btn btn-hero btn-hero-primary">View Projects</a>
+                    <a href="contact.html" class="btn btn-hero btn-hero-secondary">Contact Me</a>
+                </div>
+                <div class="proof-strip" aria-label="Career highlights">
+                    <div class="proof-item"><span class="proof-item-label">Academics</span><span class="proof-item-value">4.0 GPA @ UMN</span></div>
+                    <div class="proof-item"><span class="proof-item-label">Experience</span><span class="proof-item-value">FPT Software Intern</span></div>
+                    <div class="proof-item"><span class="proof-item-label">Stack</span><span class="proof-item-value">CI/CD + Docker + Kubernetes</span></div>
+                    <div class="proof-item"><span class="proof-item-label">Focus</span><span class="proof-item-value">DevOps &amp; SysOps</span></div>
                 </div>
             </section>
+
+            <section class="home-featured-wrap" aria-labelledby="featured-heading">
+                <h2 id="featured-heading" class="home-section-heading">Featured project</h2>
+                <article class="dashboard-card featured-project-card">
+                    <div class="featured-project-header">
+                        <h3 class="featured-project-title">Lay-Off-Link</h3>
+                        <span class="featured-project-tag">End-to-end MLOps platform</span>
+                    </div>
+                    <p class="featured-project-desc">A production-style MLOps and data platform built with CI/CD automation, containerized services, Kubernetes deployment, observability, and infrastructure tooling.</p>
+                    <ul class="featured-project-highlights">
+                        <li>GitHub Actions CI/CD</li>
+                        <li>Docker, Kubernetes, Helm, Terraform</li>
+                        <li>Security scanning and performance testing</li>
+                        <li>Auto-scaling and production-style deployment</li>
+                    </ul>
+                    <div class="featured-project-actions">
+                        <a href="projects.html" class="project-link">View Project</a>
+                        <a href="https://github.com/nhatminh06/lay-off-link" class="project-link" target="_blank" rel="noopener noreferrer">GitHub</a>
+                    </div>
+                </article>
+            </section>
+
             <section class="dashboard-cards two-col-layout">
                 <div class="dashboard-card left-card">
                     <div class="hero-avatar-wrapper">
-                        <img src="/static/avatar.jpg" alt="Minh's Avatar" class="avatar-img-large" />
+                        <img src="/static/avatar.jpg" alt="Minh Pham" class="avatar-img-large" />
                     </div>
-                    <h3 class="skill-title">Skills & Interests</h3>
-                    <ul class="skills-list">
-                        <li>DevOps & Infrastructure</li>
-                        <li>Backend Engineering</li>
-                        <li>Containerization</li>
-                        <li>CI/CD Automation</li>
-                        <li>Linux & Systems</li>
-                        <li>Data Pipelines</li>
-                    </ul>
-                    <h3 class="projects-title">Projects</h3>
-                    <ul class="projects-list">
-                        <li><strong>Personal Portfolio</strong></li>
-                        <li><strong>Company Research</strong></li>
-                        <li><strong>FSDS Course (in progress)</strong></li>
-                        <li><strong>The Odin Project (in progress)</strong></li>
-                    </ul>
+                    <h3 class="skill-title">Skills by area</h3>
+                    <div class="skill-groups">
+                        <div class="skill-group">
+                            <h4 class="skill-group-title">DevOps &amp; Cloud</h4>
+                            <div class="skill-tags">
+                                <span>GitHub Actions</span><span>Docker</span><span>Kubernetes</span><span>Helm</span><span>Terraform</span><span>Linux</span>
+                            </div>
+                        </div>
+                        <div class="skill-group">
+                            <h4 class="skill-group-title">Backend</h4>
+                            <div class="skill-tags">
+                                <span>Go</span><span>Python</span><span>FastAPI</span><span>REST APIs</span><span>PostgreSQL</span><span>Prisma</span>
+                            </div>
+                        </div>
+                        <div class="skill-group">
+                            <h4 class="skill-group-title">Data / MLOps</h4>
+                            <div class="skill-tags">
+                                <span>MLflow</span><span>CI for ML</span><span>Pipelines</span><span>Observability</span><span>Pytest</span>
+                            </div>
+                        </div>
+                        <div class="skill-group">
+                            <h4 class="skill-group-title">Systems</h4>
+                            <div class="skill-tags">
+                                <span>Networking</span><span>Containers</span><span>Automation</span><span>Reliability</span>
+                            </div>
+                        </div>
+                    </div>
                 </div>
                 <div class="dashboard-card right-card">
-                    <h2 class="hero-title">Minh Pham</h2>
-                    <p class="hero-subtitle">CS + Math @ UMN | Aspiring DevOps & Backend Engineer</p>
-                    <h3 class="about-title">About Me</h3>
+                    <h3 class="about-title">About</h3>
                     <p class="about-description">
-                        I build reliable, automated systems using DevOps principles, backend engineering, and data pipelines. I focus on containers, CI/CD, Linux, and scalable backend design.
+                        I'm a Computer Science and Mathematics student at the University of Minnesota, Twin Cities, focused on DevOps, backend systems, and cloud infrastructure.
                     </p>
-                    <h3>Contact</h3>
+                    <p class="about-description">
+                        I enjoy building software that is not only functional, but also testable, observable, and deployable. My interests include CI/CD systems, platform engineering, distributed systems, and MLOps.
+                    </p>
+                    <h3 class="about-title">Contact</h3>
                     <ul class="contact-list">
                         <li><strong>Email:</strong> mphamnhat2006@gmail.com</li>
                         <li><strong>Location:</strong> Minneapolis, MN / Hanoi, Vietnam</li>
-                        <li><strong>Status:</strong> Open to opportunities and collaborations</li>
+                        <li><strong>Status:</strong> Open to internships and new-grad roles in platform, backend, and infrastructure</li>
                     </ul>
-                    <h3 class="goals-title">Goals</h3>
+                    <h3 class="goals-title">Direction</h3>
                     <ul class="goals-list">
-                        <li>Master modern web development technologies</li>
-                        <li>Contribute to open-source projects</li>
-                        <li>Build impactful software for real-world problems</li>
-                        <li>Learn more about the world</li>
-                        <li>Study the FSDS course (to have a better understanding of the tech industry)</li>
+                        <li>Deepen Kubernetes, observability, and safe deployment practices</li>
+                        <li>Ship end-to-end systems from API to cluster</li>
+                        <li>Contribute to open source in tooling and infrastructure</li>
                     </ul>
                 </div>
+            </section>
+
+            <section class="blog-preview home-blog-preview" aria-labelledby="writing-heading">
+                <h2 id="writing-heading" class="home-section-heading">Technical writing</h2>
+                <p class="home-blog-lead">Notes on pipelines, platforms, and shipping real systems.</p>
+                <div class="blog-entry">
+                    <a class="blog-title" href="blog/from-code-to-production-cicd-kubernetes.html">From Code to Production: CI/CD + Kubernetes on Lay-Off-Link</a>
+                    <div class="blog-preview-meta">Apr 2026 · DevOps / MLOps</div>
+                </div>
+                <div class="blog-entry">
+                    <a class="blog-title" href="blog/my-four-year-devops-plan.html">My Four-Year DevOps Plan at UMN</a>
+                    <div class="blog-preview-meta">Nov 2025 · Learning</div>
+                </div>
+                <div class="blog-entry">
+                    <a class="blog-title" href="blog/talent-bridge-hackathon.html">Talent Bridge: Hackathon Build &amp; Pivot</a>
+                    <div class="blog-preview-meta">Feb 2026 · Projects</div>
+                </div>
+                <a href="blog.html" class="home-blog-all">View all posts →</a>
             </section>
         </main>
     </div>
@@ -123,37 +158,5 @@
         </div>
     </footer>
     <script src="/static/script.js"></script>
-    <script>
-    const phrases = [
-      "Minh Pham: CS + Math @ UMN | Aspiring DevOps & Backend Engineer",
-      "Minh Pham: DevOps & Backend Engineer",
-      "Minh Pham: Systems Builder"
-    ];
-    let i = 0, j = 0, current = "", isDeleting = false, loopNum = 0, typingSpeed = 90;
-    function type() {
-      const typed = document.getElementById("typed");
-      if (!typed) return;
-      current = phrases[loopNum % phrases.length];
-      if (isDeleting) {
-        typed.textContent = current.substring(0, j--);
-        if (j < 0) {
-          isDeleting = false;
-          loopNum++;
-          setTimeout(type, 600);
-        } else {
-          setTimeout(type, typingSpeed / 2);
-        }
-      } else {
-        typed.textContent = current.substring(0, j++);
-        if (j > current.length) {
-          isDeleting = true;
-          setTimeout(type, 1200);
-        } else {
-          setTimeout(type, typingSpeed);
-        }
-      }
-    }
-    window.addEventListener("DOMContentLoaded", type);
-    </script>
 </body>
 </html>

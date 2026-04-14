@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>From Code to Production: Building a Full CI/CD + Kubernetes Pipeline from Scratch - Minh Pham</title>
+    <link rel="icon" type="image/png" sizes="32x32" href="/static/favicon.png">
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+    <div class="dashboard-layout">
+        <nav class="navbar">
+            <div class="navbar-logo">
+                <span class="dashboard-title-navbar">Minh Pham</span>
+            </div>
+            <ul class="navbar-nav">
+                <li><a href="../index.html">Home</a></li>
+                <li><a href="../about.html">About</a></li>
+                <li><a href="../projects.html">Projects</a></li>
+                <li class="active"><a href="../blog.html">Blog</a></li>
+                <li><a href="../contact.html">Contact</a></li>
+            </ul>
+        </nav>
+        <main class="main-content">
+            <article class="blog-post">
+                <div class="blog-post-header">
+                    <a href="../blog.html" class="back-to-blog">← Back to Blog</a>
+                    <div class="blog-post-meta">
+                        <span class="blog-post-date">Apr 13, 2026</span>
+                        <span class="blog-post-read-time">14 min read</span>
+                    </div>
+                </div>
+
+                <h1 class="blog-post-title">From Code to Production: Building a Full CI/CD + Kubernetes Pipeline from Scratch</h1>
+
+                <div class="blog-post-content">
+                    <p>Most student projects stop where the README promises they will go: <em>“Dockerized, cloud-ready, CI/CD coming soon.”</em> Lay-Off-Link was different. I wanted an end-to-end MLOps and data platform that behaved like something a team would actually operate: multiple services, real persistence, automated gates on every merge, and a path from a laptop to a cluster that I could explain in an interview without hand-waving.</p>
+
+                    <p>This post is a project breakdown, not a step-by-step tutorial. I care about <strong>why</strong> each layer existed, what broke my mental model along the way, and what I would defend in a design review. If you are hiring for platform or backend-adjacent roles, think of it as evidence that I have shipped the boring, load-bearing parts of production systems, not just the demo.</p>
+
+                    <h2>Motivation: Close the Gap Between “It Works on My Machine” and “It Runs There”</h2>
+
+                    <p>Lay-Off-Link combines ML workflows and data plumbing. That combination is unforgiving: you get schema drift, long-running jobs, sensitive artifacts, and services that fail in different ways under load. A single container and a shell script were never going to be enough.</p>
+
+                    <p>My goal was to enforce a simple contract on the repository:</p>
+
+                    <ul>
+                        <li><strong>Every change is scrutinized before it touches an environment.</strong> Linting, tests, coverage, and security scanning are not “nice-to-haves”; they are merge blockers.</li>
+                        <li><strong>Runtime behavior is declared, not improvised.</strong> Replicas, storage, and scaling limits are part of the system design, not afterthoughts.</li>
+                        <li><strong>Local and remote paths stay aligned.</strong> Docker Compose for developer velocity; Kubernetes + Helm for how the system actually runs at scale.</li>
+                    </ul>
+
+                    <h2>System Architecture (Three Services, One Platform)</h2>
+
+                    <p>At a high level, Lay-Off-Link is <strong>three cooperating services</strong> on an MLOps/data platform: each owns a slice of the problem (serving, orchestration, data access; exact boundaries depend on how you split the domain), and they communicate over well-defined interfaces rather than shared mutable state.</p>
+
+                    <p>That split matters for operations. When something degrades, you want blast radius contained, logs that point to a single deployable unit, and the option to scale or roll back independently. Three services is small enough to reason about in a portfolio conversation, but large enough to force real integration work: networking, configuration, secrets, and release ordering all show up.</p>
+
+                    <p><em>[Placeholder: Architecture diagram. Three services, data stores, and traffic paths from client/API through to batch/ML components.]</em></p>
+
+                    <p>Recruiter-friendly translation: <strong>I did not just “use Kubernetes.”</strong> I designed a multi-service topology, then implemented the automation and packaging so that topology could be reproduced and evolved safely.</p>
+
+                    <h2>🐳 Docker Compose: Honest Local Development</h2>
+
+                    <p>Compose is often dismissed as a toy. For this project, it was the fastest way to answer a serious question: <em>Can a new contributor stand the full stack up without reading fifteen wiki pages?</em></p>
+
+                    <p>Practical reasoning:</p>
+
+                    <ul>
+                        <li><strong>Parity with container images used in CI and K8s</strong> reduced “works in compose, fails in prod” surprises.</li>
+                        <li><strong>Service dependencies</strong> (startup order, health expectations) became explicit early, which later informed Helm hooks and readiness probes.</li>
+                        <li><strong>Iteration speed</strong> beat a remote cluster for debugging integration bugs; the cluster is where you validate orchestration, not where you discover a typo in an env var for the first time.</li>
+                    </ul>
+
+                    <h2>Kubernetes + Helm: Production Shape</h2>
+
+                    <p>Moving to Kubernetes was less about buzzwords and more about <strong>encoding operational intent</strong>: how many copies run, what happens under traffic spikes, and where state actually lives.</p>
+
+                    <ul>
+                        <li><strong>Three replicas</strong> as a baseline: enough to survive a single-node blip and to exercise real concurrency assumptions (connection pools, idempotency, cache coherence) without pretending to be hyperscale.</li>
+                        <li><strong>Horizontal Pod Autoscaler from 2 to 10 pods</strong>: the interesting part is not the numbers themselves, but what they force you to think about: startup time, graceful shutdown, downstream rate limits, and whether your metrics reflect user pain or CPU noise.</li>
+                        <li><strong>5Gi persistent storage</strong>: acknowledges that ML/data workloads do not fit purely ephemeral disks. PVCs push you into backup mental models, storage classes, and the difference between “crash-only” and “durable” semantics.</li>
+                    </ul>
+
+                    <p>Helm gave me parameterized releases: the same chart skeleton could stretch across environments with different limits, images, and feature flags, without copy-pasting YAML until it rots.</p>
+
+                    <p><em>[Placeholder: Screenshot of <code>kubectl get pods</code> / HPA status or Helm release overview showing replicas and resources.]</em></p>
+
+                    <h2>Terraform: Infrastructure as the Source of Truth</h2>
+
+                    <p>Kubernetes describes <em>how workloads run</em>; Terraform described <em>what cloud primitives existed around them</em>. I reached for Terraform when click-ops would have been faster short-term but expensive long-term: drift, tribal knowledge, and “who flipped this switch?” incidents.</p>
+
+                    <p>The mature takeaway: Terraform is not magic; it is a contract. If your modules are vague, you get vague infrastructure. I optimized for <strong>reviewable plans</strong> and small, incremental applies rather than one giant blast of state on a tired Friday night.</p>
+
+                    <p><em>[Placeholder: Diagram or screenshot of Terraform dependency graph or plan summary for core resources.]</em></p>
+
+                    <h2>GitHub Actions: Seven Jobs, One Pipeline</h2>
+
+                    <p>CI/CD here is deliberately multi-stage. The point is to <strong>fail fast on cheap checks</strong> and only spend GPU minutes, registry pushes, or cluster-facing steps when the codebase has already proven it is not obviously broken.</p>
+
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Job (conceptual)</th>
+                                <th>Role in the pipeline</th>
+                                <th>Why it mattered</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Lint &amp; static checks</td>
+                                <td>Normalize style and catch foot-guns before tests run</td>
+                                <td>Keeps review focused on design, not formatting debates</td>
+                            </tr>
+                            <tr>
+                                <td>Unit / service tests</td>
+                                <td>Validate logic in isolation per component</td>
+                                <td>Fast signal on regressions without standing up the world</td>
+                            </tr>
+                            <tr>
+                                <td>Integration coverage</td>
+                                <td>Exercise cross-service contracts</td>
+                                <td>Where “works alone” meets “works together”</td>
+                            </tr>
+                            <tr>
+                                <td>Coverage gate (80%)</td>
+                                <td>Enforce a floor on testable surface area</td>
+                                <td>Prevents silent growth of untested paths</td>
+                            </tr>
+                            <tr>
+                                <td>Image builds (5 images)</td>
+                                <td>Produce immutable artifacts for each service and dependencies</td>
+                                <td>Same bits from CI to cluster; reproducible rollbacks</td>
+                            </tr>
+                            <tr>
+                                <td>Security scan (Trivy)</td>
+                                <td>CVE and misconfiguration signal on images</td>
+                                <td>Shifts a class of bugs left of production</td>
+                            </tr>
+                            <tr>
+                                <td>Performance (k6)</td>
+                                <td>Load-smoke critical paths</td>
+                                <td>Catches regressions unit tests will not see</td>
+                            </tr>
+                        </tbody>
+                    </table>
+
+                    <p><em>[Placeholder: Screenshot of GitHub Actions workflow graph showing seven jobs and their pass/fail status on a representative PR.]</em></p>
+
+                    <p>Across the suite, the repository carries <strong>65+ tests</strong> with <strong>80% coverage enforced</strong>. Numbers are not virtue by themselves; the discipline is. Coverage as a gate only works if you refuse to game it with meaningless asserts. I used it as a forcing function to keep new modules honest, especially around error handling and data edge cases where ML systems love to fail quietly.</p>
+
+                    <h2>Security and Performance as First-Class Citizens</h2>
+
+                    <p><strong>Trivy</strong> on five images sounds repetitive until you remember that each image has a different dependency footprint. A vulnerability in a training utility container might never appear in an API-only image. Scanning each build artifact respects that reality.</p>
+
+                    <p><strong>k6</strong> was my antidote to false confidence from green unit tests. Throughput and latency tell you whether timeouts, connection pools, and autoscaling policies actually match user behavior, or whether you have built a system that looks healthy while queuing requests to death.</p>
+
+                    <p><em>[Placeholder: Screenshot of k6 summary output (latency percentiles, iterations) or Trivy report excerpt.]</em></p>
+
+                    <h2>What I Learned About Real Production Systems</h2>
+
+                    <ul>
+                        <li><strong>Production is mostly clarity under change.</strong> The hard problems were naming, boundaries, defaults, and what happens when two “obviously correct” configs disagree.</li>
+                        <li><strong>Automation exposes assumptions.</strong> Every brittle script I wrote eventually became a flaky job. Stable pipelines favor boring patterns and explicit inputs.</li>
+                        <li><strong>Scaling knobs are policy decisions.</strong> Choosing 2 to 10 pods and three replicas is as much about cost, observability, and team cognitive load as it is about raw QPS.</li>
+                        <li><strong>Tests and scans are communication tools.</strong> They tell the next person, including future me, what I believed was non-negotiable about correctness and safety.</li>
+                    </ul>
+
+                    <h2>Closing</h2>
+
+                    <p>Lay-Off-Link started as an MLOps and data platform idea and became a lesson in how much engineering lives outside the model code. The stack (Docker Compose, Kubernetes, Helm, Terraform, and a seven-job GitHub Actions pipeline with linting, 65+ tests, enforced coverage, multi-image builds, Trivy, and k6) is not a checklist I chased for buzzwords. It is the minimum credible story for <em>this</em> system: multiple services, durable state, and the expectation that every merge either proves itself or gets stopped.</p>
+
+                    <p><em>If you are building something similar, borrow the reasoning before the tools. The tools are interchangeable; the habits (declarative infra, gated CI, and honest local-to-prod parity) are what persist.</em></p>
+                </div>
+
+                <div class="blog-post-footer">
+                    <div class="blog-post-nav">
+                        <a href="../blog.html" class="nav-link">
+                            <span>← Back to Blog</span>
+                            <span>All Posts</span>
+                        </a>
+                    </div>
+                </div>
+            </article>
+        </main>
+    </div>
+    <footer class="footer-bar">
+        <div class="footer-motto">Code. Learn. Share.</div>
+        <div class="footer-social">
+            <a href="https://github.com/nhatminh06" class="social-icon" target="_blank" title="GitHub">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                    <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/>
+                </svg>
+            </a>
+            <a href="https://www.linkedin.com/in/nhat-minh-pham-a870382a8/" class="social-icon" target="_blank" title="LinkedIn">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                    <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/>
+                </svg>
+            </a>
+            <a href="/static/Nhat Minh_Resume.pdf" class="social-icon" target="_blank" title="Resume">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                    <path d="M14 2H6c-1.1 0-1.99.9-1.99 2L4 20c0 1.1.89 2 1.99 2H18c1.1 0 2-.9 2-2V8l-6-6zm2 16H8v-2h8v2zm0-4H8v-2h8v2zm-3-5V3.5L18.5 9H13z"/>
+                </svg>
+            </a>
+        </div>
+    </footer>
+    <script src="/static/script.js"></script>
+</body>
+</html>
