@@ -24,7 +24,7 @@
         <main class="main-content">
             <div class="section-intro">
                 <h2 class="section-title">My Projects</h2>
-                <p class="section-subtitle">Real repositories I own and ship: secure CI/CD pipelines, MLOps platforms, backend services, and the home lab I run them on. Each card links to the code behind it.</p>
+                <p class="section-subtitle">Real repositories I own and ship: MLOps platforms, DevOps automation, backend services, and full-stack products. Each card links to the code behind it.</p>
             </div>
 
             <section class="projects-section">
@@ -82,75 +82,25 @@
                     <!-- Personal Cognitive Load Monitor -->
                     <div class="project-card">
                         <div class="project-header">
-                            <h3>Cognitive Load Monitor + DevSecOps Pipeline</h3>
+                            <h3>Personal Cognitive Load Monitor</h3>
                             <span class="project-status ongoing">Ongoing</span>
                         </div>
                         <p class="project-description">
-                            A FastAPI service wrapped in a full DevSecOps delivery pipeline. The app predicts cognitive load; the interesting part is everything around it: a Jenkins pipeline that runs tests, scans for secrets and vulnerabilities, enforces a quality gate, then builds and ships a container to Kubernetes.
+                            FastAPI service focused on cognitive load prediction, structured for MLOps-style quality: automated tests, coverage gates, reproducible sample data, and container-ready layout.
                         </p>
                         <div class="project-details">
                             <div class="project-role">
-                                <strong>Role:</strong> Backend / DevSecOps Engineer
+                                <strong>Role:</strong> Backend / MLOps Developer
                             </div>
                             <div class="project-tech">
-                                <strong>Tech:</strong> Python, FastAPI, Pytest, Jenkins, Docker, Gitleaks, SonarQube (SAST), OWASP ZAP (DAST), Trivy / SCA, Nexus, Harbor, Kubernetes, Helm
+                                <strong>Tech:</strong> Python, FastAPI, Pytest, GitHub Actions, Docker-oriented deployment structure
                             </div>
                             <div class="project-highlights">
-                                <strong>Pipeline:</strong> Checkout → Test (pytest + 80% coverage gate) → Gitleaks secret scan → SonarQube SAST with quality gate → dependency (SCA) scan → OWASP ZAP DAST → build &amp; push image to Harbor → Helm deploy to Kubernetes, with Nexus as the artifact repository
+                                <strong>Highlights:</strong> Three core API endpoints, CI with 15 API tests, 80% coverage threshold, scripted generation of 200-record sample datasets
                             </div>
                         </div>
                         <div class="project-links">
                             <a href="https://github.com/nhatminh06/personal-cognitive-load-monitor" class="project-link" target="_blank" rel="noopener noreferrer">GitHub Repo</a>
-                        </div>
-                    </div>
-
-                    <!-- DevOps Home Lab -->
-                    <div class="project-card">
-                        <div class="project-header">
-                            <h3>DevOps Home Lab</h3>
-                            <span class="project-status ongoing">Lab</span>
-                        </div>
-                        <p class="project-description">
-                            A self-hosted lab for practicing real infrastructure work: a MacBook Air (M4) as the control machine talking to a CachyOS Linux server, connected securely over a Tailscale mesh so I can SSH in from anywhere without exposing ports to the internet.
-                        </p>
-                        <div class="project-details">
-                            <div class="project-role">
-                                <strong>Role:</strong> Infrastructure / Systems
-                            </div>
-                            <div class="project-tech">
-                                <strong>Tech:</strong> Linux (CachyOS), macOS, Tailscale, SSH, OpenSSH hardening, systemd, local Kubernetes (Minikube, kind, kubeadm)
-                            </div>
-                            <div class="project-highlights">
-                                <strong>Highlights:</strong> Zero-trust style remote access over Tailscale, key-based SSH, a place to break and rebuild clusters safely, and a real environment for the pipeline and deployment work above
-                            </div>
-                        </div>
-                        <div class="project-links">
-                            <a href="https://github.com/nhatminh06/devops-ssh-lab" class="project-link" target="_blank" rel="noopener noreferrer">GitHub Repo</a>
-                        </div>
-                    </div>
-
-                    <!-- Dev Environment -->
-                    <div class="project-card">
-                        <div class="project-header">
-                            <h3>macOS Dev Environment</h3>
-                            <span class="project-status completed">Completed</span>
-                        </div>
-                        <p class="project-description">
-                            A deliberately built terminal-first workflow on Apple Silicon: tiling window management, a scriptable status bar, and a fast shell. The kind of environment that makes the infrastructure work above feel quick instead of clumsy.
-                        </p>
-                        <div class="project-details">
-                            <div class="project-role">
-                                <strong>Role:</strong> Tooling / Environment
-                            </div>
-                            <div class="project-tech">
-                                <strong>Tech:</strong> Alacritty, zsh, yabai + skhd, SketchyBar, eza, Nerd Fonts
-                            </div>
-                            <div class="project-highlights">
-                                <strong>Highlights:</strong> Tiling window manager and hotkey daemon, a custom teal SketchyBar status bar, and shell aliases tuned for moving fast across repos and servers
-                            </div>
-                        </div>
-                        <div class="project-links">
-                            <a href="https://github.com/nhatminh06" class="project-link" target="_blank" rel="noopener noreferrer">GitHub Profile</a>
                         </div>
                     </div>
 
@@ -208,7 +158,7 @@
 
                 <div class="projects-footer">
                     <h3>What I'm focused on</h3>
-                    <p>Right now most of my energy goes into secure delivery: a Jenkins pipeline that gates on tests, secret scanning, SAST, SCA, and DAST before anything reaches Kubernetes. Lay-Off-Link and LearnOps Tracker cover the platform and product side, and the home lab is where I get to break things safely. I iterate in public on GitHub.</p>
+                    <p>Most of my energy goes into Lay-Off-Link and LearnOps Tracker: platform automation, data and ML paths, and productized learning tools. I iterate in public on GitHub.</p>
                 </div>
             </section>
         </main>
