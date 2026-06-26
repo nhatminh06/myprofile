@@ -1886,6 +1886,12 @@ a.btn-hero {
   border: 1px solid rgba(0, 123, 255, 0.3);
 }
 
+.blog-tag.internship {
+  background: rgba(255, 152, 0, 0.2);
+  color: #ff9800;
+  border: 1px solid rgba(255, 152, 0, 0.3);
+}
+
 .blog-tag.learning {
   background: rgba(40, 167, 69, 0.2);
   color: #28a745;
@@ -1908,12 +1914,6 @@ a.btn-hero {
   background: rgba(255, 107, 107, 0.2);
   color: #ff6b6b;
   border: 1px solid rgba(255, 107, 107, 0.3);
-}
-
-.blog-tag.internship {
-  background: rgba(255, 152, 0, 0.2);
-  color: #ff9800;
-  border: 1px solid rgba(255, 152, 0, 0.3);
 }
 
 .blog-tag.workout {
