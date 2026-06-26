@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>From Laptop to Production-Grade Security: Building a DevSecOps Platform on 9 VMs - Minh Pham</title>
+    <link rel="icon" type="image/png" sizes="32x32" href="/static/favicon.png">
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+    <div class="dashboard-layout">
+        <nav class="navbar">
+            <div class="navbar-logo">
+                <span class="dashboard-title-navbar">Minh Pham</span>
+            </div>
+            <ul class="navbar-nav">
+                <li><a href="../index.html">Home</a></li>
+                <li><a href="../about.html">About</a></li>
+                <li><a href="../projects.html">Projects</a></li>
+                <li class="active"><a href="../blog.html">Blog</a></li>
+                <li><a href="../contact.html">Contact</a></li>
+            </ul>
+        </nav>
+        <main class="main-content">
+            <article class="blog-post">
+                <div class="blog-post-header">
+                    <a href="../blog.html" class="back-to-blog">← Back to Blog</a>
+                    <div class="blog-post-meta">
+                        <span class="blog-post-date">Jun 26, 2026</span>
+                        <span class="blog-post-read-time">16 min read</span>
+                    </div>
+                </div>
+
+                <h1 class="blog-post-title">From Laptop to Production-Grade Security: Building a DevSecOps Platform on 9 VMs</h1>
+
+                <div class="blog-post-content">
+                    <p>Most DevSecOps tutorials end at "add a linting step to your GitHub Actions." This lab went further. Nine Multipass VMs on a 16GB laptop, four services in three languages, and every layer of a production security pipeline built from scratch — secrets management, container scanning, service mesh, zero-trust authorization, and event-driven architecture. If you are hiring for DevSecOps or platform-adjacent roles, this post is the honest breakdown of what I built, what broke, and what I would defend in a design review.</p>
+
+                    <h2>Motivation: Build What a Security Team Would Actually Run</h2>
+
+                    <p>The goal was not to follow a tutorial. It was to answer one question: <em>what does a bank's internal platform look like from the inside?</em> That means private registries, audited secret access, encrypted service communication, and pipelines that reject bad code before it touches a cluster — not after.</p>
+
+                    <p>The lab had four services: a Java Spring Boot backend, a Go API, a Python FastAPI service, and a React frontend. Each had its own Jenkins pipeline, its own Helm chart, its own security posture. The infrastructure ran on nine Multipass VMs: jenkins, jenkins-node, nexus, harbor, sonarqube, k8s-master, k8s-worker, grafana, and vault.</p>
+
+                    <p><em>[Placeholder: Architecture diagram showing all 9 VMs, their roles, and how they connect to the K8s cluster and CI/CD pipeline.]</em></p>
+
+                    <h2>The CI/CD Pipeline: Four Gates on Every Push</h2>
+
+                    <p>Jenkins multibranch pipelines run on every push across all four services. Nothing reaches the cluster without passing all four gates in sequence.</p>
+
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Gate</th>
+                                <th>Tool</th>
+                                <th>What it catches</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Secret scanning</td>
+                                <td>Gitleaks</td>
+                                <td>API keys, tokens committed by accident</td>
+                            </tr>
+                            <tr>
+                                <td>Static analysis</td>
+                                <td>Semgrep</td>
+                                <td>Insecure code patterns, hardcoded credentials</td>
+                            </tr>
+                            <tr>
+                                <td>Container CVE scan</td>
+                                <td>Trivy</td>
+                                <td>Vulnerable base images and dependencies</td>
+                            </tr>
+                            <tr>
+                                <td>Code quality</td>
+                                <td>SonarQube</td>
+                                <td>Coverage thresholds, maintainability issues</td>
+                            </tr>
+                        </tbody>
+                    </table>
+
+                    <p>The ordering matters. Gitleaks runs first — a leaked secret is a hard stop regardless of code quality. Trivy runs last because it needs the built image. The pipeline fails fast on the cheapest checks and only spends time on expensive ones when the codebase has already proven it is not obviously broken.</p>
+
+                    <p>Images are pushed to a private Harbor registry and Helm charts to a private Nexus repository. No public registries in the build chain. Every artifact is internal, versioned, and immutable.</p>
+
+                    <p><em>[Placeholder: Screenshot of Jenkins pipeline showing all four security stages passing on a representative build.]</em></p>
+
+                    <h2>Secrets Management: Two Patterns for Two Problems</h2>
+
+                    <p>Hardcoded credentials in Jenkins are a liability. Secrets in Helm values are worse. HashiCorp Vault solved both with two distinct delivery patterns, because the consumers are fundamentally different.</p>
+
+                    <p><strong>Jenkins AppRole (build-time credentials):</strong> Jenkins authenticates to Vault using a role ID and secret ID. Every pipeline fetches kubeconfig, Harbor credentials, and Nexus credentials at build time. Jenkins stores nothing sensitive — a compromised Jenkins instance cannot read application secrets. Every credential fetch is logged in Vault's audit trail.</p>
+
+                    <p><strong>Kubernetes sidecar injection (runtime secrets):</strong> corona-go and corona-python pods run a vault-agent sidecar that authenticates via their Kubernetes ServiceAccount, fetches secrets from Vault, and writes them to a shared tmpfs volume the application reads at startup. No secrets in environment variables. No secrets in Helm values. Zero plaintext credentials anywhere in the deployment chain.</p>
+
+                    <p>The two patterns solve different problems. Jenkins does not need runtime app secrets. Pods do not need deploy credentials. Mixing them would be architecturally wrong, not just untidy.</p>
+
+                    <p><em>[Placeholder: Diagram showing the two Vault patterns side by side — AppRole on the left for Jenkins build flow, sidecar injection on the right for pod startup flow.]</em></p>
+
+                    <h2>Kafka + Redis: Async Over Tight Coupling</h2>
+
+                    <p>The four services originally communicated over synchronous HTTP. The question I kept asking was: <em>what happens when one service goes down?</em> The answer with HTTP is cascading failure. The answer with Kafka is nothing — the message waits.</p>
+
+                    <p>corona-backend (Java) publishes events to a <code>corona-events</code> topic with 3 partitions, running in KRaft mode with no Zookeeper. corona-go and corona-python consume independently via separate consumer groups. Same message, two consumers, neither blocks the other. Redis caches counters and recent event state for sub-millisecond reads.</p>
+
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Aspect</th>
+                                <th>Kafka</th>
+                                <th>Redis</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Storage</td>
+                                <td>Disk, durable, days/weeks</td>
+                                <td>RAM, ephemeral</td>
+                            </tr>
+                            <tr>
+                                <td>Replay</td>
+                                <td>Yes, any consumer group</td>
+                                <td>Only with Streams</td>
+                            </tr>
+                            <tr>
+                                <td>Latency</td>
+                                <td>~5ms</td>
+                                <td>~0.5ms</td>
+                            </tr>
+                            <tr>
+                                <td>Best for</td>
+                                <td>Events, audit, history</td>
+                                <td>Cache, counters, ephemeral state</td>
+                            </tr>
+                        </tbody>
+                    </table>
+
+                    <p>They are not alternatives. They solve different problems in the same architecture. The most common mistake in tutorials is treating them as competing options.</p>
+
+                    <p><em>[Placeholder: Diagram of the event flow — backend publishes to Kafka, two consumer groups receive independently, Redis caches the counter state.]</em></p>
+
+                    <h2>Istio: Three Things Built on Top of the Mesh</h2>
+
+                    <p>Adding Istio to the cluster changed nothing in the application code. That is the point. Envoy sidecars were auto-injected into every pod in the default namespace — corona-go went from 1/1 to 3/3 (app + vault-agent + istio-proxy) without a single line changed in main.go. The mesh is invisible to the application.</p>
+
+                    <h3>mTLS (PERMISSIVE mode)</h3>
+
+                    <p>Service-to-service traffic is automatically upgraded to mutual TLS inside the mesh. External NodePort traffic still works in plain HTTP. STRICT mode was tested and rejected — it breaks NodePort access, which requires an IngressGateway to handle TLS termination at the edge. PERMISSIVE was the right choice for this topology, and I can explain why that is a deliberate architectural decision rather than a shortcut.</p>
+
+                    <h3>AuthorizationPolicy (zero-trust)</h3>
+
+                    <p>Deny-all by default. Every request in the mesh returns 403 until an explicit ALLOW rule permits it. The policy structure:</p>
+
+                    <ul>
+                        <li>Only <code>corona-backend</code>'s ServiceAccount identity can call corona-go and corona-python</li>
+                        <li>Public endpoints (<code>/events</code>, <code>/health</code>) are explicitly opened for monitoring</li>
+                        <li>Everything else requires the correct identity — even from pods inside the mesh with valid mTLS certificates</li>
+                    </ul>
+
+                    <p>The proof: same pod, same mTLS certificate, two different paths. <code>GET /</code> returns 403. <code>GET /events</code> returns 200. mTLS proves identity. AuthorizationPolicy decides permission. Two independent layers of zero-trust.</p>
+
+                    <h3>Blue-Green deployment</h3>
+
+                    <p>Two versions of corona-go ran simultaneously. A VirtualService routed production traffic to v1 (100%) and test traffic with an <code>x-canary: v2</code> header to v2. Real users never saw the new version until cutover — a single VirtualService edit, zero pod restarts, zero downtime.</p>
+
+                    <p>The important lesson: VirtualService routing only applies to traffic originating from inside the mesh. NodePort traffic is handled by kube-proxy at L4 and bypasses Istio's routing entirely. Testing required a pod inside the mesh as the caller. This distinction matters in any real environment using an Ingress controller.</p>
+
+                    <p><em>[Placeholder: Kiali screenshot showing the live mesh graph with mTLS lock icons on service-to-service edges, and the two corona-go versions visible as separate nodes.]</em></p>
+
+                    <h2>Fault Injection: Chaos Testing in the Mesh</h2>
+
+                    <p>A VirtualService fault rule injected a 5-second delay into 50% of HTTP requests to corona-go. Across 10 requests, roughly half took ~10ms and half took ~5000ms — exactly the injected distribution. The interesting result was what it did not affect: the Kafka event flow.</p>
+
+                    <p>corona-backend published an event during the fault injection window. corona-go consumed it immediately, with no delay. Istio's L7 fault injection applies to HTTP routes. Kafka is TCP. The two protocols exist in entirely different layers of the stack. This is the concrete, demonstrable version of "async messaging decouples services from each other's failure modes." Not a theoretical claim — a measured result.</p>
+
+                    <h2>What Actually Broke (The Real Learning)</h2>
+
+                    <p><strong>containerd + Harbor over HTTP.</strong> k8s-master's containerd kept attempting HTTPS despite a hosts.toml configuration pointing at HTTP. Every pod scheduled on master failed with "server gave HTTP response to HTTPS client." The permanent fix: <code>nodeSelector: k8s-worker</code> baked into every Helm chart. Master handles the control plane. Worker handles workloads. The containerd misconfiguration became irrelevant.</p>
+
+                    <p><strong>Vault + Istio port conflict.</strong> Istio's iptables rules intercept all outbound traffic from a pod — including vault-agent-init's connection to Vault on port 8200. Pods sat stuck at <code>Init:1/2</code> indefinitely, with vault-agent-init logging "connection refused" against a Vault that was fully healthy. The fix: <code>traffic.sidecar.istio.io/excludeOutboundPorts: "8200,8201"</code> in pod annotations. One annotation, now in every Helm chart that uses Vault injection.</p>
+
+                    <p><strong>CoreDNS editing is dangerous.</strong> I tried adding <code>vault.lab</code> to the CoreDNS Corefile. A YAML syntax error in the Corefile crashed both CoreDNS pods and took down cluster DNS — everything dependent on name resolution stopped working simultaneously. The safer approach is <code>hostAliases</code> in the pod spec, which adds the entry to that specific pod's <code>/etc/hosts</code> without touching cluster-wide DNS. Targeted, no blast radius, survives CoreDNS restarts.</p>
+
+                    <p><strong>Helm boolean gotcha.</strong> <code>{{ if .Values.flag | default true }}</code> evaluates to <code>true</code> even when <code>--set flag=false</code> is passed. Helm's <code>default</code> function treats <code>false</code> as an empty value and substitutes the fallback. The fix: declare explicit defaults in values.yaml and reference the variable directly. This cost an hour and is now a permanent note in the troubleshooting docs.</p>
+
+                    <p><strong>DestinationRule and VirtualService are a matched pair.</strong> Deleting a DestinationRule while a VirtualService still references its subsets causes 503 "no healthy upstream." Envoy has routing rules pointing at subsets it can no longer resolve. Both resources must be created and deleted together. Learning this through a broken demo is the most memorable way to learn it.</p>
+
+                    <h2>Closing</h2>
+
+                    <p>The lab was a lesson in how much engineering lives outside the application code. The security pipeline, the secret delivery patterns, the service mesh, the routing rules — none of it appears in the services themselves. All of it is infrastructure, configured declaratively, applied and removed independently of deployments.</p>
+
+                    <p>The stack is not a checklist chased for buzzwords. It is the minimum credible story for a security-conscious internal platform: pipelines that reject bad code before it touches the cluster, secrets that rotate without a redeploy, service communication that is encrypted by default, and deployment patterns that make rollback as easy as applying a YAML file.</p>
+
+                    <p><em>If you are building something similar, understand the why before copying the how. PERMISSIVE vs STRICT mTLS is an architecture question, not a security slider. Kafka vs Redis is a use-case question, not a popularity contest. The tools are interchangeable. The reasoning is what persists.</em></p>
+
+                    <p><strong>Stack:</strong> Jenkins, Gitleaks, Semgrep, Trivy, SonarQube, HashiCorp Vault, Kubernetes, Helm, Kafka (KRaft), Redis, Istio, Envoy, Kiali, Prometheus, Grafana, Harbor, Nexus — running on 9 Multipass VMs, 16GB laptop, zero cloud bill.</p>
+                </div>
+
+                <div class="blog-post-footer">
+                    <div class="blog-post-nav">
+                        <a href="../blog.html" class="nav-link">
+                            <span>← Back to Blog</span>
+                            <span>All Posts</span>
+                        </a>
+                    </div>
+                </div>
+            </article>
+        </main>
+    </div>
+    <footer class="footer-bar">
+        <div class="footer-motto">Code. Learn. Share.</div>
+        <div class="footer-social">
+            <a href="https://github.com/nhatminh06" class="social-icon" target="_blank" title="GitHub">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                    <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/>
+                </svg>
+            </a>
+            <a href="https://www.linkedin.com/in/nhat-minh-pham-a870382a8/" class="social-icon" target="_blank" title="LinkedIn">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                    <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/>
+                </svg>
+            </a>
+            <a href="/static/Nhat Minh_Resume.pdf" class="social-icon" target="_blank" title="Resume">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                    <path d="M14 2H6c-1.1 0-1.99.9-1.99 2L4 20c0 1.1.89 2 1.99 2H18c1.1 0 2-.9 2-2V8l-6-6zm2 16H8v-2h8v2zm0-4H8v-2h8v2zm-3-5V3.5L18.5 9H13z"/>
+                </svg>
+            </a>
+        </div>
+    </footer>
+    <script src="/static/script.js"></script>
+</body>
+</html>
