@@ -1,0 +1,9 @@
+# Deprecated: this backend now uses uv for dependency management.
+#
+# Use these commands instead:
+#   uv sync
+#   uv run uvicorn ai_agents:app --reload --port 8000
+#
+# Source of truth for dependencies:
+#   backend/pyproject.toml
+#   backend/uv.lock

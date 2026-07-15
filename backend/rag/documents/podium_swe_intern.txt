@@ -1,0 +1,38 @@
+About the job
+At Podium, we bring AI Employees to local businesses that turn every conversation into revenue. Trusted by 60,000+ businesses across Auto, Home Services, and Aesthetics, Podium captures and converts leads 24/7, driving both new business and repeat customers.
+
+In under 24 months, we crossed $100M in AI Agent ARR, scaling 300% year-over-year. During this time, we've deployed 10,000 AI employees to empower real business outcomes for our customers. Podium is building what we believe will be the most impactful AI employee ecosystem for local business.
+
+About the Role
+Podium is looking for a motivated and talented Software Engineering Intern to join our engineering team and help build the future of local business communication.
+
+As a Software Engineering Intern, you will work on real production systems that serve thousands of businesses and millions of customer interactions. You will contribute across product features, backend services, infrastructure, data systems, and AI-powered experiences. You will learn quickly, ship meaningful work, and collaborate with experienced engineers, product managers, designers, and cross-functional partners.
+
+What you will be doing
+Build, test, and ship high-quality software used by local businesses every day.
+Design and implement product features, backend services, APIs, data pipelines, and infrastructure that support reliable customer experiences at scale.
+Work on systems that power high-volume, real-time customer interactions across channels such as messaging, web chat, voice, and other communication surfaces.
+Collaborate with engineers, product managers, designers, and other stakeholders to turn customer needs into simple, scalable technical solutions.
+Contribute to AI-powered product experiences, including agentic workflows, automation, and intelligent customer engagement.
+Write clean, maintainable code and participate in code reviews, design discussions, testing, and operational improvements.
+Learn modern engineering practices while helping improve system performance, reliability, security, and developer velocity.
+Take ownership of projects that have measurable impact on customers, revenue, and the future of Podium's platform.
+
+What you should have
+A Bachelor's degree in Computer Science, Software Engineering, a related technical field, or equivalent practical experience.
+0-1 year of professional software engineering experience, including relevant internships, co-ops, or substantial project work.
+Strong programming fundamentals and experience with at least one modern programming language such as Python, JavaScript/TypeScript, Java, Go, Ruby, or similar.
+Solid understanding of data structures, algorithms, software design, APIs, databases, and distributed systems fundamentals.
+A desire to build reliable, scalable, production-quality software.
+Curiosity about AI and enthusiasm for using modern AI tools to learn, build, and improve development workflows.
+Strong problem-solving skills, ownership mindset, and ability to learn quickly in a fast-moving environment.
+Clear communication skills and a collaborative approach to working with technical and non-technical teammates.
+
+What we hope you have
+Internship, coursework, or project experience building full-stack applications, backend services, data systems, infrastructure, or developer tools.
+Exposure to cloud platforms, distributed systems, event-driven architectures, or high-scale production systems.
+Experience with relational or NoSQL databases, API design, testing frameworks, observability tools, or CI/CD pipelines.
+Familiarity with AI-assisted development tools such as Cursor, Claude Code, Codex, GitHub Copilot, or similar.
+Interest in AI agents, automation, LLMs, or applying AI to solve practical business problems.
+A track record of building projects outside the classroom, contributing to open source, participating in hackathons, or taking initiative to learn new technologies.
+Comfort working in an iterative environment where teams experiment, measure impact, and ship quickly.
