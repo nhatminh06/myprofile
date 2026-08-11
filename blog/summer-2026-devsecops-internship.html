@@ -7,7 +7,7 @@
     <meta name="description" content="Notes from a Summer 2026 DevSecOps Engineering internship: CI/CD security gates, Vault, Istio mTLS, and what changed in how I think about production systems.">
     <link rel="canonical" href="https://minhpham06.com/blog/summer-2026-devsecops-internship.html">
     <meta property="og:title" content="What I Learned Building DevSecOps Systems During Summer 2026">
-    <meta property="og:description" content="CI/CD, Kubernetes, security gates, and the systems behind the code — a Summer 2026 DevSecOps internship retrospective.">
+    <meta property="og:description" content="CI/CD, Kubernetes, security gates, and the systems behind the code: a Summer 2026 DevSecOps internship retrospective.">
     <meta property="og:type" content="article">
     <meta property="og:url" content="https://minhpham06.com/blog/summer-2026-devsecops-internship.html">
     <meta name="twitter:card" content="summary">
@@ -41,7 +41,7 @@
                 <h1 class="blog-post-title">What I Learned Building DevSecOps Systems During Summer 2026</h1>
 
                 <div class="blog-post-content">
-                    <p>I spent Summer 2026 as a DevSecOps Engineering Intern, working on the pipelines and platform underneath a multi-service, Kubernetes-based environment. This post is not an architecture diagram of anyone's production system &mdash; I'm deliberately keeping the specifics generic, because none of this is mine to publish in detail. What I can talk about is what I actually did, what broke, and how the internship changed the way I think about shipping code.</p>
+                    <p>I spent Summer 2026 as a DevSecOps Engineering Intern, working on the pipelines and platform underneath a multi-service, Kubernetes-based environment. This post is not an architecture diagram of anyone's production system; I'm deliberately keeping the specifics generic, because none of this is mine to publish in detail. What I can talk about is what I actually did, what broke, and how the internship changed the way I think about shipping code.</p>
 
                     <h2>Key technologies</h2>
                     <p>Jenkins &middot; GitLab CI/CD &middot; Kubernetes &middot; Gitleaks &middot; Semgrep &middot; Trivy &middot; SonarQube &middot; HashiCorp Vault &middot; Istio (mTLS, AuthorizationPolicy) &middot; Kafka &middot; Redis &middot; Blue-Green deployment &middot; Grafana</p>
@@ -51,10 +51,10 @@
 
                     <h2>Multi-service pipelines, not one pipeline</h2>
                     <p>The environment I worked in ran services in Java, Go, Python, and React, each with its own build tooling, its own test runner, and its own release rhythm. That sounds like a detail until you're the one maintaining the pipelines: a Java service's build cache behaves nothing like a Node build, and a shared Jenkins agent has to be able to run both without one toolchain silently shadowing the other.</p>
-                    <p>Jenkins and GitLab CI/CD both had a role here &mdash; Jenkins running the bulk of the multibranch pipelines, GitLab CI covering workflows built around GitLab-native merge request gating. Working across both meant learning the same problem twice, in two different pipeline languages: how do you fail fast, how do you cache dependencies safely, how do you make a pipeline stage's failure message actually useful to the person who broke it.</p>
+                    <p>Jenkins and GitLab CI/CD both had a role here: Jenkins running the bulk of the multibranch pipelines, GitLab CI covering workflows built around GitLab-native merge request gating. Working across both meant learning the same problem twice, in two different pipeline languages: how do you fail fast, how do you cache dependencies safely, how do you make a pipeline stage's failure message actually useful to the person who broke it.</p>
 
                     <h2>Security gates as merge blockers, not a report nobody reads</h2>
-                    <p>The part of this internship I'd defend hardest in an interview is the security tooling, because it wasn't bolted on after the fact &mdash; it ran on every push and could block a merge.</p>
+                    <p>The part of this internship I'd defend hardest in an interview is the security tooling, because it wasn't bolted on after the fact; it ran on every push and could block a merge.</p>
                     <table>
                         <thead>
                             <tr><th>Gate</th><th>Tool</th><th>What it's for</th></tr>
@@ -66,15 +66,15 @@
                             <tr><td>Code quality</td><td>SonarQube</td><td>Coverage and maintainability thresholds</td></tr>
                         </tbody>
                     </table>
-                    <p>The lesson that stuck with me is ordering. Gitleaks has to run early and cheap &mdash; a leaked secret is a hard stop regardless of what else is true about the code. Trivy has to run after the image is built, because it needs something to scan. Getting the order wrong doesn't just waste CI minutes, it changes what a failing pipeline actually tells the person who broke it.</p>
+                    <p>The lesson that stuck with me is ordering. Gitleaks has to run early and cheap; a leaked secret is a hard stop regardless of what else is true about the code. Trivy has to run after the image is built, because it needs something to scan. Getting the order wrong doesn't just waste CI minutes, it changes what a failing pipeline actually tells the person who broke it.</p>
 
                     <h2>Secrets and encrypted traffic: Vault and Istio</h2>
-                    <p>Before this summer, "secrets management" meant an <code>.env</code> file I remembered not to commit. Working with HashiCorp Vault meant something different: credentials fetched at build or runtime, scoped to the identity requesting them, and every access logged. Reducing plaintext credential exposure in CI and application configuration was one of the more concrete pieces of work I did &mdash; not because Vault is exotic technology, but because retrofitting it into pipelines and services that weren't originally built around it forces you to actually understand where every secret was living before.</p>
-                    <p>The other half was Istio: mutual TLS between services and AuthorizationPolicy resources that deny by default and require an explicit identity match to allow a request through. The useful mental model I built here is that mTLS and AuthorizationPolicy are two separate layers &mdash; mTLS proves who is calling, AuthorizationPolicy decides whether that caller is allowed to do what it's asking. A valid certificate is not the same thing as permission.</p>
+                    <p>Before this summer, "secrets management" meant an <code>.env</code> file I remembered not to commit. Working with HashiCorp Vault meant something different: credentials fetched at build or runtime, scoped to the identity requesting them, and every access logged. Reducing plaintext credential exposure in CI and application configuration was one of the more concrete pieces of work I did, not because Vault is exotic technology, but because retrofitting it into pipelines and services that weren't originally built around it forces you to actually understand where every secret was living before.</p>
+                    <p>The other half was Istio: mutual TLS between services and AuthorizationPolicy resources that deny by default and require an explicit identity match to allow a request through. The useful mental model I built here is that mTLS and AuthorizationPolicy are two separate layers: mTLS proves who is calling, AuthorizationPolicy decides whether that caller is allowed to do what it's asking. A valid certificate is not the same thing as permission.</p>
 
                     <h2>Kafka, Redis, and Blue-Green deployment</h2>
-                    <p>Some of the services I worked with communicated asynchronously over Kafka, with Redis handling ephemeral state and caching. Debugging a consumer that silently fell behind, or a topic with more partitions than the team had planned for, taught me more about distributed systems than any course reading did &mdash; because the failure mode isn't a stack trace, it's a metric that quietly drifts.</p>
-                    <p>Blue-Green deployment was the other pattern I got real exposure to: running two versions of a service side by side and cutting traffic over deliberately instead of restarting pods and hoping. The value isn't the deploy itself, it's what it buys you when something goes wrong &mdash; rollback becomes a routing change, not an incident.</p>
+                    <p>Some of the services I worked with communicated asynchronously over Kafka, with Redis handling ephemeral state and caching. Debugging a consumer that silently fell behind, or a topic with more partitions than the team had planned for, taught me more about distributed systems than any course reading did, because the failure mode isn't a stack trace, it's a metric that quietly drifts.</p>
+                    <p>Blue-Green deployment was the other pattern I got real exposure to: running two versions of a service side by side and cutting traffic over deliberately instead of restarting pods and hoping. The value isn't the deploy itself, it's what it buys you when something goes wrong: rollback becomes a routing change, not an incident.</p>
 
                     <h2>What actually broke</h2>
                     <p>The most useful debugging sessions were the ones where the obvious explanation was wrong. A pod stuck in an init state that looked like a Vault outage turned out to be a networking rule silently intercepting the traffic before it reached Vault at all. A deployment that passed every pipeline stage still failed at the cluster because of a policy check that ran later, outside the pipeline's view entirely. Both cases taught me the same thing: a green pipeline tells you the code passed the checks you wrote, not that the system will behave once it's actually running.</p>
@@ -88,7 +88,7 @@
                     </ul>
 
                     <h2>What I would improve next</h2>
-                    <p>If I kept working on this environment, I'd want tighter feedback between the pipeline and the cluster &mdash; today too much of the "does this actually work" signal only shows up after a deploy, not during CI. I'd also want to push more of the security tooling's findings back to developers earlier, ideally at commit time instead of at merge time, so the fix is one keystroke away instead of a context switch back into old work.</p>
+                    <p>If I kept working on this environment, I'd want tighter feedback between the pipeline and the cluster; today too much of the "does this actually work" signal only shows up after a deploy, not during CI. I'd also want to push more of the security tooling's findings back to developers earlier, ideally at commit time instead of at merge time, so the fix is one keystroke away instead of a context switch back into old work.</p>
 
                     <h2>Closing</h2>
                     <p>This internship didn't teach me a new framework so much as it taught me where the boring, load-bearing engineering actually lives: in the pipeline stages nobody notices until they fail, in the policy that blocks a deploy at 4pm, in the secret that almost got committed. That's the part of production systems I want to keep working on.</p>

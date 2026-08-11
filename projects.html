@@ -43,7 +43,7 @@
                             <span class="project-status ongoing">Active Development</span>
                         </div>
                         <p class="project-description">
-                            Distributed Systems &mdash; Real-time football (soccer) analytics: simulated match events flow through Kafka into a stats aggregator, an ML prediction service, and a live Grafana dashboard. The interesting part isn't the sport, it's making the event pipeline survive retries, duplicates, and partial failures.
+                            Distributed Systems: Real-time football (soccer) analytics: simulated match events flow through Kafka into a stats aggregator, an ML prediction service, and a live Grafana dashboard. The interesting part isn't the sport, it's making the event pipeline survive retries, duplicates, and partial failures.
                         </p>
                         <div class="project-tech-tags">
                             <span>Go</span><span>Python / FastAPI</span><span>Kafka</span><span>Redis</span><span>OpenTelemetry</span><span>Kubernetes / ArgoCD</span><span>Kyverno</span>
@@ -66,7 +66,7 @@
                             <span class="project-status ongoing">Active Development</span>
                         </div>
                         <p class="project-description">
-                            Data Engineering &mdash; A local stock-market analytics lakehouse. Daily OHLCV price bars land raw in an Iceberg bronze table, get cleaned into silver, and roll up into a gold analytics layer (returns, moving averages, volatility, volume-anomaly detection) via dbt-on-Trino, orchestrated by Airflow.
+                            Data Engineering: A local stock-market analytics lakehouse. Daily OHLCV price bars land raw in an Iceberg bronze table, get cleaned into silver, and roll up into a gold analytics layer (returns, moving averages, volatility, volume-anomaly detection) via dbt-on-Trino, orchestrated by Airflow.
                         </p>
                         <div class="project-tech-tags">
                             <span>Apache Iceberg</span><span>MinIO</span><span>Trino</span><span>dbt</span><span>Airflow</span><span>Terraform</span><span>Superset</span>
@@ -88,14 +88,14 @@
                             <span class="project-status completed">Completed</span>
                         </div>
                         <p class="project-description">
-                            Systems Programming &mdash; Built Linux 6.10 from source and booted it in QEMU with a custom BusyBox initramfs, wrote a character-device driver, and attached GDB to a paused kernel at <code>start_kernel</code> to step through early boot.
+                            Systems Programming: Built Linux 6.10 from source and booted it in QEMU with a custom BusyBox initramfs, wrote a character-device driver, and attached GDB to a paused kernel at <code>start_kernel</code> to step through early boot.
                         </p>
                         <div class="project-tech-tags">
                             <span>Linux 6.10</span><span>C</span><span>QEMU</span><span>GDB</span><span>BusyBox</span><span>GCC / LLVM</span>
                         </div>
                         <div class="project-details">
                             <div class="project-highlights">
-                                <strong>Design highlight:</strong> the debugging trail, not the driver itself &mdash; a GCC 15/C23 keyword collision breaking the boot decompressor, a GCC-vs-Clang/LTO module mismatch, and an "Attempted to kill init" panic that turned out to be QEMU's default CPU model, not a kernel bug.
+                                <strong>Design highlight:</strong> the debugging trail, not the driver itself: a GCC 15/C23 keyword collision breaking the boot decompressor, a GCC-vs-Clang/LTO module mismatch, and an "Attempted to kill init" panic that turned out to be QEMU's default CPU model, not a kernel bug.
                             </div>
                         </div>
                         <div class="project-links">
@@ -110,7 +110,7 @@
                             <span class="project-status ongoing">Active Development</span>
                         </div>
                         <p class="project-description">
-                            MLOps &mdash; An educational MLOps platform around a FastAPI cognitive-load classifier: experiment tracking, data versioning, containerized serving, and drift monitoring, built to exercise the full path from notebook to (would-be) production.
+                            MLOps: An educational MLOps platform around a FastAPI cognitive-load classifier: experiment tracking, data versioning, containerized serving, and drift monitoring, built to exercise the full path from notebook to (would-be) production.
                         </p>
                         <div class="project-tech-tags">
                             <span>FastAPI</span><span>MLflow</span><span>DVC</span><span>Docker / Helm</span><span>KServe</span><span>Prometheus / Grafana</span><span>Evidently</span>
@@ -120,7 +120,7 @@
                                 <strong>Design highlight:</strong> KServe scale-to-zero serving behind an HPA, with Evidently drift reports, Tempo tracing, and Loki logging wired into the same coverage-gated CI/CD pipeline as the model code.
                             </div>
                         </div>
-                        <p class="project-note">Uses synthetic data for an educational MLOps demonstration &mdash; not a medical or clinically validated system.</p>
+                        <p class="project-note">Uses synthetic data for an educational MLOps demonstration, not a medical or clinically validated system.</p>
                         <div class="project-links">
                             <a href="https://github.com/nhatminh06/personal-cognitive-load-monitor" class="project-link" target="_blank" rel="noopener noreferrer">GitHub Repo</a>
                         </div>
@@ -133,7 +133,7 @@
                             <span class="project-status completed">Completed</span>
                         </div>
                         <p class="project-description">
-                            Applied AI / Full Stack &mdash; A full-stack platform for researching companies against a resume: a Retrieval-Augmented Generation pipeline matches resumes to job postings using LangChain retrieval and LangGraph orchestration over a pgvector store, streamed back to the client over Server-Sent Events.
+                            Applied AI / Full Stack: A full-stack platform for researching companies against a resume: a Retrieval-Augmented Generation pipeline matches resumes to job postings using LangChain retrieval and LangGraph orchestration over a pgvector store, streamed back to the client over Server-Sent Events.
                         </p>
                         <div class="project-tech-tags">
                             <span>React</span><span>Node.js</span><span>FastAPI</span><span>MongoDB</span><span>PostgreSQL / pgvector</span><span>LangChain</span><span>LangGraph</span>
@@ -155,7 +155,7 @@
                             <span class="project-status in-progress">In Progress</span>
                         </div>
                         <p class="project-description">
-                            Infrastructure / DevSecOps &mdash; A personal, from-scratch DevSecOps pipeline across multiple VMs: GitHub triggers Jenkins, which runs Gitleaks, Semgrep, and a SonarQube quality gate as build-blocking stages before pushing images to a private Harbor registry and deploying via Helm to Kubernetes.
+                            Infrastructure / DevSecOps: A personal, from-scratch DevSecOps pipeline across multiple VMs: GitHub triggers Jenkins, which runs Gitleaks, Semgrep, and a SonarQube quality gate as build-blocking stages before pushing images to a private Harbor registry and deploying via Helm to Kubernetes.
                         </p>
                         <div class="project-tech-tags">
                             <span>Jenkins</span><span>Kubernetes</span><span>Helm</span><span>Harbor</span><span>Nexus</span><span>SonarQube</span><span>Gitleaks / Semgrep / Trivy</span>
@@ -165,7 +165,7 @@
                                 <strong>Design highlight:</strong> multi-stage Dockerfiles pin every build to the app's original toolchain era, so the shared build agent's own JDK/Node versions never have to match it.
                             </div>
                         </div>
-                        <p class="project-note">A personal home lab, separate from any employer's infrastructure &mdash; no production system is represented here.</p>
+                        <p class="project-note">A personal home lab, separate from any employer's infrastructure; no production system is represented here.</p>
                         <div class="project-links">
                             <a href="https://github.com/nhatminh06/devsecops-lab" class="project-link" target="_blank" rel="noopener noreferrer">GitHub Repo</a>
                         </div>
