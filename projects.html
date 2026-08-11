@@ -4,6 +4,13 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Minh Pham - Projects</title>
+    <meta name="description" content="Distributed systems, data engineering, ML infrastructure, and Linux systems projects by Minh Pham: MatchSense, Market Pulse, Linux Kernel Lab, and more.">
+    <link rel="canonical" href="https://minhpham06.com/projects.html">
+    <meta property="og:title" content="Projects | Minh Pham">
+    <meta property="og:description" content="Real repositories: event-driven systems, data lakehouses, Linux kernel work, MLOps, and DevSecOps infrastructure.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://minhpham06.com/projects.html">
+    <meta name="twitter:card" content="summary">
     <link rel="icon" type="image/png" sizes="32x32" href="/static/favicon.png">
     <link rel="stylesheet" href="/static/style.css">
 </head>
@@ -23,59 +30,76 @@
         </nav>
         <main class="main-content">
             <div class="section-intro">
-                <h2 class="section-title">My Projects</h2>
-                <p class="section-subtitle">Real repositories I own and ship: MLOps platforms, DevOps automation, backend services, and full-stack products. Each card links to the code behind it.</p>
+                <h1 class="section-title">My Projects</h1>
+                <p class="section-subtitle">Real repositories I own and ship: distributed systems, data platforms, ML infrastructure, and low-level software. Each card links to the code behind it.</p>
             </div>
 
             <section class="projects-section">
                 <div class="projects-grid">
-                    <!-- Lay-Off-Link -->
+                    <!-- MatchSense -->
                     <div class="project-card">
                         <div class="project-header">
-                            <h3>Lay-Off-Link</h3>
-                            <span class="project-status ongoing">Ongoing</span>
+                            <h3>MatchSense</h3>
+                            <span class="project-status ongoing">Active Development</span>
                         </div>
                         <p class="project-description">
-                            End-to-end MLOps and data platform: model training and tracking, serving, data pipelines, feature store, and observability, packaged for cloud-style operations with Kubernetes and infrastructure as code.
+                            Distributed Systems &mdash; Real-time football (soccer) analytics: simulated match events flow through Kafka into a stats aggregator, an ML prediction service, and a live Grafana dashboard. The interesting part isn't the sport, it's making the event pipeline survive retries, duplicates, and partial failures.
                         </p>
+                        <div class="project-tech-tags">
+                            <span>Go</span><span>Python / FastAPI</span><span>Kafka</span><span>Redis</span><span>OpenTelemetry</span><span>Kubernetes / ArgoCD</span><span>Kyverno</span>
+                        </div>
                         <div class="project-details">
-                            <div class="project-role">
-                                <strong>Role:</strong> MLOps / Platform Engineer
-                            </div>
-                            <div class="project-tech">
-                                <strong>Tech:</strong> Docker Compose, Kubernetes, Helm, Terraform, GitHub Actions, FastAPI, MLflow, DVC, KServe, Kubeflow, Spark, Flink, Kafka, Airflow, Feast, Prometheus, Grafana, Loki, Jaeger
-                            </div>
                             <div class="project-highlights">
-                                <strong>Highlights:</strong> Production-shaped multi-service architecture, CI/CD, security scanning, performance testing, autoscaling
+                                <strong>Design highlight:</strong> idempotent event ingestion via client-supplied or generated event IDs, so retried publishes are deduplicated instead of double-counted, with an OpenTelemetry trace context propagated through Kafka headers end to end.
                             </div>
                         </div>
+                        <p class="project-note">Match events and ML training data are simulator-generated, not live sports data.</p>
                         <div class="project-links">
-                            <a href="https://github.com/nhatminh06/lay-off-link" class="project-link" target="_blank" rel="noopener noreferrer">GitHub Repo</a>
+                            <a href="https://github.com/nhatminh06/matchsense" class="project-link" target="_blank" rel="noopener noreferrer">GitHub Repo</a>
                         </div>
                     </div>
 
-                    <!-- LearnOps Tracker -->
+                    <!-- Market Pulse -->
                     <div class="project-card">
                         <div class="project-header">
-                            <h3>LearnOps Tracker</h3>
-                            <span class="project-status ongoing">Ongoing</span>
+                            <h3>Market Pulse</h3>
+                            <span class="project-status ongoing">Active Development</span>
                         </div>
                         <p class="project-description">
-                            Full-stack app for DevOps learners to track skills, certifications, roadmap items, projects, recommendations, and analytics in one place, with import/export and GitHub repo linking.
+                            Data Engineering &mdash; A local stock-market analytics lakehouse. Daily OHLCV price bars land raw in an Iceberg bronze table, get cleaned into silver, and roll up into a gold analytics layer (returns, moving averages, volatility, volume-anomaly detection) via dbt-on-Trino, orchestrated by Airflow.
                         </p>
+                        <div class="project-tech-tags">
+                            <span>Apache Iceberg</span><span>MinIO</span><span>Trino</span><span>dbt</span><span>Airflow</span><span>Terraform</span><span>Superset</span>
+                        </div>
                         <div class="project-details">
-                            <div class="project-role">
-                                <strong>Role:</strong> Full-Stack Developer / Product Builder
-                            </div>
-                            <div class="project-tech">
-                                <strong>Tech:</strong> Next.js, TypeScript, Tailwind CSS, shadcn/ui, Prisma, PostgreSQL, Zod, Recharts, Docker, GitHub Actions (Neon / Vercel compatible)
-                            </div>
                             <div class="project-highlights">
-                                <strong>Highlights:</strong> Dashboard, skills and roadmap views, certifications, recommendations, analytics, data import/export
+                                <strong>Design highlight:</strong> incremental ingestion with an idempotent delete-and-replace-partition write pattern, dbt data-quality tests on every layer, and a manual/weekly end-to-end workflow that runs the real stack against Trino rather than trusting fixtures alone.
                             </div>
                         </div>
                         <div class="project-links">
-                            <a href="https://github.com/nhatminh06/learnops-tracker" class="project-link" target="_blank" rel="noopener noreferrer">GitHub Repo</a>
+                            <a href="https://github.com/nhatminh06/market-pulse" class="project-link" target="_blank" rel="noopener noreferrer">GitHub Repo</a>
+                        </div>
+                    </div>
+
+                    <!-- Linux Kernel Lab -->
+                    <div class="project-card">
+                        <div class="project-header">
+                            <h3>Linux Kernel Lab</h3>
+                            <span class="project-status completed">Completed</span>
+                        </div>
+                        <p class="project-description">
+                            Systems Programming &mdash; Built Linux 6.10 from source and booted it in QEMU with a custom BusyBox initramfs, wrote a character-device driver, and attached GDB to a paused kernel at <code>start_kernel</code> to step through early boot.
+                        </p>
+                        <div class="project-tech-tags">
+                            <span>Linux 6.10</span><span>C</span><span>QEMU</span><span>GDB</span><span>BusyBox</span><span>GCC / LLVM</span>
+                        </div>
+                        <div class="project-details">
+                            <div class="project-highlights">
+                                <strong>Design highlight:</strong> the debugging trail, not the driver itself &mdash; a GCC 15/C23 keyword collision breaking the boot decompressor, a GCC-vs-Clang/LTO module mismatch, and an "Attempted to kill init" panic that turned out to be QEMU's default CPU model, not a kernel bug.
+                            </div>
+                        </div>
+                        <div class="project-links">
+                            <a href="https://github.com/nhatminh06/linux-kernel-lab" class="project-link" target="_blank" rel="noopener noreferrer">GitHub Repo</a>
                         </div>
                     </div>
 
@@ -83,22 +107,20 @@
                     <div class="project-card">
                         <div class="project-header">
                             <h3>Personal Cognitive Load Monitor</h3>
-                            <span class="project-status ongoing">Ongoing</span>
+                            <span class="project-status ongoing">Active Development</span>
                         </div>
                         <p class="project-description">
-                            FastAPI service focused on cognitive load prediction, structured for MLOps-style quality: automated tests, coverage gates, reproducible sample data, and container-ready layout.
+                            MLOps &mdash; An educational MLOps platform around a FastAPI cognitive-load classifier: experiment tracking, data versioning, containerized serving, and drift monitoring, built to exercise the full path from notebook to (would-be) production.
                         </p>
+                        <div class="project-tech-tags">
+                            <span>FastAPI</span><span>MLflow</span><span>DVC</span><span>Docker / Helm</span><span>KServe</span><span>Prometheus / Grafana</span><span>Evidently</span>
+                        </div>
                         <div class="project-details">
-                            <div class="project-role">
-                                <strong>Role:</strong> Backend / MLOps Developer
-                            </div>
-                            <div class="project-tech">
-                                <strong>Tech:</strong> Python, FastAPI, Pytest, GitHub Actions, Docker-oriented deployment structure
-                            </div>
                             <div class="project-highlights">
-                                <strong>Highlights:</strong> Three core API endpoints, CI with 15 API tests, 80% coverage threshold, scripted generation of 200-record sample datasets
+                                <strong>Design highlight:</strong> KServe scale-to-zero serving behind an HPA, with Evidently drift reports, Tempo tracing, and Loki logging wired into the same coverage-gated CI/CD pipeline as the model code.
                             </div>
                         </div>
+                        <p class="project-note">Uses synthetic data for an educational MLOps demonstration &mdash; not a medical or clinically validated system.</p>
                         <div class="project-links">
                             <a href="https://github.com/nhatminh06/personal-cognitive-load-monitor" class="project-link" target="_blank" rel="noopener noreferrer">GitHub Repo</a>
                         </div>
@@ -111,17 +133,14 @@
                             <span class="project-status completed">Completed</span>
                         </div>
                         <p class="project-description">
-                            Research-oriented dashboard for tracking market and company news, organizing insights, and running structured search workflows so research stays repeatable instead of scattered across tabs and notes.
+                            Applied AI / Full Stack &mdash; A full-stack platform for researching companies against a resume: a Retrieval-Augmented Generation pipeline matches resumes to job postings using LangChain retrieval and LangGraph orchestration over a pgvector store, streamed back to the client over Server-Sent Events.
                         </p>
+                        <div class="project-tech-tags">
+                            <span>React</span><span>Node.js</span><span>FastAPI</span><span>MongoDB</span><span>PostgreSQL / pgvector</span><span>LangChain</span><span>LangGraph</span>
+                        </div>
                         <div class="project-details">
-                            <div class="project-role">
-                                <strong>Role:</strong> Full-Stack Developer
-                            </div>
-                            <div class="project-tech">
-                                <strong>Tech:</strong> Full-stack web application (see repo for stack and setup)
-                            </div>
                             <div class="project-highlights">
-                                <strong>Highlights:</strong> Company- and market-focused views, searchable structured workflows, UI suited to ongoing research use
+                                <strong>Design highlight:</strong> a three-node LangGraph pipeline (retrieve &rarr; rate &rarr; advise) streaming results incrementally via SSE instead of blocking on a single long response.
                             </div>
                         </div>
                         <div class="project-links">
@@ -129,36 +148,96 @@
                         </div>
                     </div>
 
-                    <!-- MyProfile -->
+                    <!-- DevSecOps Lab -->
                     <div class="project-card">
                         <div class="project-header">
-                            <h3>MyProfile</h3>
-                            <span class="project-status completed">Completed</span>
+                            <h3>DevSecOps Lab</h3>
+                            <span class="project-status in-progress">In Progress</span>
                         </div>
                         <p class="project-description">
-                            Static multi-page portfolio: home, about, projects, blog, and contact, tuned for performance, readability, and consistent personal branding without a heavy frontend framework.
+                            Infrastructure / DevSecOps &mdash; A personal, from-scratch DevSecOps pipeline across multiple VMs: GitHub triggers Jenkins, which runs Gitleaks, Semgrep, and a SonarQube quality gate as build-blocking stages before pushing images to a private Harbor registry and deploying via Helm to Kubernetes.
                         </p>
+                        <div class="project-tech-tags">
+                            <span>Jenkins</span><span>Kubernetes</span><span>Helm</span><span>Harbor</span><span>Nexus</span><span>SonarQube</span><span>Gitleaks / Semgrep / Trivy</span>
+                        </div>
                         <div class="project-details">
-                            <div class="project-role">
-                                <strong>Role:</strong> UI Developer / Content Creator
-                            </div>
-                            <div class="project-tech">
-                                <strong>Tech:</strong> HTML, CSS, JavaScript, static multi-page layout, shared assets and blog section
-                            </div>
                             <div class="project-highlights">
-                                <strong>Highlights:</strong> Responsive layout, project and blog surfaces, fast static delivery
+                                <strong>Design highlight:</strong> multi-stage Dockerfiles pin every build to the app's original toolchain era, so the shared build agent's own JDK/Node versions never have to match it.
                             </div>
                         </div>
+                        <p class="project-note">A personal home lab, separate from any employer's infrastructure &mdash; no production system is represented here.</p>
                         <div class="project-links">
-                            <a href="https://github.com/nhatminh06/myprofile" class="project-link" target="_blank" rel="noopener noreferrer">GitHub Repo</a>
-                            <a href="https://minhpham06.com" class="project-link" target="_blank" rel="noopener noreferrer">Live Site</a>
+                            <a href="https://github.com/nhatminh06/devsecops-lab" class="project-link" target="_blank" rel="noopener noreferrer">GitHub Repo</a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="section-intro" style="margin-top: 1rem;">
+                    <h3 class="section-title" style="font-size: 1.6rem;">Additional Work</h3>
+                    <p class="section-subtitle" style="font-size: 1rem;">Smaller tools and labs I've built along the way.</p>
+                </div>
+
+                <div class="projects-grid projects-grid--secondary">
+                    <div class="project-card project-card--compact">
+                        <div class="project-header">
+                            <h3>LearnOps Tracker</h3>
+                            <span class="project-status completed">Completed</span>
+                        </div>
+                        <p class="project-description">Full-stack DevOps learning tracker: skills, certifications, roadmap items, and analytics, with GitHub repo linking and import/export.</p>
+                        <div class="project-tech-tags">
+                            <span>Next.js</span><span>TypeScript</span><span>Prisma</span><span>PostgreSQL</span>
+                        </div>
+                        <div class="project-links">
+                            <a href="https://github.com/nhatminh06/learnops-tracker" class="project-link" target="_blank" rel="noopener noreferrer">GitHub Repo</a>
+                        </div>
+                    </div>
+
+                    <div class="project-card project-card--compact">
+                        <div class="project-header">
+                            <h3>NoteKeeper Platform</h3>
+                            <span class="project-status completed">Completed</span>
+                        </div>
+                        <p class="project-description">GitOps microservices platform: three Go services, CI security gates (Gitleaks, Trivy, Cosign), and Kyverno admission policies enforced through ArgoCD.</p>
+                        <div class="project-tech-tags">
+                            <span>Go</span><span>ArgoCD</span><span>Kyverno</span><span>Cosign</span>
+                        </div>
+                        <div class="project-links">
+                            <a href="https://github.com/nhatminh06/notekeeper-platform" class="project-link" target="_blank" rel="noopener noreferrer">GitHub Repo</a>
+                        </div>
+                    </div>
+
+                    <div class="project-card project-card--compact">
+                        <div class="project-header">
+                            <h3>Lay-Off-Link</h3>
+                            <span class="project-status ongoing">Active Development</span>
+                        </div>
+                        <p class="project-description">End-to-end MLOps and data platform: model training/serving, data pipelines, and Kubernetes deployment behind a multi-stage CI/CD pipeline.</p>
+                        <div class="project-tech-tags">
+                            <span>Kubernetes</span><span>Helm</span><span>Terraform</span><span>MLflow</span>
+                        </div>
+                        <div class="project-links">
+                            <a href="https://github.com/nhatminh06/lay-off-link" class="project-link" target="_blank" rel="noopener noreferrer">GitHub Repo</a>
+                        </div>
+                    </div>
+
+                    <div class="project-card project-card--compact">
+                        <div class="project-header">
+                            <h3>DevOps SSH Lab</h3>
+                            <span class="project-status completed">Completed</span>
+                        </div>
+                        <p class="project-description">Secure remote Linux administration over a private Tailscale network: SSH hardening, key-based access, and connectivity troubleshooting.</p>
+                        <div class="project-tech-tags">
+                            <span>Linux</span><span>SSH</span><span>Tailscale</span>
+                        </div>
+                        <div class="project-links">
+                            <a href="https://github.com/nhatminh06/devops-ssh-lab" class="project-link" target="_blank" rel="noopener noreferrer">GitHub Repo</a>
                         </div>
                     </div>
                 </div>
 
                 <div class="projects-footer">
                     <h3>What I'm focused on</h3>
-                    <p>Most of my energy goes into Lay-Off-Link and LearnOps Tracker: platform automation, data and ML paths, and productized learning tools. I iterate in public on GitHub.</p>
+                    <p>Most of my energy right now goes into MatchSense, Market Pulse, and the Linux Kernel Lab: event-driven systems, data platforms, and low-level systems work. I iterate in public on GitHub.</p>
                 </div>
             </section>
         </main>
