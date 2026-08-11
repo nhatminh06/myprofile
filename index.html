@@ -3,9 +3,35 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Minh Pham | DevOps &amp; Backend Engineer</title>
+    <title>Minh Pham | CS + Math @ UMN — Distributed Systems, ML Systems, Platform Engineering</title>
+    <meta name="description" content="Minh Pham is a Computer Science and Mathematics student at the University of Minnesota building distributed systems, data platforms, ML infrastructure, and low-level software. Summer 2026: DevSecOps Engineering Intern at VietinBank.">
+    <link rel="canonical" href="https://minhpham06.com/">
+    <meta property="og:title" content="Minh Pham | CS + Math @ UMN">
+    <meta property="og:description" content="Distributed systems, ML infrastructure, data platforms, and low-level software — with an emphasis on reliability, observability, security, and reproducibility.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://minhpham06.com/">
+    <meta property="og:image" content="https://minhpham06.com/static/avatar.jpg">
+    <meta name="twitter:card" content="summary">
     <link rel="icon" type="image/png" sizes="32x32" href="/static/favicon.png">
     <link rel="stylesheet" href="/static/style.css">
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "Person",
+      "name": "Minh Pham",
+      "url": "https://minhpham06.com",
+      "email": "mailto:mphamnhat2006@gmail.com",
+      "sameAs": [
+        "https://github.com/nhatminh06",
+        "https://www.linkedin.com/in/minhpham2418/"
+      ],
+      "affiliation": {
+        "@type": "CollegeOrUniversity",
+        "name": "University of Minnesota, Twin Cities"
+      },
+      "jobTitle": "Computer Science and Mathematics Student"
+    }
+    </script>
 </head>
 <body>
     <div class="dashboard-layout">
@@ -24,85 +50,159 @@
         <main class="main-content main-content--home">
             <section class="dashboard-card home-hero-proof-card" aria-labelledby="home-hero-name">
                 <h1 id="home-hero-name" class="home-hero-name">Minh Pham</h1>
-                <p class="home-hero-role">Aspiring DevOps &amp; Backend Engineer</p>
+                <p class="home-hero-role">CS + Math @ UMN — Distributed Systems &middot; ML Systems &middot; Platform Engineering</p>
                 <div class="home-hero-copy">
-                    <p>I build reliable, automated systems using backend engineering, CI/CD, containers, and cloud infrastructure.</p>
-                    <p>Lately I've been building secure delivery pipelines (Jenkins with security gates), shipping to Kubernetes with Helm, and running a self-hosted home lab over Tailscale.</p>
+                    <p>I build distributed systems, data platforms, ML infrastructure, and low-level software, with an emphasis on reliability, observability, security, and reproducibility.</p>
+                    <p>Summer 2026: DevSecOps Engineering Intern at VietinBank, plus independent work in event-driven systems, data lakehouses, and Linux kernel internals.</p>
                 </div>
                 <div class="home-hero-cta">
                     <a href="projects.html" class="btn btn-hero btn-hero-primary">View Projects</a>
-                    <a href="contact.html" class="btn btn-hero btn-hero-secondary">Contact Me</a>
+                    <a href="/static/Nhat Minh_Resume.pdf" class="btn btn-hero btn-hero-secondary" target="_blank" rel="noopener noreferrer">Resume</a>
+                    <a href="https://github.com/nhatminh06" class="btn btn-hero btn-hero-secondary" target="_blank" rel="noopener noreferrer">GitHub</a>
+                    <a href="blog.html" class="btn btn-hero btn-hero-secondary">Read My Blog</a>
                 </div>
                 <div class="proof-strip" aria-label="Career highlights">
-                    <div class="proof-item"><span class="proof-item-label">Academics</span><span class="proof-item-value">3.9 GPA @ UMN</span></div>
-                    <div class="proof-item"><span class="proof-item-label">Experience</span><span class="proof-item-value">FPT Software Intern</span></div>
-                    <div class="proof-item"><span class="proof-item-label">Pipeline</span><span class="proof-item-value">Jenkins + security gates</span></div>
-                    <div class="proof-item"><span class="proof-item-label">Stack</span><span class="proof-item-value">Docker · Kubernetes · Helm</span></div>
+                    <div class="proof-item"><span class="proof-item-label">Education</span><span class="proof-item-value">CS + Math @ UMN</span></div>
+                    <div class="proof-item"><span class="proof-item-label">Summer 2026</span><span class="proof-item-value">DevSecOps Intern, VietinBank</span></div>
+                    <div class="proof-item"><span class="proof-item-label">Prior</span><span class="proof-item-value">FPT Software Intern</span></div>
+                    <div class="proof-item"><span class="proof-item-label">Focus</span><span class="proof-item-value">Systems &middot; Data &middot; ML &middot; Linux</span></div>
+                </div>
+            </section>
+
+            <section class="summer-2026-section" aria-labelledby="summer-2026-heading">
+                <h2 id="summer-2026-heading" class="home-section-heading">Summer 2026</h2>
+                <p class="summer-2026-lead">Internship, independent systems projects, and everything I shipped between May and August 2026.</p>
+                <div class="summer-2026-grid">
+                    <div class="summer-card summer-card--primary">
+                        <span class="summer-card-eyebrow">Internship</span>
+                        <h3 class="summer-card-title">VietinBank</h3>
+                        <p class="summer-card-sub">DevSecOps Engineering Intern</p>
+                        <p class="summer-card-desc">Built and maintained Jenkins and GitLab CI/CD pipelines across Java, Go, Python, and React services on a Kubernetes environment, with security gates (Gitleaks, Semgrep, Trivy, SonarQube), HashiCorp Vault, and Istio mTLS / AuthorizationPolicy.</p>
+                    </div>
+                    <div class="summer-card">
+                        <span class="summer-card-eyebrow">Distributed Systems</span>
+                        <h3 class="summer-card-title">MatchSense</h3>
+                        <p class="summer-card-sub">Event-driven analytics platform</p>
+                        <p class="summer-card-desc">Go + Python microservices over Kafka and Redis, full OpenTelemetry tracing, and a GitOps/Kyverno delivery pipeline with supply-chain controls.</p>
+                    </div>
+                    <div class="summer-card">
+                        <span class="summer-card-eyebrow">Data Engineering</span>
+                        <h3 class="summer-card-title">Market Pulse</h3>
+                        <p class="summer-card-sub">Local data lakehouse</p>
+                        <p class="summer-card-desc">Bronze/Silver/Gold pipeline on Apache Iceberg, MinIO, Trino, and dbt, orchestrated with Airflow and provisioned with Terraform.</p>
+                    </div>
+                    <div class="summer-card">
+                        <span class="summer-card-eyebrow">Systems Programming</span>
+                        <h3 class="summer-card-title">Linux Kernel Lab</h3>
+                        <p class="summer-card-sub">Kernel build, driver, QEMU/GDB</p>
+                        <p class="summer-card-desc">Custom Linux 6.10 build, a character-device driver, and kernel debugging with GDB attached to a paused QEMU instance at <code>start_kernel</code>.</p>
+                    </div>
+                    <div class="summer-card summer-card--secondary">
+                        <span class="summer-card-eyebrow">MLOps</span>
+                        <h3 class="summer-card-title">Personal Cognitive Load Monitor</h3>
+                        <p class="summer-card-sub">FastAPI · MLflow · DVC · KServe</p>
+                    </div>
+                    <div class="summer-card summer-card--secondary">
+                        <span class="summer-card-eyebrow">Applied AI</span>
+                        <h3 class="summer-card-title">Company Research</h3>
+                        <p class="summer-card-sub">RAG pipeline over pgvector</p>
+                    </div>
                 </div>
             </section>
 
             <section class="home-featured-wrap" aria-labelledby="featured-heading">
-                <h2 id="featured-heading" class="home-section-heading">Featured project</h2>
-                <article class="dashboard-card featured-project-card">
-                    <div class="featured-project-header">
-                        <h3 class="featured-project-title">Lay-Off-Link</h3>
-                        <span class="featured-project-tag">End-to-end MLOps platform</span>
-                    </div>
-                    <p class="featured-project-desc">A production-style MLOps and data platform built with CI/CD automation, containerized services, Kubernetes deployment, observability, and infrastructure tooling.</p>
-                    <ul class="featured-project-highlights">
-                        <li>GitHub Actions CI/CD</li>
-                        <li>Docker, Kubernetes, Helm, Terraform</li>
-                        <li>Security scanning and performance testing</li>
-                        <li>Auto-scaling and production-style deployment</li>
-                    </ul>
-                    <div class="featured-project-actions">
-                        <a href="projects.html" class="project-link">View Project</a>
-                        <a href="https://github.com/nhatminh06/lay-off-link" class="project-link" target="_blank" rel="noopener noreferrer">GitHub</a>
-                    </div>
-                </article>
+                <h2 id="featured-heading" class="home-section-heading">Featured projects</h2>
+                <div class="home-featured-grid">
+                    <article class="dashboard-card featured-project-card">
+                        <div class="featured-project-header">
+                            <h3 class="featured-project-title">MatchSense</h3>
+                            <span class="featured-project-tag">Distributed Systems</span>
+                        </div>
+                        <p class="featured-project-desc">Real-time football-analytics platform: a simulated event feed flows through Kafka into a stats aggregator, an ML prediction service, and a live Grafana dashboard.</p>
+                        <ul class="featured-project-highlights">
+                            <li>Idempotent event ingestion, dead-letter handling, and OpenTelemetry traces across every hop</li>
+                            <li>Go + Python microservices, Kubernetes/Kustomize + ArgoCD GitOps, Kyverno admission policies</li>
+                        </ul>
+                        <div class="featured-project-actions">
+                            <a href="projects.html" class="project-link">View Project</a>
+                            <a href="https://github.com/nhatminh06/matchsense" class="project-link" target="_blank" rel="noopener noreferrer">GitHub</a>
+                        </div>
+                    </article>
+                    <article class="dashboard-card featured-project-card">
+                        <div class="featured-project-header">
+                            <h3 class="featured-project-title">Market Pulse</h3>
+                            <span class="featured-project-tag">Data Engineering</span>
+                        </div>
+                        <p class="featured-project-desc">A local stock-market analytics lakehouse: Bronze/Silver/Gold tables on Apache Iceberg, transformed with dbt-on-Trino, orchestrated by Airflow.</p>
+                        <ul class="featured-project-highlights">
+                            <li>Incremental + idempotent ingestion, deterministic fixtures, and a manual/weekly E2E workflow against a live stack</li>
+                            <li>Terraform-provisioned MinIO, dbt data-quality tests, CI on every PR</li>
+                        </ul>
+                        <div class="featured-project-actions">
+                            <a href="projects.html" class="project-link">View Project</a>
+                            <a href="https://github.com/nhatminh06/market-pulse" class="project-link" target="_blank" rel="noopener noreferrer">GitHub</a>
+                        </div>
+                    </article>
+                    <article class="dashboard-card featured-project-card">
+                        <div class="featured-project-header">
+                            <h3 class="featured-project-title">Linux Kernel Lab</h3>
+                            <span class="featured-project-tag">Systems Programming</span>
+                        </div>
+                        <p class="featured-project-desc">Built Linux 6.10 from source, wrote a character-device driver, and debugged early boot with GDB attached to QEMU.</p>
+                        <ul class="featured-project-highlights">
+                            <li>Diagnosed real GCC/C23, BTF, LLVM/LTO, and QEMU CPU-model incompatibilities</li>
+                            <li>Reproducible build/boot/debug scripts, not a one-off walkthrough</li>
+                        </ul>
+                        <div class="featured-project-actions">
+                            <a href="projects.html" class="project-link">View Project</a>
+                            <a href="https://github.com/nhatminh06/linux-kernel-lab" class="project-link" target="_blank" rel="noopener noreferrer">GitHub</a>
+                        </div>
+                    </article>
+                </div>
+                <a href="projects.html" class="home-blog-all">View all projects &rarr;</a>
             </section>
 
             <section class="dashboard-cards two-col-layout">
                 <div class="dashboard-card left-card">
                     <div class="hero-avatar-wrapper">
-                        <img src="/static/avatar.jpg" alt="Minh Pham" class="avatar-img-large" />
+                        <img src="/static/avatar.jpg" alt="Minh Pham" class="avatar-img-large" width="140" height="140" />
                     </div>
                     <h3 class="skill-title">Skills by area</h3>
                     <div class="skill-groups">
                         <div class="skill-group">
-                            <h4 class="skill-group-title">DevOps &amp; Cloud</h4>
+                            <h4 class="skill-group-title">Languages</h4>
                             <div class="skill-tags">
-                                <span>Jenkins</span><span>GitHub Actions</span><span>Docker</span><span>Kubernetes</span><span>Helm</span><span>Terraform</span>
+                                <span>Python</span><span>Go</span><span>Java</span><span>C</span><span>JavaScript / TypeScript</span><span>SQL</span><span>Bash</span>
                             </div>
                         </div>
                         <div class="skill-group">
-                            <h4 class="skill-group-title">Security / DevSecOps</h4>
+                            <h4 class="skill-group-title">Backend &amp; Distributed Systems</h4>
                             <div class="skill-tags">
-                                <span>SonarQube (SAST)</span><span>OWASP ZAP (DAST)</span><span>Gitleaks</span><span>Trivy / SCA</span><span>Quality Gates</span>
+                                <span>FastAPI</span><span>Kafka</span><span>Redis</span><span>REST APIs</span><span>PostgreSQL</span><span>pgvector</span><span>MongoDB</span>
                             </div>
                         </div>
                         <div class="skill-group">
-                            <h4 class="skill-group-title">Backend</h4>
+                            <h4 class="skill-group-title">Platform &amp; Infrastructure</h4>
                             <div class="skill-tags">
-                                <span>Go</span><span>Python</span><span>FastAPI</span><span>REST APIs</span><span>PostgreSQL</span><span>Prisma</span>
+                                <span>Docker</span><span>Kubernetes</span><span>Helm</span><span>Terraform</span><span>ArgoCD</span><span>Jenkins</span><span>GitHub Actions</span><span>GitLab CI</span>
                             </div>
                         </div>
                         <div class="skill-group">
-                            <h4 class="skill-group-title">Data / MLOps</h4>
+                            <h4 class="skill-group-title">Security &amp; Observability</h4>
                             <div class="skill-tags">
-                                <span>MLflow</span><span>CI for ML</span><span>Pipelines</span><span>Observability</span><span>Pytest</span>
+                                <span>HashiCorp Vault</span><span>Istio</span><span>Gitleaks</span><span>Semgrep</span><span>Trivy</span><span>SonarQube</span><span>Prometheus</span><span>Grafana</span><span>Loki</span><span>Jaeger</span><span>OpenTelemetry</span>
                             </div>
                         </div>
                         <div class="skill-group">
-                            <h4 class="skill-group-title">Platform &amp; Artifacts</h4>
+                            <h4 class="skill-group-title">Data &amp; ML Systems</h4>
                             <div class="skill-tags">
-                                <span>Harbor</span><span>Nexus</span><span>Prometheus</span><span>Grafana</span>
+                                <span>PyTorch</span><span>scikit-learn</span><span>MLflow</span><span>DVC</span><span>KServe</span><span>Apache Iceberg</span><span>Trino</span><span>dbt</span><span>Airflow</span>
                             </div>
                         </div>
                         <div class="skill-group">
-                            <h4 class="skill-group-title">Systems &amp; Home Lab</h4>
+                            <h4 class="skill-group-title">Systems</h4>
                             <div class="skill-tags">
-                                <span>Linux (CachyOS)</span><span>Tailscale</span><span>SSH</span><span>Networking</span><span>Automation</span><span>Reliability</span>
+                                <span>Linux</span><span>QEMU</span><span>GDB</span><span>Kernel modules</span><span>Device drivers</span>
                             </div>
                         </div>
                     </div>
@@ -110,42 +210,36 @@
                 <div class="dashboard-card right-card">
                     <h3 class="about-title">About</h3>
                     <p class="about-description">
-                        I'm a Computer Science and Mathematics student at the University of Minnesota, Twin Cities, focused on DevOps, backend systems, and cloud infrastructure.
+                        I'm a Computer Science and Mathematics student at the University of Minnesota, Twin Cities, building distributed systems, data platforms, ML infrastructure, and low-level software.
                     </p>
                     <p class="about-description">
-                        I enjoy building software that is not only functional, but also testable, observable, secure, and deployable. My interests include CI/CD systems, DevSecOps, platform engineering, distributed systems, and MLOps.
+                        I care about what happens after code ships: reliability, testing, security, observability, and reproducibility. My interests span backend engineering, distributed systems, platform engineering, DevSecOps, data engineering, ML systems, and Linux.
                     </p>
-                    <h3 class="about-title">Contact</h3>
-                    <ul class="contact-list">
-                        <li><strong>Email:</strong> mphamnhat2006@gmail.com</li>
-                        <li><strong>Location:</strong> Minneapolis, MN / Hanoi, Vietnam</li>
-                        <li><strong>Status:</strong> Open to internships and new-grad roles in platform, backend, and infrastructure</li>
-                    </ul>
                     <h3 class="goals-title">Direction</h3>
                     <ul class="goals-list">
-                        <li>Build secure delivery pipelines with scanning and quality gates baked in</li>
-                        <li>Ship end-to-end systems from API to cluster, and harden a self-hosted home lab</li>
-                        <li>Contribute to open source in tooling and infrastructure</li>
+                        <li>Ship systems that hold up under failure, not just under a demo</li>
+                        <li>Go deeper on distributed systems, data platforms, and ML infrastructure</li>
+                        <li>Keep building in public: real repos, real trade-offs, real bugs</li>
                     </ul>
                 </div>
             </section>
 
             <section class="blog-preview home-blog-preview" aria-labelledby="writing-heading">
                 <h2 id="writing-heading" class="home-section-heading">Technical writing</h2>
-                <p class="home-blog-lead">Notes on pipelines, platforms, and shipping real systems.</p>
+                <p class="home-blog-lead">Notes from building systems, debugging infrastructure, running experiments, and learning how software behaves beyond the happy path.</p>
                 <div class="blog-entry">
-                    <a class="blog-title" href="blog/from-code-to-production-cicd-kubernetes.html">From Code to Production: CI/CD + Kubernetes on Lay-Off-Link</a>
-                    <div class="blog-preview-meta">Apr 2026 · DevOps / MLOps</div>
+                    <a class="blog-title" href="blog/summer-2026-systems-retrospective.html">Summer 2026: From Building Apps to Understanding Systems</a>
+                    <div class="blog-preview-meta">Aug 2026 · Personal</div>
                 </div>
                 <div class="blog-entry">
-                    <a class="blog-title" href="blog/my-four-year-devops-plan.html">My Four-Year DevOps Plan at UMN</a>
-                    <div class="blog-preview-meta">Nov 2025 · Learning</div>
+                    <a class="blog-title" href="blog/building-matchsense-event-driven-systems.html">Building MatchSense: What Event-Driven Systems Taught Me About Failure</a>
+                    <div class="blog-preview-meta">Aug 2026 · Systems</div>
                 </div>
                 <div class="blog-entry">
-                    <a class="blog-title" href="blog/talent-bridge-hackathon.html">Talent Bridge: Hackathon Build &amp; Pivot</a>
-                    <div class="blog-preview-meta">Feb 2026 · Projects</div>
+                    <a class="blog-title" href="blog/linux-kernel-qemu-gdb-driver.html">Debugging Linux from the Kernel to QEMU: My Linux Kernel Lab</a>
+                    <div class="blog-preview-meta">Aug 2026 · Systems</div>
                 </div>
-                <a href="blog.html" class="home-blog-all">View all posts →</a>
+                <a href="blog.html" class="home-blog-all">View all posts &rarr;</a>
             </section>
         </main>
     </div>
@@ -157,7 +251,7 @@
                     <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/>
                 </svg>
             </a>
-            <a href="https://www.linkedin.com/in/nhat-minh-pham-a870382a8/" class="social-icon" target="_blank" title="LinkedIn">
+            <a href="https://www.linkedin.com/in/minhpham2418/" class="social-icon" target="_blank" title="LinkedIn">
                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
                     <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/>
                 </svg>
