@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>From Raw Market Data to Iceberg: Building Market Pulse - Minh Pham</title>
+    <meta name="description" content="Building Market Pulse, a local stock-market analytics lakehouse: MinIO, Apache Iceberg, Trino, dbt, Airflow, data-quality tests, and why one favorable timing number isn't a benchmark.">
+    <link rel="canonical" href="https://minhpham06.com/blog/market-pulse-building-a-lakehouse.html">
+    <meta property="og:title" content="From Raw Market Data to Iceberg: Building Market Pulse">
+    <meta property="og:description" content="Bronze/Silver/Gold on Apache Iceberg, dbt-on-Trino, Airflow orchestration, and why data tests matter more than a single timing number.">
+    <meta property="og:type" content="article">
+    <meta property="og:url" content="https://minhpham06.com/blog/market-pulse-building-a-lakehouse.html">
+    <meta name="twitter:card" content="summary">
+    <link rel="icon" type="image/png" sizes="32x32" href="/static/favicon.png">
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+    <div class="dashboard-layout">
+        <nav class="navbar">
+            <div class="navbar-logo">
+                <span class="dashboard-title-navbar">Minh Pham</span>
+            </div>
+            <ul class="navbar-nav">
+                <li><a href="../index.html">Home</a></li>
+                <li><a href="../about.html">About</a></li>
+                <li><a href="../projects.html">Projects</a></li>
+                <li class="active"><a href="../blog.html">Blog</a></li>
+                <li><a href="../contact.html">Contact</a></li>
+            </ul>
+        </nav>
+        <main class="main-content">
+            <article class="blog-post">
+                <div class="blog-post-header">
+                    <a href="../blog.html" class="back-to-blog">&larr; Back to Blog</a>
+                    <div class="blog-post-meta">
+                        <span class="blog-post-date">Aug 9, 2026</span>
+                        <span class="blog-post-read-time">14 min read</span>
+                    </div>
+                </div>
+
+                <h1 class="blog-post-title">From Raw Market Data to Iceberg: Building Market Pulse</h1>
+
+                <div class="blog-post-content">
+                    <p>Market Pulse is a stock-market analytics lakehouse that runs entirely on a local machine: daily price data lands in an Iceberg bronze table, gets cleaned into silver, and rolls up into a gold analytics layer &mdash; returns, moving averages, volatility, volume-anomaly detection &mdash; computed in dbt-on-Trino SQL and orchestrated by Airflow. It's a data-engineering demonstration project, not a trading system: the market data comes from a free, delayed third-party feed, and nothing here is investment advice.</p>
+
+                    <h2>Key technologies</h2>
+                    <p>Apache Iceberg &middot; MinIO &middot; Trino &middot; dbt &middot; Airflow &middot; Terraform &middot; Superset</p>
+                    <p><a href="https://github.com/nhatminh06/market-pulse" target="_blank" rel="noopener noreferrer">github.com/nhatminh06/market-pulse</a></p>
+
+                    <h2>Why I built a lakehouse</h2>
+                    <p>Most of the data pipelines I'd built before this were "read a CSV, write a table," which teaches you almost nothing about the actual hard problems in data engineering: what happens when you re-run an ingestion job over a window you already loaded, what happens when a source revises historical data, and how you catch a bad transformation before it becomes a bad dashboard. I wanted a project where those questions weren't optional.</p>
+
+                    <h2>Bronze, Silver, Gold</h2>
+                    <p>The medallion layers aren't just a naming convention here, each one has a different write pattern and a different job:</p>
+                    <table>
+                        <thead><tr><th>Layer</th><th>Table</th><th>Write pattern</th></tr></thead>
+                        <tbody>
+                            <tr><td>Bronze</td><td><code>bronze.prices</code></td><td>Delete rows in the fetched ticker/date window, then append the replacement batch</td></tr>
+                            <tr><td>Silver</td><td><code>silver.stg_prices</code></td><td>Incremental merge on (ticker, trade_date)</td></tr>
+                            <tr><td>Gold</td><td><code>gold.fct_daily_metrics</code></td><td>Full rebuild each run</td></tr>
+                        </tbody>
+                    </table>
+                    <p>Bronze is raw, but not blindly appended &mdash; a delete-and-replace-partition pattern scoped to the exact window that was fetched, so re-running an ingest for the same days doesn't duplicate rows. Silver merges incrementally. Gold, where the rolling-window math lives, is cheap enough to just rebuild in full every run rather than reason about incremental correctness for window functions.</p>
+
+                    <h2>MinIO, Iceberg, Trino</h2>
+                    <p>MinIO gives an S3-compatible object store without a cloud account, which is the only reason this can run entirely local. Iceberg on top of that gives ACID writes, schema evolution, and time travel &mdash; the properties that make "just re-run it" actually safe instead of a manual reconciliation project. Trino is the query engine that ties dbt models to the Iceberg tables regardless of which layer they're reading or writing.</p>
+
+                    <h2>Why data tests, not just pipeline tests</h2>
+                    <p>A pipeline can run green and still produce wrong numbers &mdash; a join that fans out, a null that should have failed a filter, a currency or unit mismatch nobody caught. dbt tests catch a different class of bug than unit tests do: not-null, uniqueness, referential integrity between tables, accepted-value checks, and a custom test asserting a daily bar's low is never above its high. None of that requires knowing anything about the transformation logic; it just requires stating what should always be true about the data and failing loudly when it isn't.</p>
+                    <p>On top of the dbt tests, a Python data-quality gate runs after the dbt build and re-checks the gold layer's invariants independently, with its check-interpretation logic unit-tested on its own so the gate itself isn't a silent single point of failure.</p>
+
+                    <h2>Fixtures and idempotent, incremental ingestion</h2>
+                    <p>Two separate ingestion modes exist: a full backfill from a start date, and an incremental run over the last N days, both hitting the same idempotent write path so re-running either one doesn't corrupt bronze. For CI, none of that touches live data or the real warehouse &mdash; the fast path is fixture-based: a small, deterministic dataset checked into the repo that exercises the same code paths without a network call or a live Trino cluster. That's what makes the tests fast enough to run on every pull request.</p>
+
+                    <h2>Why E2E verification matters more than a fixture pass</h2>
+                    <p>Fixture-based tests prove the code is internally consistent. They don't prove the real stack &mdash; a live Trino cluster, a real Iceberg catalog, actual SQL execution &mdash; behaves the way the fixtures assumed. Market Pulse runs a separate, manual/weekly end-to-end workflow that boots the full stack and runs the real <code>dbt build</code> and <code>dbt test</code> against live Trino, plus the quality gate's actual SQL checks, instead of trusting that "the fixtures passed" is the same claim as "the pipeline works." It isn't run on every PR because it's slower and needs the live stack, but it's the thing that actually verifies correctness end to end rather than in simulation.</p>
+
+                    <h2>Why I removed the unsupported performance claims</h2>
+                    <p>An earlier version of this project's documentation had a benchmark-shaped number in it &mdash; the kind of thing that looks great in a portfolio bullet and means nothing without a methodology behind it. I pulled it. A single favorable timing number, measured once, on one machine, under unknown conditions, isn't a benchmark; it's an anecdote wearing a benchmark's clothes. The honest version is a benchmark <em>framework</em>: a documented methodology, a way to reproduce the measurement, and a result you'd trust enough to defend if someone asked how you got it. I'd rather ship a project with no performance number than one with a number I can't stand behind.</p>
+
+                    <h2>What I learned about data engineering</h2>
+                    <ul>
+                        <li><strong>Idempotency is the real correctness bar for ingestion.</strong> "It loaded the data" is a much weaker claim than "it loads the data the same way no matter how many times you run it."</li>
+                        <li><strong>Tests on data are a different discipline than tests on code.</strong> They're about invariants that should hold regardless of how the transformation is implemented.</li>
+                        <li><strong>Fixtures and E2E verification answer different questions.</strong> Fast fixture tests keep CI usable; a slower, real-stack run is what actually proves the pipeline works.</li>
+                        <li><strong>An unverified metric is worse than no metric.</strong> It costs credibility the moment someone asks you to reproduce it.</li>
+                    </ul>
+
+                    <h2>Closing</h2>
+                    <p>Market Pulse taught me that the hard part of data engineering isn't the SQL, it's the discipline around re-runs, invariants, and honest verification. A pipeline that "worked once" is not the same claim as a pipeline you'd trust with someone else's dashboard.</p>
+                </div>
+
+                <div class="blog-post-footer">
+                    <div class="blog-post-nav">
+                        <a href="../blog.html" class="nav-link">
+                            <span>&larr; Back to Blog</span>
+                            <span>All Posts</span>
+                        </a>
+                    </div>
+                </div>
+            </article>
+        </main>
+    </div>
+    <footer class="footer-bar">
+        <div class="footer-motto">Code. Learn. Share.</div>
+        <div class="footer-social">
+            <a href="https://github.com/nhatminh06" class="social-icon" target="_blank" title="GitHub">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                    <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/>
+                </svg>
+            </a>
+            <a href="https://www.linkedin.com/in/minhpham2418/" class="social-icon" target="_blank" title="LinkedIn">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                    <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/>
+                </svg>
+            </a>
+            <a href="/static/Nhat Minh_Resume.pdf" class="social-icon" target="_blank" title="Resume">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                    <path d="M14 2H6c-1.1 0-1.99.9-1.99 2L4 20c0 1.1.89 2 1.99 2H18c1.1 0 2-.9 2-2V8l-6-6zm2 16H8v-2h8v2zm0-4H8v-2h8v2zm-3-5V3.5L18.5 9H13z"/>
+                </svg>
+            </a>
+        </div>
+    </footer>
+    <script src="/static/script.js"></script>
+</body>
+</html>

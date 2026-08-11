@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>What I Learned Building DevSecOps Systems During Summer 2026 - Minh Pham</title>
+    <meta name="description" content="Notes from a Summer 2026 DevSecOps Engineering internship: CI/CD security gates, Vault, Istio mTLS, and what changed in how I think about production systems.">
+    <link rel="canonical" href="https://minhpham06.com/blog/summer-2026-devsecops-internship.html">
+    <meta property="og:title" content="What I Learned Building DevSecOps Systems During Summer 2026">
+    <meta property="og:description" content="CI/CD, Kubernetes, security gates, and the systems behind the code — a Summer 2026 DevSecOps internship retrospective.">
+    <meta property="og:type" content="article">
+    <meta property="og:url" content="https://minhpham06.com/blog/summer-2026-devsecops-internship.html">
+    <meta name="twitter:card" content="summary">
+    <link rel="icon" type="image/png" sizes="32x32" href="/static/favicon.png">
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+    <div class="dashboard-layout">
+        <nav class="navbar">
+            <div class="navbar-logo">
+                <span class="dashboard-title-navbar">Minh Pham</span>
+            </div>
+            <ul class="navbar-nav">
+                <li><a href="../index.html">Home</a></li>
+                <li><a href="../about.html">About</a></li>
+                <li><a href="../projects.html">Projects</a></li>
+                <li class="active"><a href="../blog.html">Blog</a></li>
+                <li><a href="../contact.html">Contact</a></li>
+            </ul>
+        </nav>
+        <main class="main-content">
+            <article class="blog-post">
+                <div class="blog-post-header">
+                    <a href="../blog.html" class="back-to-blog">&larr; Back to Blog</a>
+                    <div class="blog-post-meta">
+                        <span class="blog-post-date">Aug 11, 2026</span>
+                        <span class="blog-post-read-time">13 min read</span>
+                    </div>
+                </div>
+
+                <h1 class="blog-post-title">What I Learned Building DevSecOps Systems During Summer 2026</h1>
+
+                <div class="blog-post-content">
+                    <p>I spent Summer 2026 as a DevSecOps Engineering Intern, working on the pipelines and platform underneath a multi-service, Kubernetes-based environment. This post is not an architecture diagram of anyone's production system &mdash; I'm deliberately keeping the specifics generic, because none of this is mine to publish in detail. What I can talk about is what I actually did, what broke, and how the internship changed the way I think about shipping code.</p>
+
+                    <h2>Key technologies</h2>
+                    <p>Jenkins &middot; GitLab CI/CD &middot; Kubernetes &middot; Gitleaks &middot; Semgrep &middot; Trivy &middot; SonarQube &middot; HashiCorp Vault &middot; Istio (mTLS, AuthorizationPolicy) &middot; Kafka &middot; Redis &middot; Blue-Green deployment &middot; Grafana</p>
+
+                    <h2>Walking in</h2>
+                    <p>Before this internship, "CI/CD pipeline" mostly meant a GitHub Actions YAML file I wrote myself, for a project only I depended on. Four services, three languages, a shared Kubernetes environment, and other engineers whose work I could break was a different kind of pressure. The first week was mostly reading: existing Jenkinsfiles, existing Helm charts, existing incident notes. I did not touch anything that could reach a real environment until I understood why it was built the way it was, not just what it did.</p>
+
+                    <h2>Multi-service pipelines, not one pipeline</h2>
+                    <p>The environment I worked in ran services in Java, Go, Python, and React, each with its own build tooling, its own test runner, and its own release rhythm. That sounds like a detail until you're the one maintaining the pipelines: a Java service's build cache behaves nothing like a Node build, and a shared Jenkins agent has to be able to run both without one toolchain silently shadowing the other.</p>
+                    <p>Jenkins and GitLab CI/CD both had a role here &mdash; Jenkins running the bulk of the multibranch pipelines, GitLab CI covering workflows built around GitLab-native merge request gating. Working across both meant learning the same problem twice, in two different pipeline languages: how do you fail fast, how do you cache dependencies safely, how do you make a pipeline stage's failure message actually useful to the person who broke it.</p>
+
+                    <h2>Security gates as merge blockers, not a report nobody reads</h2>
+                    <p>The part of this internship I'd defend hardest in an interview is the security tooling, because it wasn't bolted on after the fact &mdash; it ran on every push and could block a merge.</p>
+                    <table>
+                        <thead>
+                            <tr><th>Gate</th><th>Tool</th><th>What it's for</th></tr>
+                        </thead>
+                        <tbody>
+                            <tr><td>Secret scanning</td><td>Gitleaks</td><td>Catches committed credentials before they leave a developer's branch</td></tr>
+                            <tr><td>Static analysis</td><td>Semgrep</td><td>Flags insecure code patterns across Java, Go, and Python</td></tr>
+                            <tr><td>Container scanning</td><td>Trivy</td><td>CVEs in base images and dependencies</td></tr>
+                            <tr><td>Code quality</td><td>SonarQube</td><td>Coverage and maintainability thresholds</td></tr>
+                        </tbody>
+                    </table>
+                    <p>The lesson that stuck with me is ordering. Gitleaks has to run early and cheap &mdash; a leaked secret is a hard stop regardless of what else is true about the code. Trivy has to run after the image is built, because it needs something to scan. Getting the order wrong doesn't just waste CI minutes, it changes what a failing pipeline actually tells the person who broke it.</p>
+
+                    <h2>Secrets and encrypted traffic: Vault and Istio</h2>
+                    <p>Before this summer, "secrets management" meant an <code>.env</code> file I remembered not to commit. Working with HashiCorp Vault meant something different: credentials fetched at build or runtime, scoped to the identity requesting them, and every access logged. Reducing plaintext credential exposure in CI and application configuration was one of the more concrete pieces of work I did &mdash; not because Vault is exotic technology, but because retrofitting it into pipelines and services that weren't originally built around it forces you to actually understand where every secret was living before.</p>
+                    <p>The other half was Istio: mutual TLS between services and AuthorizationPolicy resources that deny by default and require an explicit identity match to allow a request through. The useful mental model I built here is that mTLS and AuthorizationPolicy are two separate layers &mdash; mTLS proves who is calling, AuthorizationPolicy decides whether that caller is allowed to do what it's asking. A valid certificate is not the same thing as permission.</p>
+
+                    <h2>Kafka, Redis, and Blue-Green deployment</h2>
+                    <p>Some of the services I worked with communicated asynchronously over Kafka, with Redis handling ephemeral state and caching. Debugging a consumer that silently fell behind, or a topic with more partitions than the team had planned for, taught me more about distributed systems than any course reading did &mdash; because the failure mode isn't a stack trace, it's a metric that quietly drifts.</p>
+                    <p>Blue-Green deployment was the other pattern I got real exposure to: running two versions of a service side by side and cutting traffic over deliberately instead of restarting pods and hoping. The value isn't the deploy itself, it's what it buys you when something goes wrong &mdash; rollback becomes a routing change, not an incident.</p>
+
+                    <h2>What actually broke</h2>
+                    <p>The most useful debugging sessions were the ones where the obvious explanation was wrong. A pod stuck in an init state that looked like a Vault outage turned out to be a networking rule silently intercepting the traffic before it reached Vault at all. A deployment that passed every pipeline stage still failed at the cluster because of a policy check that ran later, outside the pipeline's view entirely. Both cases taught me the same thing: a green pipeline tells you the code passed the checks you wrote, not that the system will behave once it's actually running.</p>
+
+                    <h2>What changed in how I think about production systems</h2>
+                    <ul>
+                        <li><strong>Security is a pipeline stage, not a review meeting.</strong> Gates that can fail a build get respected. Gates that only produce a report get ignored.</li>
+                        <li><strong>Encryption and authorization are different questions.</strong> mTLS answers "who is this." AuthorizationPolicy answers "should they be allowed." Conflating them leaves gaps.</li>
+                        <li><strong>Async messaging changes what "down" means.</strong> A consumer that's behind is not the same failure as a service that's down, and the alerting has to know the difference.</li>
+                        <li><strong>The pipeline is not the whole story.</strong> Cluster-level policy, network rules, and runtime behavior all sit outside CI, and a passing build doesn't see any of them.</li>
+                    </ul>
+
+                    <h2>What I would improve next</h2>
+                    <p>If I kept working on this environment, I'd want tighter feedback between the pipeline and the cluster &mdash; today too much of the "does this actually work" signal only shows up after a deploy, not during CI. I'd also want to push more of the security tooling's findings back to developers earlier, ideally at commit time instead of at merge time, so the fix is one keystroke away instead of a context switch back into old work.</p>
+
+                    <h2>Closing</h2>
+                    <p>This internship didn't teach me a new framework so much as it taught me where the boring, load-bearing engineering actually lives: in the pipeline stages nobody notices until they fail, in the policy that blocks a deploy at 4pm, in the secret that almost got committed. That's the part of production systems I want to keep working on.</p>
+                </div>
+
+                <div class="blog-post-footer">
+                    <div class="blog-post-nav">
+                        <a href="../blog.html" class="nav-link">
+                            <span>&larr; Back to Blog</span>
+                            <span>All Posts</span>
+                        </a>
+                    </div>
+                </div>
+            </article>
+        </main>
+    </div>
+    <footer class="footer-bar">
+        <div class="footer-motto">Code. Learn. Share.</div>
+        <div class="footer-social">
+            <a href="https://github.com/nhatminh06" class="social-icon" target="_blank" title="GitHub">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                    <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/>
+                </svg>
+            </a>
+            <a href="https://www.linkedin.com/in/minhpham2418/" class="social-icon" target="_blank" title="LinkedIn">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                    <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/>
+                </svg>
+            </a>
+            <a href="/static/Nhat Minh_Resume.pdf" class="social-icon" target="_blank" title="Resume">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                    <path d="M14 2H6c-1.1 0-1.99.9-1.99 2L4 20c0 1.1.89 2 1.99 2H18c1.1 0 2-.9 2-2V8l-6-6zm2 16H8v-2h8v2zm0-4H8v-2h8v2zm-3-5V3.5L18.5 9H13z"/>
+                </svg>
+            </a>
+        </div>
+    </footer>
+    <script src="/static/script.js"></script>
+</body>
+</html>

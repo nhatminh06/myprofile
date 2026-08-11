@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Debugging Linux from the Kernel to QEMU: My Linux Kernel Lab - Minh Pham</title>
+    <meta name="description" content="Building Linux 6.10 from source, writing a character-device driver, and debugging early boot with GDB attached to QEMU — real toolchain incompatibilities and how I found them.">
+    <link rel="canonical" href="https://minhpham06.com/blog/linux-kernel-qemu-gdb-driver.html">
+    <meta property="og:title" content="Debugging Linux from the Kernel to QEMU: My Linux Kernel Lab">
+    <meta property="og:description" content="A custom Linux 6.10 build, a character-device driver, and kernel debugging with GDB attached to QEMU at start_kernel.">
+    <meta property="og:type" content="article">
+    <meta property="og:url" content="https://minhpham06.com/blog/linux-kernel-qemu-gdb-driver.html">
+    <meta name="twitter:card" content="summary">
+    <link rel="icon" type="image/png" sizes="32x32" href="/static/favicon.png">
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+    <div class="dashboard-layout">
+        <nav class="navbar">
+            <div class="navbar-logo">
+                <span class="dashboard-title-navbar">Minh Pham</span>
+            </div>
+            <ul class="navbar-nav">
+                <li><a href="../index.html">Home</a></li>
+                <li><a href="../about.html">About</a></li>
+                <li><a href="../projects.html">Projects</a></li>
+                <li class="active"><a href="../blog.html">Blog</a></li>
+                <li><a href="../contact.html">Contact</a></li>
+            </ul>
+        </nav>
+        <main class="main-content">
+            <article class="blog-post">
+                <div class="blog-post-header">
+                    <a href="../blog.html" class="back-to-blog">&larr; Back to Blog</a>
+                    <div class="blog-post-meta">
+                        <span class="blog-post-date">Aug 8, 2026</span>
+                        <span class="blog-post-read-time">16 min read</span>
+                    </div>
+                </div>
+
+                <h1 class="blog-post-title">Debugging Linux from the Kernel to QEMU: My Linux Kernel Lab</h1>
+
+                <div class="blog-post-content">
+                    <p>I built Linux 6.10 from source, booted it in QEMU with a custom BusyBox initramfs, wrote a character-device driver, and attached GDB to a paused kernel to step through early boot at <code>start_kernel</code>. None of that description is the interesting part. The interesting part is that almost every step of it broke first, for reasons that had nothing to do with the kernel and everything to do with toolchain versions I hadn't thought to question.</p>
+
+                    <h2>Key technologies</h2>
+                    <p>Linux 6.10 &middot; C &middot; QEMU &middot; GDB &middot; BusyBox &middot; GCC / Clang / LLVM</p>
+                    <p><a href="https://github.com/nhatminh06/linux-kernel-lab" target="_blank" rel="noopener noreferrer">github.com/nhatminh06/linux-kernel-lab</a></p>
+
+                    <h2>Why I wanted to go this low</h2>
+                    <p>Most of my systems work sits above the kernel: containers, orchestration, service meshes. All of that assumes the kernel underneath just works. I wanted to spend time somewhere that assumption doesn't hold &mdash; building the thing everything else runs on top of, from source, and being responsible for every step between "here is some C code" and "here is a booting operating system."</p>
+
+                    <h2>The pieces</h2>
+                    <p>Two artifact chains come out of a kernel build: <code>bzImage</code>, the compressed image QEMU actually boots, and <code>vmlinux</code>, the uncompressed, symbol-bearing image GDB reads. You need both, for different reasons &mdash; QEMU doesn't want debug symbols bloating what it boots, and GDB can't resolve addresses without them. Alongside that, a BusyBox-built initramfs gives the booted kernel a minimal userspace to hand control to, and a character-device driver exposing <code>/dev/mychardev</code> gives me something concrete to test userspace-to-kernel communication against, using <code>copy_to_user</code>/<code>copy_from_user</code> instead of pretending pointers just work across that boundary.</p>
+
+                    <h2>The first real wall: GCC 15 and C23</h2>
+                    <p>The very first build failed in the boot decompressor, with errors that made no sense against kernel code that predates the compiler version I was using. The cause: GCC 15 defaults to a C23-flavored standard, and in C23, <code>bool</code>, <code>true</code>, and <code>false</code> became reserved keywords. Linux 6.10's boot decompressor defines its own <code>bool</code>/<code>true</code>/<code>false</code>, the way pre-C23 kernel code has always had to. A compiler released after the kernel was, silently changed its default standard, and broke code that had nothing wrong with it when it was written.</p>
+                    <p>The fix was pinning <code>-std=gnu11</code> explicitly in the decompressor's Makefile &mdash; the same fix that later landed upstream, which told me I wasn't imagining the problem. The lesson wasn't the specific flag. It was that "my code is broken" and "my toolchain's defaults changed out from under my code" produce identical-looking error output, and you cannot tell them apart without checking compiler versions first.</p>
+
+                    <h2>The same bug, wearing a different hat</h2>
+                    <p><code>resolve_btfids</code>, a host-side build tool, failed next &mdash; a different symptom, the same root cause family: newer GCC treating a discarded <code>const</code> qualifier as a hard error under <code>-Werror</code>, in a libbpf-adjacent code path that predates that strictness. I disabled <code>CONFIG_DEBUG_INFO_BTF</code> rather than patch a host tool I didn't need for this lab's goals. Not every build failure deserves a deep fix; some deserve a scoped decision about what you actually need working.</p>
+
+                    <h2>GCC built it, Clang won't load it</h2>
+                    <p>The out-of-tree character-device module built cleanly with GCC and then failed to load. The running kernel was built with Clang and LTO; a GCC-built module carries LTO-specific compiler flags (<code>-mllvm</code>, <code>-fsplit-lto-unit</code>) that the kernel's module loader doesn't recognize and rejects outright. The kernel build system, the module build system, and the toolchain that produced the running kernel all have to agree, and nothing checks that for you upfront &mdash; it fails at load time, far from the actual mismatch. Rebuilding the module with <code>LLVM=1</code> fixed it immediately once I understood what was actually being compared.</p>
+
+                    <h2>The panic that lied about its cause</h2>
+                    <p>The most instructive failure was the last one: the kernel booted, then immediately panicked with "Attempted to kill init" and an illegal-instruction fault, in PID 1, before anything useful had happened. That reads like a catastrophic kernel bug. It was QEMU's default <code>qemu64</code> CPU model, which is deliberately conservative and doesn't expose every instruction-set extension my locally-built toolchain assumed it could use. The compiled binary contained instructions the emulated CPU didn't support, and that mismatch surfaced as "PID 1 died," not as anything that named the real cause. Adding <code>-cpu max</code> to the QEMU invocation resolved it in one line, after a debugging session that had nothing to do with the line that fixed it.</p>
+
+                    <h2>Attaching GDB at start_kernel</h2>
+                    <p>With the build finally stable, the debugging workflow was the payoff: booting QEMU paused with its GDB remote stub enabled (<code>-s -S</code>), attaching GDB against <code>vmlinux</code> for symbols, and setting a breakpoint at <code>start_kernel</code> &mdash; the first C function the kernel runs after early assembly setup. Hitting that breakpoint and stepping through, inspecting registers and the early-boot call stack, is a different kind of understanding than reading about boot sequences. You can see the exact state the machine is in before anything userspace-visible exists.</p>
+
+                    <h2>Why low-level debugging changed how I understand systems</h2>
+                    <p>Every failure in this project taught the same meta-lesson from a different angle: the error message tells you where something broke, not why. A boot decompressor error looked like a kernel bug and was a compiler default. A module load failure looked like a driver bug and was a toolchain mismatch. A boot panic looked like a kernel panic and was an emulator's CPU model. In each case, the fix was one line once I found the real cause, and finding the real cause meant refusing to trust the first plausible explanation.</p>
+                    <p>That habit transfers directly to everything above the kernel, too &mdash; a failing pipeline stage, a pod stuck in an init state, a service that's "down" according to one signal and fine according to another. The instinct this project reinforced is to keep asking what layer actually owns the failure before trying to fix the layer that happened to report it.</p>
+
+                    <h2>Closing</h2>
+                    <p>I didn't set out to write a novel driver or discover a kernel bug. I set out to understand a system I'd been trusting blindly for years, and the way I actually got that understanding was by breaking my toolchain against it, repeatedly, and being forced to figure out exactly why each time.</p>
+                </div>
+
+                <div class="blog-post-footer">
+                    <div class="blog-post-nav">
+                        <a href="../blog.html" class="nav-link">
+                            <span>&larr; Back to Blog</span>
+                            <span>All Posts</span>
+                        </a>
+                    </div>
+                </div>
+            </article>
+        </main>
+    </div>
+    <footer class="footer-bar">
+        <div class="footer-motto">Code. Learn. Share.</div>
+        <div class="footer-social">
+            <a href="https://github.com/nhatminh06" class="social-icon" target="_blank" title="GitHub">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                    <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/>
+                </svg>
+            </a>
+            <a href="https://www.linkedin.com/in/minhpham2418/" class="social-icon" target="_blank" title="LinkedIn">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                    <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/>
+                </svg>
+            </a>
+            <a href="/static/Nhat Minh_Resume.pdf" class="social-icon" target="_blank" title="Resume">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                    <path d="M14 2H6c-1.1 0-1.99.9-1.99 2L4 20c0 1.1.89 2 1.99 2H18c1.1 0 2-.9 2-2V8l-6-6zm2 16H8v-2h8v2zm0-4H8v-2h8v2zm-3-5V3.5L18.5 9H13z"/>
+                </svg>
+            </a>
+        </div>
+    </footer>
+    <script src="/static/script.js"></script>
+</body>
+</html>

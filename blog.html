@@ -4,6 +4,13 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Minh Pham - Blog</title>
+    <meta name="description" content="Notes from building systems, debugging infrastructure, running experiments, and learning how software behaves beyond the happy path.">
+    <link rel="canonical" href="https://minhpham06.com/blog.html">
+    <meta property="og:title" content="Blog | Minh Pham">
+    <meta property="og:description" content="Notes from building systems, debugging infrastructure, running experiments, and learning how software behaves beyond the happy path.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://minhpham06.com/blog.html">
+    <meta name="twitter:card" content="summary">
     <link rel="icon" type="image/png" sizes="32x32" href="/static/favicon.png">
     <link rel="stylesheet" href="/static/style.css">
 </head>
@@ -23,36 +30,113 @@
         </nav>
         <main class="main-content">
             <div class="section-intro">
-                <h2 class="section-title">My Blog</h2>
-                <p class="section-subtitle">Thoughts, learnings, and insights from my journey as a DevOps Engineer. Writing helps me think clearly and share what I discover.</p>
+                <h1 class="section-title">My Blog</h1>
+                <p class="section-subtitle">Notes from building systems, debugging infrastructure, running experiments, and learning how software behaves beyond the happy path.</p>
             </div>
             <section class="blog-section">
                 <div class="blog-filters">
                     <button class="filter-btn active" data-filter="all">All Posts</button>
-                    <button class="filter-btn" data-filter="competition">Competition</button>
-                    <button class="filter-btn" data-filter="learning">Learning</button>
+                    <button class="filter-btn" data-filter="systems">Systems</button>
+                    <button class="filter-btn" data-filter="infrastructure">Infrastructure</button>
+                    <button class="filter-btn" data-filter="data">Data</button>
+                    <button class="filter-btn" data-filter="ml">ML / AI</button>
                     <button class="filter-btn" data-filter="projects">Projects</button>
-                    <button class="filter-btn" data-filter="career">Career</button>
-                    <button class="filter-btn" data-filter="fitness">Fitness</button>
                     <button class="filter-btn" data-filter="internship">Internship</button>
+                    <button class="filter-btn" data-filter="learning">Learning</button>
+                    <button class="filter-btn" data-filter="personal">Personal</button>
                 </div>
                 <div class="blog-card-grid">
-                    <article class="blog-card" data-tags="internship">
+                    <article class="blog-card" data-tags="personal systems">
+                        <div class="blog-card-header">
+                            <span class="blog-tag personal">personal</span>
+                            <span class="blog-date">Aug 12, 2026</span>
+                        </div>
+                        <h3 class="blog-title">
+                            <a href="blog/summer-2026-systems-retrospective.html">Summer 2026: From Building Apps to Understanding Systems</a>
+                        </h3>
+                        <div class="blog-excerpt">I started the summer thinking about whether code worked. I ended it thinking about how it fails, how it's deployed, how it's observed, and how it recovers. A retrospective tying together an internship, an event-driven platform, a data lakehouse, and a kernel build.</div>
+                        <div class="blog-meta">
+                            <span class="read-time">11 min read</span>
+                            <span class="blog-category">retrospective</span>
+                        </div>
+                    </article>
+
+                    <article class="blog-card" data-tags="internship infrastructure">
                         <div class="blog-card-header">
                             <span class="blog-tag internship">internship</span>
+                            <span class="blog-date">Aug 11, 2026</span>
+                        </div>
+                        <h3 class="blog-title">
+                            <a href="blog/summer-2026-devsecops-internship.html">What I Learned Building DevSecOps Systems During Summer 2026</a>
+                        </h3>
+                        <div class="blog-excerpt">Multi-service CI/CD pipelines, security gates that can actually block a merge, HashiCorp Vault, Istio mTLS and AuthorizationPolicy, Kafka and Redis &mdash; an honest breakdown of a Summer 2026 DevSecOps internship, written without exposing anything I shouldn't.</div>
+                        <div class="blog-meta">
+                            <span class="read-time">13 min read</span>
+                            <span class="blog-category">devsecops</span>
+                        </div>
+                    </article>
+
+                    <article class="blog-card" data-tags="systems projects">
+                        <div class="blog-card-header">
+                            <span class="blog-tag systems">systems</span>
+                            <span class="blog-date">Aug 10, 2026</span>
+                        </div>
+                        <h3 class="blog-title">
+                            <a href="blog/building-matchsense-event-driven-systems.html">Building MatchSense: What Event-Driven Systems Taught Me About Failure</a>
+                        </h3>
+                        <div class="blog-excerpt">Kafka, Redis, idempotent event ingestion, dead-letter handling, and OpenTelemetry tracing across five services. What building a real event-driven pipeline taught me about failure being the default case, not the edge case.</div>
+                        <div class="blog-meta">
+                            <span class="read-time">15 min read</span>
+                            <span class="blog-category">distributed systems</span>
+                        </div>
+                    </article>
+
+                    <article class="blog-card" data-tags="data projects">
+                        <div class="blog-card-header">
+                            <span class="blog-tag data">data</span>
+                            <span class="blog-date">Aug 9, 2026</span>
+                        </div>
+                        <h3 class="blog-title">
+                            <a href="blog/market-pulse-building-a-lakehouse.html">From Raw Market Data to Iceberg: Building Market Pulse</a>
+                        </h3>
+                        <div class="blog-excerpt">Bronze/Silver/Gold on Apache Iceberg, dbt-on-Trino, Airflow orchestration, idempotent ingestion, and why I removed a favorable-looking performance number in favor of an honest benchmark methodology.</div>
+                        <div class="blog-meta">
+                            <span class="read-time">14 min read</span>
+                            <span class="blog-category">data engineering</span>
+                        </div>
+                    </article>
+
+                    <article class="blog-card" data-tags="systems projects">
+                        <div class="blog-card-header">
+                            <span class="blog-tag systems">systems</span>
+                            <span class="blog-date">Aug 8, 2026</span>
+                        </div>
+                        <h3 class="blog-title">
+                            <a href="blog/linux-kernel-qemu-gdb-driver.html">Debugging Linux from the Kernel to QEMU: My Linux Kernel Lab</a>
+                        </h3>
+                        <div class="blog-excerpt">Building Linux 6.10 from source, writing a character-device driver, and attaching GDB to a paused kernel at start_kernel &mdash; and the GCC/C23, LLVM/LTO, and QEMU CPU-model incompatibilities that broke almost every step first.</div>
+                        <div class="blog-meta">
+                            <span class="read-time">16 min read</span>
+                            <span class="blog-category">linux</span>
+                        </div>
+                    </article>
+
+                    <article class="blog-card" data-tags="infrastructure projects">
+                        <div class="blog-card-header">
+                            <span class="blog-tag infrastructure">infrastructure</span>
                             <span class="blog-date">Jun 26, 2026</span>
                         </div>
                         <h3 class="blog-title">
                             <a href="blog/internship-2026.html">From Laptop to Production-Grade Security: Building a DevSecOps Platform on 9 VMs</a>
                         </h3>
-                        <div class="blog-excerpt">Nine Multipass VMs, four services in three languages, and every layer of a production security pipeline built from scratch — Jenkins CI/CD with 4 security gates, HashiCorp Vault, Kafka, Istio mTLS, zero-trust AuthorizationPolicy, and Blue-Green deployments. The honest breakdown of what I built, what broke, and what I would defend in a design review.</div>
+                        <div class="blog-excerpt">A personal, from-scratch DevSecOps lab: nine VMs, four services in three languages, Jenkins security gates, HashiCorp Vault, Kafka, Istio mTLS, zero-trust AuthorizationPolicy, and Blue-Green deployments. A separate project from any employer's infrastructure.</div>
                         <div class="blog-meta">
                             <span class="read-time">16 min read</span>
-                            <span class="blog-category">devsecops</span>
+                            <span class="blog-category">devsecops lab</span>
                         </div>
                     </article>
 
-                    <article class="blog-card" data-tags="projects">
+                    <article class="blog-card" data-tags="projects infrastructure">
                         <div class="blog-card-header">
                             <span class="blog-tag projects">projects</span>
                             <span class="blog-date">Apr 13, 2026</span>
@@ -60,14 +144,14 @@
                         <h3 class="blog-title">
                             <a href="blog/from-code-to-production-cicd-kubernetes.html">From Code to Production: Building a Full CI/CD + Kubernetes Pipeline from Scratch</a>
                         </h3>
-                        <div class="blog-excerpt">Lay-Off-Link is an end-to-end MLOps and data platform, not a README fantasy. This breakdown covers Docker Compose through Kubernetes, Helm, Terraform, and a seven-job GitHub Actions pipeline: linting, 65+ tests, 80% coverage, five images, Trivy, k6, and what production-shaped engineering actually taught me.</div>
+                        <div class="blog-excerpt">Lay-Off-Link is an end-to-end MLOps and data platform, not a README fantasy. This breakdown covers Docker Compose through Kubernetes, Helm, Terraform, and a seven-job GitHub Actions pipeline: linting, tests, coverage, multi-image builds, Trivy, k6, and what production-shaped engineering actually taught me.</div>
                         <div class="blog-meta">
                             <span class="read-time">14 min read</span>
                             <span class="blog-category">devops</span>
                         </div>
                     </article>
 
-                    <article class="blog-card" data-tags="competition">
+                    <article class="blog-card" data-tags="projects">
                         <div class="blog-card-header">
                             <span class="blog-tag projects">projects</span>
                             <span class="blog-date">Feb 21, 2026</span>
@@ -81,7 +165,7 @@
                             <span class="blog-category">hackathon</span>
                         </div>
                     </article>
-                    
+
                     <article class="blog-card" data-tags="learning">
                         <div class="blog-card-header">
                             <span class="blog-tag learning">learning</span>
@@ -96,7 +180,7 @@
                             <span class="blog-category">go</span>
                         </div>
                     </article>
-                    
+
                     <article class="blog-card" data-tags="learning">
                         <div class="blog-card-header">
                             <span class="blog-tag learning">learning</span>
@@ -111,8 +195,8 @@
                             <span class="blog-category">learning</span>
                         </div>
                     </article>
-                    
-                    <article class="blog-card" data-tags="learning">
+
+                    <article class="blog-card" data-tags="learning personal">
                         <div class="blog-card-header">
                             <span class="blog-tag learning">learning</span>
                             <span class="blog-date">Oct 12, 2025</span>
@@ -126,10 +210,10 @@
                             <span class="blog-category">learning</span>
                         </div>
                     </article>
-                    
-                    <article class="blog-card" data-tags="fitness">
+
+                    <article class="blog-card" data-tags="personal fitness">
                         <div class="blog-card-header">
-                            <span class="blog-tag fitness">fitness</span>
+                            <span class="blog-tag fitness">personal</span>
                             <span class="blog-date">Oct 21, 2025</span>
                         </div>
                         <h3 class="blog-title">
@@ -144,7 +228,7 @@
                 </div>
                 <div class="blog-footer">
                     <h3>More Coming Soon</h3>
-                    <p>I'm constantly learning and writing about my experiences. Subscribe to stay updated with new posts about Go, software architecture, and my developer journey.</p>
+                    <p>I'm constantly building and writing about it. Subscribe to stay updated with new posts about distributed systems, data platforms, ML infrastructure, and Linux.</p>
                 </div>
             </section>
         </main>

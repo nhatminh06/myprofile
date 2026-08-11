@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Building MatchSense: What Event-Driven Systems Taught Me About Failure - Minh Pham</title>
+    <meta name="description" content="Building MatchSense, an event-driven football analytics platform: Kafka, Redis, idempotency, dead-letter handling, OpenTelemetry, and what I learned about failure.">
+    <link rel="canonical" href="https://minhpham06.com/blog/building-matchsense-event-driven-systems.html">
+    <meta property="og:title" content="Building MatchSense: What Event-Driven Systems Taught Me About Failure">
+    <meta property="og:description" content="Kafka, Redis, idempotency, dead-letter handling, and distributed tracing in an event-driven analytics platform.">
+    <meta property="og:type" content="article">
+    <meta property="og:url" content="https://minhpham06.com/blog/building-matchsense-event-driven-systems.html">
+    <meta name="twitter:card" content="summary">
+    <link rel="icon" type="image/png" sizes="32x32" href="/static/favicon.png">
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+    <div class="dashboard-layout">
+        <nav class="navbar">
+            <div class="navbar-logo">
+                <span class="dashboard-title-navbar">Minh Pham</span>
+            </div>
+            <ul class="navbar-nav">
+                <li><a href="../index.html">Home</a></li>
+                <li><a href="../about.html">About</a></li>
+                <li><a href="../projects.html">Projects</a></li>
+                <li class="active"><a href="../blog.html">Blog</a></li>
+                <li><a href="../contact.html">Contact</a></li>
+            </ul>
+        </nav>
+        <main class="main-content">
+            <article class="blog-post">
+                <div class="blog-post-header">
+                    <a href="../blog.html" class="back-to-blog">&larr; Back to Blog</a>
+                    <div class="blog-post-meta">
+                        <span class="blog-post-date">Aug 10, 2026</span>
+                        <span class="blog-post-read-time">15 min read</span>
+                    </div>
+                </div>
+
+                <h1 class="blog-post-title">Building MatchSense: What Event-Driven Systems Taught Me About Failure</h1>
+
+                <div class="blog-post-content">
+                    <p>MatchSense is a real-time football (soccer) analytics platform: match events &mdash; goals, shots, fouls, corners, cards &mdash; flow through Kafka into a stats aggregator, then into an ML prediction service, and out through a read API and a live Grafana dashboard. The match data is simulator-generated, not a live sports feed, and the xG and win-probability models are trained on synthetic data. What's real is everything downstream of the event: the pipeline, the failure handling, and the observability. That's also where almost everything I learned actually happened.</p>
+
+                    <h2>Key technologies</h2>
+                    <p>Go &middot; Python / FastAPI &middot; Kafka &middot; Redis &middot; OpenTelemetry &middot; Prometheus &middot; Grafana &middot; Loki &middot; Jaeger &middot; Kubernetes / Kustomize &middot; ArgoCD &middot; Kyverno &middot; Trivy &middot; Cosign</p>
+                    <p><a href="https://github.com/nhatminh06/matchsense" target="_blank" rel="noopener noreferrer">github.com/nhatminh06/matchsense</a></p>
+
+                    <h2>Why this project exists</h2>
+                    <p>I wanted a project that would force me to deal with distributed-systems problems I could talk around in a tutorial but couldn't fake in a real pipeline: what happens when a message gets delivered twice, what happens when a downstream service is slow, and how do you actually prove that a single request was handled correctly across five services instead of just hoping it was.</p>
+
+                    <h2>Service architecture</h2>
+                    <p>MatchSense is five services, each doing one job:</p>
+                    <table>
+                        <thead><tr><th>Service</th><th>Language</th><th>Job</th></tr></thead>
+                        <tbody>
+                            <tr><td><code>event-api</code></td><td>Go</td><td>HTTP ingestion for match events, publishes to Kafka</td></tr>
+                            <tr><td><code>event-processor</code></td><td>Go</td><td>Aggregates events into running match stats</td></tr>
+                            <tr><td><code>ml-predictor</code></td><td>Python / FastAPI</td><td>xG and win-probability predictions</td></tr>
+                            <tr><td><code>query-api</code></td><td>Go</td><td>Read API over Redis for stats and predictions</td></tr>
+                            <tr><td><code>match-simulator</code></td><td>Go</td><td>Generates a simulated match for local/demo use</td></tr>
+                        </tbody>
+                    </table>
+                    <p>A match event goes <code>match-simulator &rarr; event-api &rarr; Kafka(match-events) &rarr; event-processor &rarr; Redis + Kafka(match-stats) &rarr; ml-predictor &rarr; Redis &rarr; query-api</code>. Five services, two Kafka topics, one Redis store as the shared source of truth for current state.</p>
+
+                    <h2>Why Kafka, why Redis</h2>
+                    <p>These aren't interchangeable. Kafka is the durable event log &mdash; the record of what happened, replayable, ordered per partition. Redis is the current-state cache &mdash; fast, ephemeral, and only ever as correct as the last event that updated it. Treating them as competing options is a mistake I see in a lot of write-ups: the actual design question is which one owns the truth for a given piece of data. Kafka owns "what happened." Redis owns "what's true right now."</p>
+
+                    <h2>The duplicate-event problem</h2>
+                    <p>Kafka's delivery guarantee is at-least-once, not exactly-once, by default. A producer retry after a network blip, or a consumer rebalance mid-processing, can mean the same event arrives twice. If <code>event-processor</code> just increments a shot counter on every message it sees, a duplicate delivery silently corrupts the stats.</p>
+                    <p>The fix is event identity plus idempotency: every event carries an <code>event_id</code>, either supplied by the caller or generated by <code>event-api</code>. <code>event-processor</code> checks whether it has already applied that ID before mutating state. Resending the same ID is deduplicated instead of double-counted. This sounds obvious written down; it was not obvious the first time I watched a shot counter jump by two for one shot and had to work backward to why.</p>
+
+                    <h2>Retries and dead-letter handling</h2>
+                    <p>The harder question is what happens when a consumer <em>can't</em> process a message &mdash; a malformed payload, a downstream dependency that's down, a bug in the aggregation logic itself. Retrying forever blocks the partition behind it. Dropping the message silently loses data with no signal that anything went wrong. The pattern I built around is bounded retries with backoff, and a dead-letter path for anything that still fails after those retries are exhausted, so a bad message becomes a visible, inspectable artifact instead of an invisible black hole in the stats.</p>
+
+                    <h2>Tracing a request across five services</h2>
+                    <p>Every hop propagates an OpenTelemetry trace context through Kafka message headers, so a single match event can be followed end to end in Jaeger &mdash; from the HTTP POST that created it, through both Kafka topics, into the ML prediction, and out through the query API. Before wiring this up, debugging a slow prediction meant checking five services' logs by hand and guessing at timestamps. After, it meant opening one trace. That difference is the entire argument for observability tooling that otherwise looks like overhead on a portfolio project.</p>
+
+                    <h2>GitOps and the security layer</h2>
+                    <p>Deployment goes through Kustomize manifests synced by ArgoCD rather than a CI job that runs <code>kubectl apply</code> directly, and Kyverno admission policies enforce signed images, resource limits, and non-privileged containers at the cluster level regardless of what the pipeline intended to deploy. Every image is scanned with Trivy, gets an SBOM, and is signed with Cosign before it's eligible to run. None of this changes what the application does. It changes what I can prove about what's running, which is a different and, I'd argue, more important property for anything meant to run unattended.</p>
+
+                    <h2>What's still simulated</h2>
+                    <p>To be direct about the limits: there's no real sports data feed wired in, and the ML models are trained on data the simulator generates, not historical match data. The engineering &mdash; the pipeline, the idempotency, the tracing, the delivery pipeline &mdash; is real and running. The football analytics themselves are a demonstration, not a fielded product, and I'd be misrepresenting the project if I implied otherwise.</p>
+
+                    <h2>What I learned</h2>
+                    <ul>
+                        <li><strong>At-least-once delivery is the default you should assume, not the edge case.</strong> Idempotency isn't optional polish, it's the baseline correctness requirement for any consumer.</li>
+                        <li><strong>A durable log and a fast cache solve different problems.</strong> Deciding which one owns which piece of state is a design decision, not an implementation detail.</li>
+                        <li><strong>Tracing pays for itself the first time you need it.</strong> The cost is wiring it up before you need it; the alternative cost is debugging blind across five services during an incident.</li>
+                        <li><strong>Supply-chain controls belong at the cluster, not just the pipeline.</strong> A CI check can be skipped or bypassed; an admission policy at the cluster can't.</li>
+                    </ul>
+
+                    <h2>Closing</h2>
+                    <p>MatchSense started as a way to build something with Kafka in it. It became a much better lesson in what "event-driven" actually costs once you take failure seriously: every message can arrive twice, every consumer can fail, and every trace you don't wire up in advance is a debugging session you'll wish you had later.</p>
+                </div>
+
+                <div class="blog-post-footer">
+                    <div class="blog-post-nav">
+                        <a href="../blog.html" class="nav-link">
+                            <span>&larr; Back to Blog</span>
+                            <span>All Posts</span>
+                        </a>
+                    </div>
+                </div>
+            </article>
+        </main>
+    </div>
+    <footer class="footer-bar">
+        <div class="footer-motto">Code. Learn. Share.</div>
+        <div class="footer-social">
+            <a href="https://github.com/nhatminh06" class="social-icon" target="_blank" title="GitHub">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                    <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/>
+                </svg>
+            </a>
+            <a href="https://www.linkedin.com/in/minhpham2418/" class="social-icon" target="_blank" title="LinkedIn">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                    <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/>
+                </svg>
+            </a>
+            <a href="/static/Nhat Minh_Resume.pdf" class="social-icon" target="_blank" title="Resume">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                    <path d="M14 2H6c-1.1 0-1.99.9-1.99 2L4 20c0 1.1.89 2 1.99 2H18c1.1 0 2-.9 2-2V8l-6-6zm2 16H8v-2h8v2zm0-4H8v-2h8v2zm-3-5V3.5L18.5 9H13z"/>
+                </svg>
+            </a>
+        </div>
+    </footer>
+    <script src="/static/script.js"></script>
+</body>
+</html>

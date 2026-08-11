@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Summer 2026: From Building Apps to Understanding Systems - Minh Pham</title>
+    <meta name="description" content="A retrospective on Summer 2026: a DevSecOps internship, MatchSense, Market Pulse, the Linux Kernel Lab, and what changed in how I think about software.">
+    <link rel="canonical" href="https://minhpham06.com/blog/summer-2026-systems-retrospective.html">
+    <meta property="og:title" content="Summer 2026: From Building Apps to Understanding Systems">
+    <meta property="og:description" content="I started the summer asking whether code worked. I ended it asking how it fails, how it's deployed, how it's observed, and how it recovers.">
+    <meta property="og:type" content="article">
+    <meta property="og:url" content="https://minhpham06.com/blog/summer-2026-systems-retrospective.html">
+    <meta name="twitter:card" content="summary">
+    <link rel="icon" type="image/png" sizes="32x32" href="/static/favicon.png">
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+    <div class="dashboard-layout">
+        <nav class="navbar">
+            <div class="navbar-logo">
+                <span class="dashboard-title-navbar">Minh Pham</span>
+            </div>
+            <ul class="navbar-nav">
+                <li><a href="../index.html">Home</a></li>
+                <li><a href="../about.html">About</a></li>
+                <li><a href="../projects.html">Projects</a></li>
+                <li class="active"><a href="../blog.html">Blog</a></li>
+                <li><a href="../contact.html">Contact</a></li>
+            </ul>
+        </nav>
+        <main class="main-content">
+            <article class="blog-post">
+                <div class="blog-post-header">
+                    <a href="../blog.html" class="back-to-blog">&larr; Back to Blog</a>
+                    <div class="blog-post-meta">
+                        <span class="blog-post-date">Aug 12, 2026</span>
+                        <span class="blog-post-read-time">11 min read</span>
+                    </div>
+                </div>
+
+                <h1 class="blog-post-title">Summer 2026: From Building Apps to Understanding Systems</h1>
+
+                <div class="blog-post-content">
+                    <p>I started this summer thinking about whether code worked. I ended it thinking about how it fails, how it's deployed, how it's observed, how state moves between services, how data is validated, how systems recover, and how experiments stay reproducible. That's not a slogan I picked for a portfolio &mdash; it's the honest shape of what changed between May and August 2026, across an internship and four independent projects I kept building on the side.</p>
+
+                    <h2>The internship: pipelines that can say no</h2>
+                    <p>The DevSecOps internship was where the shift started, mostly because it put me in a position where my mistakes had a blast radius bigger than my own laptop. Working across Jenkins and GitLab CI/CD pipelines for services in four different languages, with security gates that could actually fail a build, taught me that a pipeline isn't a formality &mdash; it's the mechanism by which a team enforces what it refuses to ship. I wrote more about the specifics in <a href="summer-2026-devsecops-internship.html">the internship post</a>, but the summary is: I stopped thinking of CI as a checkbox and started thinking of it as a policy engine.</p>
+
+                    <h2>MatchSense: failure is the default case, not the edge case</h2>
+                    <p>Building an event-driven system from scratch reframed how I think about correctness. In a request/response world, a bug is something you notice because a response is wrong. In an event-driven system, a bug can be a message that arrives twice and nobody notices until a stat quietly drifts. <a href="building-matchsense-event-driven-systems.html">MatchSense</a> forced me to design for at-least-once delivery as the normal case, not a defensive afterthought &mdash; idempotency, dead-letter handling, and distributed tracing stopped being buzzwords and became the only way I could actually debug what happened to one event across five services.</p>
+
+                    <h2>Market Pulse: idempotency, again, from a different angle</h2>
+                    <p>It's not a coincidence that <a href="market-pulse-building-a-lakehouse.html">Market Pulse</a> taught me the same lesson from the data side. Ingestion jobs get re-run. Backfills overlap with incremental loads. If your write pattern isn't idempotent, "just re-run the pipeline" silently corrupts your tables instead of fixing them. The bigger realization was about verification: a fixture-based test proves your code is internally consistent, not that the real system behaves the way you assumed. I'd rather ship a documented benchmark methodology than a single favorable number I can't reproduce, and that's a standard I didn't hold myself to before this summer.</p>
+
+                    <h2>The Linux Kernel Lab: the error message lies about where the bug is</h2>
+                    <p>Nothing humbled me quite like <a href="linux-kernel-qemu-gdb-driver.html">building a kernel from source</a>. Every real failure &mdash; a boot decompressor error, a module that wouldn't load, a panic in PID 1 &mdash; looked like a different category of bug than it actually was. A compiler default changed a C standard. A toolchain mismatch between GCC and Clang/LTO broke module loading. An emulator's conservative CPU model produced an illegal-instruction panic that read like a kernel bug. The lesson generalizes past kernels: the layer that reports a failure is rarely the layer that caused it, and figuring out which layer actually owns the bug is most of the work.</p>
+
+                    <h2>MLOps and applied AI: the parts that don't show up in a demo</h2>
+                    <p>The Personal Cognitive Load Monitor and Company Research work rounded out the summer from a different direction &mdash; not "does the model work" but "what does it take to operate a model, or a retrieval pipeline, as a system." Drift monitoring, scale-to-zero serving, streaming partial results instead of blocking on a full response: none of that is visible in a notebook, and all of it is what separates a trained model from something you could actually run.</p>
+
+                    <h2>The through-line</h2>
+                    <p>Every one of these projects taught a version of the same lesson from a different direction:</p>
+                    <ul>
+                        <li><strong>How it fails</strong> &mdash; at-least-once delivery, retried ingestion, a boot panic that isn't what it looks like.</li>
+                        <li><strong>How it's deployed</strong> &mdash; GitOps and admission policies that hold regardless of what the pipeline intended.</li>
+                        <li><strong>How it's observed</strong> &mdash; a trace across five services instead of five sets of logs and a guess.</li>
+                        <li><strong>How state moves</strong> &mdash; Kafka as the durable log, Redis as the current-state cache, and knowing which one owns which fact.</li>
+                        <li><strong>How data is validated</strong> &mdash; tests that state invariants about data, not just about code paths.</li>
+                        <li><strong>How systems recover</strong> &mdash; Blue-Green cutovers, dead-letter queues, self-healing GitOps.</li>
+                        <li><strong>How experiments are reproduced</strong> &mdash; a benchmark methodology instead of a single number, a fixture instead of a live call, a script instead of a screenshot.</li>
+                    </ul>
+
+                    <h2>What's next</h2>
+                    <p>I'm not done with any of these. MatchSense and Market Pulse are both still active, the Linux Kernel Lab left me wanting to go further into driver work, and the internship changed what I look for in a team's engineering culture before I'd want to join it. If a common thread runs through all of it, it's that I stopped being satisfied with "it works on my machine" a long time ago, and this summer is where I finally built enough things that failed in enough different ways to actually believe that.</p>
+                </div>
+
+                <div class="blog-post-footer">
+                    <div class="blog-post-nav">
+                        <a href="../blog.html" class="nav-link">
+                            <span>&larr; Back to Blog</span>
+                            <span>All Posts</span>
+                        </a>
+                    </div>
+                </div>
+            </article>
+        </main>
+    </div>
+    <footer class="footer-bar">
+        <div class="footer-motto">Code. Learn. Share.</div>
+        <div class="footer-social">
+            <a href="https://github.com/nhatminh06" class="social-icon" target="_blank" title="GitHub">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                    <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/>
+                </svg>
+            </a>
+            <a href="https://www.linkedin.com/in/minhpham2418/" class="social-icon" target="_blank" title="LinkedIn">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                    <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/>
+                </svg>
+            </a>
+            <a href="/static/Nhat Minh_Resume.pdf" class="social-icon" target="_blank" title="Resume">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                    <path d="M14 2H6c-1.1 0-1.99.9-1.99 2L4 20c0 1.1.89 2 1.99 2H18c1.1 0 2-.9 2-2V8l-6-6zm2 16H8v-2h8v2zm0-4H8v-2h8v2zm-3-5V3.5L18.5 9H13z"/>
+                </svg>
+            </a>
+        </div>
+    </footer>
+    <script src="/static/script.js"></script>
+</body>
+</html>
