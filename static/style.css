@@ -3077,3 +3077,51 @@ table td:last-child {
   color: #28a745;
   border: 1px solid rgba(40, 167, 69, 0.3);
 }
+
+/* Compact skills grid (homepage) */
+.skill-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 0.75rem;
+  width: 100%;
+}
+
+.skill-tile {
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 10px;
+  padding: 0.85rem 0.9rem;
+}
+
+.skill-tile-title {
+  font-size: 0.72rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: #ffb86c;
+  margin: 0 0 0.5rem 0;
+}
+
+.skill-tile-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.35rem;
+}
+
+.skill-tile-tags span {
+  display: inline-block;
+  background: #23272a;
+  color: #61dafb;
+  border-radius: 8px;
+  padding: 0.2rem 0.55rem;
+  font-size: 0.75rem;
+  font-weight: 500;
+  border: 1px solid rgba(97, 218, 251, 0.12);
+  white-space: nowrap;
+}
+
+@media (max-width: 600px) {
+  .skill-grid {
+    grid-template-columns: 1fr;
+  }
+}
