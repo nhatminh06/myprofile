@@ -56,3 +56,6 @@ jspm_packages/
 
 # VSCode
 .vscode/
+
+# .md
+.md
