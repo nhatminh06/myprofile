@@ -4,6 +4,13 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Minh Pham - About</title>
+    <meta name="description" content="Minh Pham is a Computer Science and Mathematics student at the University of Minnesota building distributed systems, data platforms, ML infrastructure, and low-level software.">
+    <link rel="canonical" href="https://minhpham06.com/about.html">
+    <meta property="og:title" content="About | Minh Pham">
+    <meta property="og:description" content="What happens after the merge, and why the invisible half of software is the part I keep coming back to.">
+    <meta property="og:type" content="profile">
+    <meta property="og:url" content="https://minhpham06.com/about.html">
+    <meta name="twitter:card" content="summary">
     <link rel="icon" type="image/png" sizes="32x32" href="/static/favicon.png">
     <link rel="stylesheet" href="/static/style.css">
 </head>
@@ -23,30 +30,30 @@
         </nav>
         <main class="main-content about-page">
             <div class="section-intro section-intro--about">
-                <h2 class="section-title">About Me</h2>
+                <h1 class="section-title">About Me</h1>
                 <p class="section-subtitle">What happens after the merge, and why the invisible half of software is the part I keep coming back to.</p>
             </div>
 
-            <p class="about-kicker" role="presentation">The gap between a green build and a calm week in production is where I spend my attention.</p>
-            
+            <p class="about-kicker">The gap between a green build and a calm week in production is where I spend my attention.</p>
+
             <section class="about-content about-content--editorial">
                 <div class="about-image">
                     <img src="/static/avatar.jpg" alt="Minh Pham" class="profile-image">
                 </div>
-                
+
                 <div class="about-text about-text--editorial">
                     <div class="about-reading-section">
-                        <p class="about-lead">For a while I only cared about what showed up on the screen. Slowly I started asking what happens underneath: deployments, containers, pipelines, what we monitor, what we log, what breaks when nobody is watching, and why reliability is hard on purpose.</p>
-                        <p>That curiosity turned into a habit. I started reading runbooks, staring at dashboards, and caring about the gap between a green build and a calm production week.</p>
+                        <p class="about-lead">For a while I only cared about what showed up on the screen. Slowly I started asking what happens underneath: deployments, containers, pipelines, what we monitor, what we log, how state moves between services, what breaks when nobody is watching, and why reliability is hard on purpose.</p>
+                        <p>That curiosity turned into a habit. I started reading runbooks, staring at dashboards, tracing requests across services, and caring about the gap between a green build and a calm production week.</p>
                     </div>
 
                     <div class="about-reading-section">
-                        <p>I'm Minh Pham. I'm a Computer Science and Mathematics student at the University of Minnesota, Twin Cities. The work I want to grow into sits in DevOps, DevSecOps, MLOps, and the infrastructure side of things: how software is kept alive, secured, and observable once it leaves the repo.</p>
-                        <p>Over time I cared less about &ldquo;did I ship a feature&rdquo; and more about how software is tested, packaged, deployed, watched, patched, scaled, and handed off. A feature that cannot be deployed safely is not really done. That is the shift for me: not abandoning building, but widening the frame to the whole system around the code.</p>
+                        <p>I'm Minh Pham. I'm a Computer Science and Mathematics student at the University of Minnesota, Twin Cities. The work I want to grow into spans software engineering, backend and distributed systems, platform engineering, DevSecOps, data engineering, and ML infrastructure: how software is built, kept alive, secured, and observed once it leaves a single file.</p>
+                        <p>Over time I cared less about &ldquo;did I ship a feature&rdquo; and more about how software is tested, packaged, deployed, watched, patched, scaled, and handed off. A feature that cannot be deployed safely is not really done. That is the shift for me: not abandoning building, but widening the frame from one service to the whole system around it &mdash; and then further, to how that system fails, how it recovers, and how the data flowing through it stays trustworthy.</p>
                     </div>
 
                     <div class="about-reading-section">
-                        <p>I like dependable systems. I like automation because it removes fragile manual steps people forget under stress. I like observability because it tells the truth when assumptions are wrong. Infrastructure pushes me to think past one file or one service: limits, dependencies, failure domains, and how pieces fail together. Reliability, to me, means designing for conditions that are messy, concurrent, and real.</p>
+                        <p>I like dependable systems. I like automation because it removes fragile manual steps people forget under stress. I like observability because it tells the truth when assumptions are wrong. Distributed systems push me to think past one service: message ordering, retries, idempotency, partial failure, and how pieces fail together instead of alone. Reliability, to me, means designing for conditions that are messy, concurrent, and real.</p>
                         <p>School helped with that. Operating systems and networking gave me a feel for what the machine is actually doing. Algorithms and mathematics trained me to notice trade-offs, costs, and edge cases. I think about failure modes and efficiency more than I used to, and I want explanations that are clear enough to hold up when something breaks at night.</p>
                     </div>
 
@@ -56,18 +63,54 @@
 
                     <div class="about-reading-section">
                         <p>When I work, I think about the full loop: build, test, deploy, observe, improve. I work in small steps because big surprises rarely help anyone. I expect failures to happen; the point is to learn from them. Logs, a broken build, a long debugging session, a noisy metric: those are often where I learn the most, even when they are painful.</p>
-                        <p>To me, DevSecOps is where policy meets the pipeline: scans, secrets, and review have to travel with the same rhythm as the deploy. MLOps sits nearby: models need reproducibility, deployment discipline, and monitoring like anything else we run in production, sometimes with harder data problems on top.</p>
+                        <p>To me, DevSecOps is where policy meets the pipeline: scans, secrets, and review have to travel with the same rhythm as the deploy. Data engineering is the same discipline pointed at a different failure mode: schema drift, late-arriving data, and pipelines that need to be idempotent, not just fast. MLOps sits nearby too: models need reproducibility, deployment discipline, and monitoring like anything else running in production, sometimes with harder data problems on top.</p>
+                    </div>
+
+                    <div class="about-reading-section about-reading-section--last">
+                        <h3 class="about-subheading">What changed this summer</h3>
+                        <p>Summer 2026 is where a lot of this stopped being theory. I spent it as a DevSecOps Engineering Intern at VietinBank, working across Jenkins and GitLab CI/CD pipelines for Java, Go, Python, and React services on a Kubernetes environment, wiring in security gates, secrets management, and service-to-service encryption. Outside of that, I kept building: an event-driven analytics platform to actually feel what idempotency and dead-letter handling mean when Kafka redelivers a message twice; a small data lakehouse to understand why "just re-run the pipeline" is a much harder promise to keep than it sounds; and a from-scratch Linux kernel build where I debugged early boot with GDB instead of reading about it.</p>
+                        <p>None of that was research, and none of it involved a lab or a publication &mdash; it was engineering, done by hand, mostly on my own machine, with real bugs and real fixes. The common thread is that I stopped asking only "does this work" and started asking "how does this fail, how is it deployed, how is it observed, and how would I explain this decision in a design review."</p>
                     </div>
 
                     <div class="about-reading-section">
                         <p>I was a soccer captain for a while. It was less about being loud and more about communication, trust, and responsibility when the game was tight. That carries over: teams, clear signals, and owning outcomes together.</p>
                         <p>I try to build in public in a simple way. My GitHub, projects, and blog are where I share the work in progress, not only the tidy ending. I would rather someone see what I tried than pretend I never had a wrong turn.</p>
-                        <p>On a personal level, I stay curious about how systems fail. I have spent hours debugging something small because I needed to know why. I still sketch ideas on paper before I touch a terminal when the problem feels fuzzy. I want to understand what is happening under the hood, not just the surface.</p>
+                        <p>On a personal level, I stay curious about how systems fail. I have spent hours debugging something small because I needed to know why. I still sketch ideas on paper before I touch a terminal when the problem feels fuzzy. Outside of code, I try to keep a consistent training routine &mdash; it is its own kind of discipline, and honestly a good reset after a long debugging session.</p>
+                    </div>
+
+                    <div class="about-reading-section">
+                        <h3 class="about-subheading">Experience</h3>
+                        <div class="experience-timeline">
+                            <div class="experience-entry">
+                                <div class="experience-year">2026</div>
+                                <div>
+                                    <h4 class="experience-role">DevSecOps Engineering Intern</h4>
+                                    <p class="experience-org">VietinBank &middot; Summer 2026</p>
+                                    <ul class="experience-bullets">
+                                        <li>Built and maintained Jenkins and GitLab CI/CD pipelines across Java, Go, Python, and React services on a Kubernetes environment</li>
+                                        <li>Integrated security gates and observability hooks (Gitleaks, Semgrep, Trivy, SonarQube, Grafana) into CI/CD workflows</li>
+                                        <li>Reduced credential exposure with HashiCorp Vault and moved service-to-service traffic to Istio mTLS with AuthorizationPolicy</li>
+                                        <li>Built reusable GitLab CI pipeline jobs across development, staging, and production-adjacent environments</li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <div class="experience-entry">
+                                <div class="experience-year">2025</div>
+                                <div>
+                                    <h4 class="experience-role">Full-Stack Engineering Intern</h4>
+                                    <p class="experience-org">FPT Software &middot; Summer 2025</p>
+                                    <ul class="experience-bullets">
+                                        <li>Built a full-stack company research platform (React/Vite, Node.js/Express, MongoDB) with authentication, a notes dashboard, and a resume builder</li>
+                                        <li>Integrated a Python AI module via Node.js child processes for automated company analysis</li>
+                                        <li>Designed a RESTful API with controller/model separation across multiple endpoints</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
                     </div>
 
                     <div class="about-reading-section about-reading-section--last">
-                        <p>Right now I am building secure delivery pipelines (Jenkins with secret scanning, SAST, SCA, and DAST gates), shipping to Kubernetes with Helm, running a self-hosted home lab over Tailscale, and working through system design fundamentals. Long term I want to be the kind of engineer who builds systems that are resilient, maintainable, and actually useful when things go wrong.</p>
-                        <p class="about-outro">I do not have everything figured out. I am still learning, still building, still trying to get better at the parts that matter in production. If you care about DevOps, systems, infrastructure, or how things run when they leave the laptop, I would love to hear from you.</p>
+                        <p>I do not have everything figured out. I am still learning, still building, still trying to get better at the parts that matter once code leaves the laptop. If you care about distributed systems, platform engineering, data infrastructure, ML systems, or Linux, I would love to hear from you.</p>
                     </div>
                 </div>
             </section>
