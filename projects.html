@@ -4,10 +4,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Minh Pham - Projects</title>
-    <meta name="description" content="Distributed systems, data engineering, ML infrastructure, and Linux systems projects by Minh Pham: MatchSense, Market Pulse, Linux Kernel Lab, and more.">
+    <meta name="description" content="Distributed systems, security-proven platform engineering, data engineering, ML infrastructure, and Linux systems projects by Minh Pham: MatchSense, Aegis, Market Pulse, Linux Kernel Lab, and more.">
     <link rel="canonical" href="https://minhpham06.com/projects.html">
     <meta property="og:title" content="Projects | Minh Pham">
-    <meta property="og:description" content="Real repositories: event-driven systems, data lakehouses, Linux kernel work, MLOps, and DevSecOps infrastructure.">
+    <meta property="og:description" content="Real repositories: event-driven systems, GitOps security platforms, data lakehouses, Linux kernel work, and MLOps.">
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://minhpham06.com/projects.html">
     <meta name="twitter:card" content="summary">
@@ -56,6 +56,29 @@
                         <p class="project-note">Match events and ML training data are simulator-generated, not live sports data.</p>
                         <div class="project-links">
                             <a href="https://github.com/nhatminh06/matchsense" class="project-link" target="_blank" rel="noopener noreferrer">GitHub Repo</a>
+                        </div>
+                    </div>
+
+                    <!-- Aegis -->
+                    <div class="project-card">
+                        <div class="project-header">
+                            <h3>Aegis</h3>
+                            <span class="project-status completed">Completed</span>
+                        </div>
+                        <p class="project-description">
+                            Platform Engineering / Security: A self-hosted GitOps Kubernetes platform built to prove security and reliability controls under real, deliberate failure: leaked secrets, unsigned images, lateral network movement, database destruction, host reboot, a signed-but-broken release.
+                        </p>
+                        <div class="project-tech-tags">
+                            <span>Kubernetes</span><span>Flux (GitOps)</span><span>Kyverno</span><span>Cilium</span><span>Cosign</span><span>Prometheus / Grafana</span><span>SOPS + age</span>
+                        </div>
+                        <div class="project-details">
+                            <div class="project-highlights">
+                                <strong>Design highlight:</strong> a fully signed, policy-admitted release still shipped a real latency regression: Kubernetes, Kyverno, and network tracing all reported the workload healthy; only a Prometheus SLO caught it, proving that passing every supply-chain gate is not the same as working correctly.
+                            </div>
+                        </div>
+                        <p class="project-note">A development-security posture, evidence-backed at every layer tested; not described as zero-trust, and its feature set is intentionally frozen.</p>
+                        <div class="project-links">
+                            <a href="https://github.com/nhatminh06/aeigs" class="project-link" target="_blank" rel="noopener noreferrer">GitHub Repo</a>
                         </div>
                     </div>
 
@@ -148,28 +171,6 @@
                         </div>
                     </div>
 
-                    <!-- DevSecOps Lab -->
-                    <div class="project-card">
-                        <div class="project-header">
-                            <h3>DevSecOps Lab</h3>
-                            <span class="project-status in-progress">In Progress</span>
-                        </div>
-                        <p class="project-description">
-                            Infrastructure / DevSecOps: A personal, from-scratch DevSecOps pipeline across multiple VMs: GitHub triggers Jenkins, which runs Gitleaks, Semgrep, and a SonarQube quality gate as build-blocking stages before pushing images to a private Harbor registry and deploying via Helm to Kubernetes.
-                        </p>
-                        <div class="project-tech-tags">
-                            <span>Jenkins</span><span>Kubernetes</span><span>Helm</span><span>Harbor</span><span>Nexus</span><span>SonarQube</span><span>Gitleaks / Semgrep / Trivy</span>
-                        </div>
-                        <div class="project-details">
-                            <div class="project-highlights">
-                                <strong>Design highlight:</strong> multi-stage Dockerfiles pin every build to the app's original toolchain era, so the shared build agent's own JDK/Node versions never have to match it.
-                            </div>
-                        </div>
-                        <p class="project-note">A personal home lab, separate from any employer's infrastructure; no production system is represented here.</p>
-                        <div class="project-links">
-                            <a href="https://github.com/nhatminh06/devsecops-lab" class="project-link" target="_blank" rel="noopener noreferrer">GitHub Repo</a>
-                        </div>
-                    </div>
                 </div>
 
                 <div class="section-intro" style="margin-top: 1rem;">
@@ -222,6 +223,20 @@
 
                     <div class="project-card project-card--compact">
                         <div class="project-header">
+                            <h3>DevSecOps Lab</h3>
+                            <span class="project-status in-progress">In Progress</span>
+                        </div>
+                        <p class="project-description">A personal, from-scratch DevSecOps pipeline across multiple VMs: Jenkins security gates before pushing to a private Harbor registry and deploying via Helm to Kubernetes.</p>
+                        <div class="project-tech-tags">
+                            <span>Jenkins</span><span>Kubernetes</span><span>Helm</span><span>Gitleaks / Semgrep / Trivy</span>
+                        </div>
+                        <div class="project-links">
+                            <a href="https://github.com/nhatminh06/devsecops-lab" class="project-link" target="_blank" rel="noopener noreferrer">GitHub Repo</a>
+                        </div>
+                    </div>
+
+                    <div class="project-card project-card--compact">
+                        <div class="project-header">
                             <h3>DevOps SSH Lab</h3>
                             <span class="project-status completed">Completed</span>
                         </div>
@@ -237,7 +252,7 @@
 
                 <div class="projects-footer">
                     <h3>What I'm focused on</h3>
-                    <p>Most of my energy right now goes into MatchSense, Market Pulse, and the Linux Kernel Lab: event-driven systems, data platforms, and low-level systems work. I iterate in public on GitHub.</p>
+                    <p>Most of my energy right now goes into MatchSense, Aegis, Market Pulse, and the Linux Kernel Lab: event-driven systems, security-proven platform engineering, data platforms, and low-level systems work. I iterate in public on GitHub.</p>
                 </div>
             </section>
         </main>
