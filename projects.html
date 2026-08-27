@@ -171,6 +171,98 @@
                         </div>
                     </div>
 
+                    <!-- QuorumKV -->
+                    <div class="project-card">
+                        <div class="project-header">
+                            <h3>QuorumKV</h3>
+                            <span class="project-status in-progress">In Progress</span>
+                        </div>
+                        <p class="project-description">
+                            Distributed Systems: A distributed key-value store built to study consensus from first principles. Raft is implemented from scratch here, not imported as a library: persistent state, log replication, leader election with PreVote, snapshotting, joint-consensus membership changes, leadership transfer, and quorum-confirmed reads, driven by a real node executable over real TCP.
+                        </p>
+                        <div class="project-tech-tags">
+                            <span>Go</span><span>Raft (from scratch)</span><span>TCP</span><span>ReadIndex</span>
+                        </div>
+                        <div class="project-details">
+                            <div class="project-highlights">
+                                <strong>Design highlight:</strong> at-most-once PUT/DELETE effects for retried requests via a replicated per-client request identity, and quorum-confirmed (ReadIndex) linearizable GET to eliminate stale reads from an isolated old leader; crash-recovery correctness is checked with real subprocess kills at each meaningful write point, not simulated failures.
+                            </div>
+                        </div>
+                        <p class="project-note">Correctness properties are implemented and tested, not formally proven.</p>
+                        <div class="project-links">
+                            <a href="https://github.com/nhatminh06/quorumkv" class="project-link" target="_blank" rel="noopener noreferrer">GitHub Repo</a>
+                        </div>
+                    </div>
+
+                    <!-- PageDB -->
+                    <div class="project-card">
+                        <div class="project-header">
+                            <h3>PageDB</h3>
+                            <span class="project-status in-progress">In Progress</span>
+                        </div>
+                        <p class="project-description">
+                            Systems Programming: A relational database engine built bottom-up in C23: persistent slotted pages, a Clock buffer pool, multi-page table heaps, typed schemas and catalog, a persistent B+ tree index, pull-based physical execution operators, and a bounded SQL parser/planner behind a loopback-only server speaking a custom binary wire protocol.
+                        </p>
+                        <div class="project-tech-tags">
+                            <span>C23</span><span>CMake</span><span>ASan / UBSan</span><span>B+ Tree</span>
+                        </div>
+                        <div class="project-details">
+                            <div class="project-highlights">
+                                <strong>Design highlight:</strong> each layer of the storage stack (disk manager, slotted pages, buffer pool, heap, index, executor, SQL) is built and tested on top of the one below it, so the current read-only SELECT subset runs end to end through a real page cache and B+ tree rather than an in-memory stand-in.
+                            </div>
+                        </div>
+                        <p class="project-note">Physical execution is read-only, single-threaded, and single-table; no joins, transactions, WAL, or crash recovery yet.</p>
+                        <div class="project-links">
+                            <a href="https://github.com/nhatminh06/pagedb" class="project-link" target="_blank" rel="noopener noreferrer">GitHub Repo</a>
+                        </div>
+                    </div>
+
+                    <!-- Wirestack -->
+                    <div class="project-card">
+                        <div class="project-header">
+                            <h3>Wirestack</h3>
+                            <span class="project-status in-progress">In Progress</span>
+                        </div>
+                        <p class="project-description">
+                            Systems Programming: A userspace TCP/IP network stack in C++20, built from a Linux TAP device up through Ethernet, ARP, IPv4, ICMP, UDP, and TCP to a minimal HTTP server. The goal is understanding the protocols by implementing them: real handshakes, real congestion control, real retransmission.
+                        </p>
+                        <div class="project-tech-tags">
+                            <span>C++20</span><span>Linux TAP</span><span>TCP/IP</span><span>Reno / NewReno</span>
+                        </div>
+                        <div class="project-details">
+                            <div class="project-highlights">
+                                <strong>Design highlight:</strong> the TCP path implements MSS/window-scale/SACK negotiation, Reno-style congestion control with NewReno partial-ACK recovery, and RTT-adaptive retransmission, then live-qualifies the handshake, a real curl request, and out-of-order delivery against an actual Linux kernel in an isolated-namespace test harness with packet-capture evidence.
+                            </div>
+                        </div>
+                        <p class="project-note">A learning project prioritizing protocol correctness over performance; TCP simultaneous open, DSACK, and modern congestion control (CUBIC/BBR) are not implemented.</p>
+                        <div class="project-links">
+                            <a href="https://github.com/nhatminh06/wirestack" class="project-link" target="_blank" rel="noopener noreferrer">GitHub Repo</a>
+                        </div>
+                    </div>
+
+                    <!-- TensorForge -->
+                    <div class="project-card">
+                        <div class="project-header">
+                            <h3>TensorForge</h3>
+                            <span class="project-status in-progress">In Progress</span>
+                        </div>
+                        <p class="project-description">
+                            ML Systems: An analytical AI-accelerator performance modeling toolkit for GEMM, Transformer, and Conv2D workloads. It makes every step of accelerator performance reasoning explicit and traceable to a formula: arithmetic intensity, PE-array mapping, SRAM feasibility, tiling, and roofline-based compute/memory timing.
+                        </p>
+                        <div class="project-tech-tags">
+                            <span>Python</span><span>Roofline Modeling</span><span>Design-Space Exploration</span>
+                        </div>
+                        <div class="project-details">
+                            <div class="project-highlights">
+                                <strong>Design highlight:</strong> three explicit, fully-specified tiling/loop schedules (c-resident, a-resident, b-resident) each derive a different exact DRAM traffic total from the same GEMM arithmetic, and a bounded design-space search ranks user-supplied tile/schedule/PE-array candidates by modeled execution time.
+                            </div>
+                        </div>
+                        <p class="project-note">An analytical modeling toolkit, not a cycle-accurate simulator or a complete Transformer/CNN inference simulator.</p>
+                        <div class="project-links">
+                            <a href="https://github.com/nhatminh06/tensorforge" class="project-link" target="_blank" rel="noopener noreferrer">GitHub Repo</a>
+                        </div>
+                    </div>
+
                 </div>
 
                 <div class="section-intro" style="margin-top: 1rem;">
@@ -252,7 +344,7 @@
 
                 <div class="projects-footer">
                     <h3>What I'm focused on</h3>
-                    <p>Most of my energy right now goes into MatchSense, Aegis, Market Pulse, and the Linux Kernel Lab: event-driven systems, security-proven platform engineering, data platforms, and low-level systems work. I iterate in public on GitHub.</p>
+                    <p>Most of my energy right now goes into distributed and low-level systems work: a from-scratch Raft implementation (QuorumKV), a database engine built bottom-up in C (PageDB), a userspace TCP/IP stack (Wirestack), and accelerator performance modeling (TensorForge), alongside MatchSense, Aegis, and Market Pulse. I iterate in public on GitHub.</p>
                 </div>
             </section>
         </main>
