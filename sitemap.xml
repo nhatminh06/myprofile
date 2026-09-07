@@ -1,10 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url><loc>https://minhpham06.com/</loc></url>
-  <url><loc>https://minhpham06.com/about.html</loc></url>
   <url><loc>https://minhpham06.com/projects.html</loc></url>
+  <url><loc>https://minhpham06.com/projects/forgeci.html</loc></url>
+  <url><loc>https://minhpham06.com/projects/quorumkv.html</loc></url>
+  <url><loc>https://minhpham06.com/projects/commercecore.html</loc></url>
+  <url><loc>https://minhpham06.com/projects/pgsentry.html</loc></url>
+  <url><loc>https://minhpham06.com/projects/wirestack.html</loc></url>
+  <url><loc>https://minhpham06.com/projects/pagedb.html</loc></url>
+  <url><loc>https://minhpham06.com/projects/tensorforge.html</loc></url>
+  <url><loc>https://minhpham06.com/projects/aegis.html</loc></url>
   <url><loc>https://minhpham06.com/blog.html</loc></url>
-  <url><loc>https://minhpham06.com/contact.html</loc></url>
   <url><loc>https://minhpham06.com/blog/summer-2026-systems-retrospective.html</loc></url>
   <url><loc>https://minhpham06.com/blog/summer-2026-devsecops-internship.html</loc></url>
   <url><loc>https://minhpham06.com/blog/building-matchsense-event-driven-systems.html</loc></url>
@@ -17,4 +23,19 @@
   <url><loc>https://minhpham06.com/blog/my-four-year-devops-plan.html</loc></url>
   <url><loc>https://minhpham06.com/blog/my-first-year-at-umn.html</loc></url>
   <url><loc>https://minhpham06.com/blog/my-4-day-gym-routine.html</loc></url>
+  <url><loc>https://minhpham06.com/blog/payment-timeout-is-not-a-decline.html</loc></url>
+  <url><loc>https://minhpham06.com/blog/ci-system-is-a-lease-protocol.html</loc></url>
+  <url><loc>https://minhpham06.com/blog/raft-after-leader-election.html</loc></url>
+  <url><loc>https://minhpham06.com/blog/high-availability-is-not-recovery.html</loc></url>
+  <url><loc>https://minhpham06.com/blog/tcp-after-curl-worked.html</loc></url>
+  <url><loc>https://minhpham06.com/blog/performance-model-meets-gpu.html</loc></url>
+  <url><loc>https://minhpham06.com/notes.html</loc></url>
+  <url><loc>https://minhpham06.com/notes/read-index.html</loc></url>
+  <url><loc>https://minhpham06.com/notes/replicas-not-backups.html</loc></url>
+  <url><loc>https://minhpham06.com/notes/fencing-token.html</loc></url>
+  <url><loc>https://minhpham06.com/notes/outbox-at-least-once.html</loc></url>
+  <url><loc>https://minhpham06.com/research.html</loc></url>
+  <url><loc>https://minhpham06.com/now.html</loc></url>
+  <url><loc>https://minhpham06.com/about.html</loc></url>
+  <url><loc>https://minhpham06.com/contact.html</loc></url>
 </urlset>
