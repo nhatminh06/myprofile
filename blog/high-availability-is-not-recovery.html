@@ -7,6 +7,8 @@
     <link rel="canonical" href="https://minhpham06.com/blog/high-availability-is-not-recovery.html">
     <meta property="og:title" content="High Availability Is Not Recovery"><meta property="og:description" content="The PgSentry experiments that changed how I think about database reliability."><meta property="og:type" content="article"><meta property="og:url" content="https://minhpham06.com/blog/high-availability-is-not-recovery.html"><meta property="og:image" content="https://minhpham06.com/static/avatar.jpg"><meta name="twitter:card" content="summary">
     <link rel="icon" type="image/png" sizes="32x32" href="/static/favicon.png"><link rel="stylesheet" href="/static/style.css?v=20260812b">
+    <link rel="alternate" type="application/rss+xml" title="Minh Pham — Engineering Writing" href="/feed.xml">
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"BlogPosting","headline":"High Availability Is Not Recovery","author":{"@type":"Person","name":"Minh Pham","url":"https://minhpham06.com"},"url":"https://minhpham06.com/blog/high-availability-is-not-recovery.html"}</script>
 </head>
 <body><div class="dashboard-layout">
     <nav class="navbar"><div class="navbar-logo"><span class="dashboard-title-navbar">Minh Pham</span></div><ul class="navbar-nav"><li><a href="../index.html">Home</a></li><li><a href="../about.html">About</a></li><li><a href="../projects.html">Projects</a></li><li class="active"><a href="../blog.html">Blog</a></li><li><a href="../contact.html">Contact</a></li></ul></nav>
@@ -101,7 +103,7 @@ monitoring identifies the current failure</code></pre>
             <p>The assumption I started with was that enough replicas made the database safe. The assumption I have now is narrower and more operational: before calling a database reliable, I need to name the failure, identify which mechanism addresses it, run the failure, and verify the recovery state.</p>
             <p>High availability matters. It just is not recovery.</p>
         </div>
-        <div class="blog-post-footer"><div class="blog-post-nav"><a href="../blog.html" class="nav-link"><span>← Back to Blog</span><span>All Posts</span></a></div></div>
+        <p><strong>Related project:</strong> <a href="../projects/pgsentry.html">PgSentry case study →</a></p><div class="blog-post-footer"><div class="blog-post-nav"><a href="../blog.html" class="nav-link"><span>← Back to Blog</span><span>All Posts</span></a></div></div>
     </article></main>
 </div><footer class="footer-bar"><div class="footer-motto">Code. Learn. Share.</div></footer><script src="/static/script.js"></script></body>
 </html>
