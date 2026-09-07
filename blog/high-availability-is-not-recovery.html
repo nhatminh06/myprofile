@@ -1,5 +1,107 @@
-<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>High Availability Is Not Recovery | Minh Pham</title><meta name="description" content="PgSentry experiments showing why PostgreSQL replication and failover cannot replace backups, WAL archives, and point-in-time recovery."><link rel="canonical" href="https://minhpham06.com/blog/high-availability-is-not-recovery.html"><meta property="og:title" content="High Availability Is Not Recovery"><meta property="og:description" content="Why replicas cannot recover a valid destructive write."><meta property="og:type" content="article"><meta property="og:url" content="https://minhpham06.com/blog/high-availability-is-not-recovery.html"><link rel="icon" href="/static/favicon.png"><link rel="stylesheet" href="/static/style.css?v=20260812b"></head><body><div class="dashboard-layout"><nav class="navbar"><div class="navbar-logo"><span class="dashboard-title-navbar">Minh Pham</span></div><ul class="navbar-nav"><li><a href="../index.html">Home</a></li><li><a href="../about.html">About</a></li><li><a href="../projects.html">Projects</a></li><li class="active"><a href="../blog.html">Blog</a></li><li><a href="../contact.html">Contact</a></li></ul></nav><main class="main-content"><article class="blog-post"><div class="blog-post-header"><a href="../blog.html" class="back-to-blog">← Back to Blog</a><div class="blog-post-meta"><span class="blog-post-date">Sep 4, 2026</span><span class="blog-post-read-time">7 min read</span></div></div><h1 class="blog-post-title">High Availability Is Not Recovery</h1><div class="blog-post-content">
-<p>A PostgreSQL replica is designed to reproduce the primary's history. That includes a perfectly valid <code>DELETE</code> that removed the wrong rows.</p><p>This was the distinction I wanted <a href="https://github.com/nhatminh06/pgsentry">PgSentry</a> to make concrete. Patroni, etcd, streaming replication, and HAProxy can keep a database endpoint available through node failure. None of them create an earlier version of data after a bad write has replicated everywhere.</p><h2>Failover answers a different question</h2><p>Patroni coordinates leadership while etcd provides quorum-backed cluster state. HAProxy routes clients according to node role. When a primary disappears, the system asks which replica can safely become writable.</p><p>Recovery asks: which point in history should exist? The latest replica is often the wrong source for that job because it contains the same destructive transaction.</p><h2>Durability has a cost</h2><p>PgSentry experiments with asynchronous and synchronous replication rather than treating them as labels. Asynchronous mode permits an acknowledged commit that has not reached a standby. Synchronous mode can wait for stronger evidence, but makes write availability depend on the configured acknowledgements.</p><p>A network partition makes the trade-off visible. The correct configuration depends on which loss and which outage the system is allowed to accept. “Automatic failover” does not settle that policy.</p><h2>History lives in backups and WAL</h2><p>The recovery path starts with a base backup and replays archived write-ahead log toward a chosen target. That is point-in-time recovery: reconstructing a database state before the destructive transaction, separately from the still-running HA cluster.</p><p>The separate restore matters. Overwriting the only available cluster before validating the recovered state would turn a data incident into a recovery incident. PgSentry keeps operational evidence around backup creation, WAL availability, restore, and verification.</p><h2>The assumption that changed</h2><p>I used to group replication, failover, and backup under one broad idea of database reliability. They protect against different failures.</p><pre><code>replication: keep another current copy
-failover: choose a writable survivor
-backup + WAL: reconstruct an earlier history</code></pre><p>A replica helps when a machine fails. It may be useless when the latest state is the failure. High availability reduces interruption; recovery changes history deliberately. A database design needs both questions answered.</p>
-</div><div class="blog-post-footer"><div class="blog-post-nav"><a href="../blog.html" class="nav-link"><span>← Back to Blog</span><span>All Posts</span></a></div></div></article></main></div><footer class="footer-bar"><div class="footer-motto">Code. Learn. Share.</div></footer></body></html>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>High Availability Is Not Recovery | Minh Pham</title>
+    <meta name="description" content="What building PgSentry taught me about PostgreSQL failover, ambiguous writes, durability trade-offs, and why replication cannot replace point-in-time recovery.">
+    <link rel="canonical" href="https://minhpham06.com/blog/high-availability-is-not-recovery.html">
+    <meta property="og:title" content="High Availability Is Not Recovery"><meta property="og:description" content="The PgSentry experiments that changed how I think about database reliability."><meta property="og:type" content="article"><meta property="og:url" content="https://minhpham06.com/blog/high-availability-is-not-recovery.html"><meta property="og:image" content="https://minhpham06.com/static/avatar.jpg"><meta name="twitter:card" content="summary">
+    <link rel="icon" type="image/png" sizes="32x32" href="/static/favicon.png"><link rel="stylesheet" href="/static/style.css?v=20260812b">
+</head>
+<body><div class="dashboard-layout">
+    <nav class="navbar"><div class="navbar-logo"><span class="dashboard-title-navbar">Minh Pham</span></div><ul class="navbar-nav"><li><a href="../index.html">Home</a></li><li><a href="../about.html">About</a></li><li><a href="../projects.html">Projects</a></li><li class="active"><a href="../blog.html">Blog</a></li><li><a href="../contact.html">Contact</a></li></ul></nav>
+    <main class="main-content"><article class="blog-post">
+        <div class="blog-post-header"><a href="../blog.html" class="back-to-blog">← Back to Blog</a><div class="blog-post-meta"><span class="blog-post-date">Sep 4, 2026</span><span class="blog-post-read-time">12 min read</span></div></div>
+        <h1 class="blog-post-title">High Availability Is Not Recovery</h1>
+        <div class="blog-post-content">
+            <p>When I started <a href="https://github.com/nhatminh06/pgsentry">PgSentry</a>, I had a compressed idea of database reliability: run PostgreSQL replicas, add automatic failover, and the database is safe.</p>
+            <p>That idea was not completely wrong. It was hiding several different problems behind one word.</p>
+            <p>A replica can take over when the primary machine disappears. It cannot tell whether a valid SQL statement was a human mistake. It cannot recover an earlier version of a row after the same deletion reaches every node. It cannot make an ambiguous client response unambiguous. Even stronger commit durability has an availability cost that appears exactly when the cluster is unhealthy.</p>
+            <p>PgSentry became my attempt to separate those problems and make each one fail in front of me.</p>
+
+            <h2>The first milestone looked reassuring</h2>
+            <p>The lab runs real PostgreSQL processes across a reproducible VM topology. Patroni controls PostgreSQL leadership, an etcd quorum stores coordination state, and HAProxy gives clients one stable write endpoint. Under normal operation there is one writable primary and two read-only streaming replicas.</p>
+            <p>That architecture initially felt like the finished idea. If the primary stopped, Patroni could promote an eligible replica and HAProxy could route new connections to it. I could stop thinking about a particular database hostname and instead connect through one address.</p>
+            <p>Then I began injecting failures.</p>
+            <p>The workload always went through HAProxy. It did not cheat by discovering the new leader and connecting directly. Each attempted write received a run ID, a sequence number, timing information, and an outcome classification. After each fault, the harness restored the stopped service, VM, or firewall rule and required the entire cluster to become healthy before the next experiment.</p>
+            <p>This made the difference between an architecture diagram and an operational claim obvious. “Patroni supports failover” was no longer enough. I wanted to know what my client observed while failover happened.</p>
+
+            <h2>A failed connection did not tell me what happened to the transaction</h2>
+            <p>The most useful classification in the failure harness was not success or failure. It was:</p>
+            <pre><code>ambiguous outcome</code></pre>
+            <p>A connection can disappear after PostgreSQL commits but before the client receives confirmation. From the client's perspective, the request failed to return successfully. From the database's perspective, the row may already exist.</p>
+            <p>I had treated connection errors as if they were transaction results. Testing primary loss forced me to stop doing that.</p>
+            <p>The application now has to decide how to retry. If it blindly repeats a non-idempotent operation, it may apply the business action twice. If it assumes every lost response means the transaction committed, it may invent state that does not exist.</p>
+            <p>High availability moved the write endpoint to another node. It did not recover the missing knowledge at the client boundary.</p>
+
+            <h2>The partition tests made ownership more important than reachability</h2>
+            <p>Stopping a database process is the clean failure. A network partition is harder because different parts of the system continue running with incomplete views.</p>
+            <p>PgSentry isolates database nodes from etcd, partitions replication traffic, removes DCS quorum, and tests etcd peer loss. The invariant I cared about was not that every node remained reachable. It was that the accepted trials never observed more than one writable PostgreSQL primary.</p>
+            <p>That changed how I viewed etcd. It was not an extra service placed beside PostgreSQL for the sake of an HA stack. Its quorum determines whether the coordination layer can safely change leadership. A minority that cannot commit is inconvenient, but letting disconnected sides independently claim ownership would be worse.</p>
+            <p>The same experiments exposed another boundary. HAProxy gives clients stable routing, but HAProxy itself is a failure domain in this lab. PostgreSQL can be healthy and correctly coordinated while the client endpoint is unavailable. Database health, leader ownership, and client reachability are three separate signals.</p>
+
+            <h2>Synchronous replication did not give me a free safety switch</h2>
+            <p>I then compared three explicit durability policies: asynchronous, synchronous, and synchronous-strict operation.</p>
+            <p>In asynchronous mode, the primary can acknowledge after its own durable work without waiting for another PostgreSQL node to flush the transaction. That favors write availability, but it leaves a window in which acknowledged WAL has not reached a standby.</p>
+            <p>In synchronous mode, Patroni selects a synchronous standby and an acknowledged commit waits for the required WAL flush. This narrows the durability exposure, but the behavior still depends on which standby is eligible and which policy is active at commit time.</p>
+            <p>Synchronous-strict mode made the trade-off impossible to ignore. When no eligible synchronous standby remained, bounded writes stayed blocked until a standby returned. The system refused to silently fall back to ordinary asynchronous acknowledgements.</p>
+            <pre><code>higher write availability
+        ↕
+stronger acknowledgement durability</code></pre>
+            <p>Before running that experiment, “turn on synchronous replication” sounded like a straightforward improvement. Afterward, I understood it as a decision about which failure behavior is acceptable. Waiting is safer for one kind of loss and worse for availability. There is no configuration that removes the trade-off.</p>
+            <p>The accepted finite trials did not lose an acknowledged row, but that observation is not a universal RPO-zero guarantee. Simultaneous storage loss, arbitrary partitions, operator mistakes, and failures outside the lab remain outside the claim.</p>
+
+            <h2>The DELETE that every replica handled correctly</h2>
+            <p>The experiment that changed my thinking most was not a node failure. It was a successful SQL statement.</p>
+            <p>I created a marker row, established a named recovery point, wrote another marker after that point, and then deleted the protected row through the normal HAProxy endpoint. Streaming replication propagated the deletion to both replicas.</p>
+            <pre><code>primary:   row deleted
+replica 1: row deleted
+replica 2: row deleted</code></pre>
+            <p>Nothing in the HA system malfunctioned. PostgreSQL generated WAL for the deletion. The replicas replayed it. Patroni still saw a healthy cluster. HAProxy still had a valid primary.</p>
+            <p>The latest state was precisely the state I did not want.</p>
+            <p>This is where my original idea of replicas as “backups that are ready to take over” finally broke. A replica protects a current database lineage against certain machine failures. It is designed to reproduce the primary's accepted history, including destructive history.</p>
+
+            <h2>Recovery needed a different source of truth</h2>
+            <p>PgSentry uses pgBackRest for a physical base backup and continuous WAL archiving. The base backup provides a consistent starting point. Archived WAL extends the recoverable history beyond the instant that backup was taken.</p>
+            <p>For point-in-time recovery, I restored into an isolated PostgreSQL instance on a separate port. It was deliberately not a Patroni member and not an HAProxy backend. PostgreSQL replayed archived WAL only through the named recovery target.</p>
+            <p>The verification checked both sides of the boundary:</p>
+            <ul><li>The row deleted from the live primary and both replicas existed again.</li><li>The marker written after the recovery point did not exist.</li></ul>
+            <p>That second check mattered. Finding the old row would not prove that replay stopped at the intended history. Recovery is not merely starting PostgreSQL from copied files; it is selecting and verifying a specific database state.</p>
+            <p>I also tested latest-state recovery. It reconstructed data written after the full backup, which proved that archived WAL—not only the base backup—was necessary. A backup inventory that looks healthy is insufficient if required WAL segments never reached the archive.</p>
+
+            <h2>Why I restored away from the cluster</h2>
+            <p>Restoring over the only live cluster would have mixed investigation with destruction. If I selected the wrong target or discovered a missing archive segment halfway through, I would have damaged the environment I was trying to recover.</p>
+            <p>The isolated restore let me inspect the recovered state before deciding what should happen next. It also forced a useful identity distinction: the restored instance shared the PostgreSQL system lineage, but it was not automatically a Patroni member and did not inherit the live routing role.</p>
+            <pre><code>choose target
+restore base backup
+replay required WAL
+verify expected rows
+verify excluded rows
+only then plan reintegration</code></pre>
+
+            <h2>Monitoring had to describe the failure class</h2>
+            <p>By this point, a single “database down” alert no longer seemed useful enough. A cluster can have no primary, degraded replication, lost etcd quorum, unavailable HAProxy routing, a failed WAL archive command, or a stale backup. Those conditions require different responses.</p>
+            <p>PgSentry therefore checks infrastructure metrics and semantic database state, with runbooks attached to distinct alerts. I exercised alerts through real faults and verified that they resolved after recovery. The goal was not a dashboard full of green panels. It was an alert that narrowed the operator's next question.</p>
+
+            <h2>What I would not claim from the lab</h2>
+            <p>PgSentry is a controlled, single-host laboratory. Its measurements are not a production SLA, and the accepted experiments do not establish guaranteed RTO or universal RPO. The backup repository is not geographically separate, immutable, or ransomware-resistant. HAProxy and the monitoring stack are not highly available.</p>
+            <p>Those limitations do not weaken the lesson. They define where the evidence stops.</p>
+
+            <h2>What actually changed for me</h2>
+            <p>I no longer use “database reliability” as if it describes one mechanism.</p>
+            <pre><code>replication keeps another current copy
+consensus protects leadership decisions
+failover selects a writable survivor
+routing gives clients a stable endpoint
+durability policy defines acknowledgement behavior
+backup and WAL preserve recoverable history
+PITR selects an earlier state
+monitoring identifies the current failure</code></pre>
+            <p>Each mechanism owns a different failure class. Sometimes they even pull in opposite directions: stricter acknowledgement durability can reduce write availability, and perfect replication can spread a destructive mistake faster.</p>
+            <p>The assumption I started with was that enough replicas made the database safe. The assumption I have now is narrower and more operational: before calling a database reliable, I need to name the failure, identify which mechanism addresses it, run the failure, and verify the recovery state.</p>
+            <p>High availability matters. It just is not recovery.</p>
+        </div>
+        <div class="blog-post-footer"><div class="blog-post-nav"><a href="../blog.html" class="nav-link"><span>← Back to Blog</span><span>All Posts</span></a></div></div>
+    </article></main>
+</div><footer class="footer-bar"><div class="footer-motto">Code. Learn. Share.</div></footer><script src="/static/script.js"></script></body>
+</html>
