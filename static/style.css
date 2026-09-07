@@ -3125,3 +3125,12 @@ table td:last-child {
     grid-template-columns: 1fr;
   }
 }
+.blog-archive-heading {
+  grid-column: 1 / -1;
+  margin-top: 1rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid var(--border-color, #d8dee8);
+}
+
+.blog-archive-heading h2 { margin-bottom: .35rem; }
+.blog-archive-heading p { margin: 0; color: var(--text-secondary, #667085); }

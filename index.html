@@ -115,47 +115,47 @@
                 <div class="home-featured-grid">
                     <article class="dashboard-card featured-project-card">
                         <div class="featured-project-header">
-                            <h3 class="featured-project-title">MatchSense</h3>
-                            <span class="featured-project-tag">Distributed Systems</span>
+                            <h3 class="featured-project-title">ForgeCI</h3>
+                            <span class="featured-project-tag">Distributed CI</span>
                         </div>
-                        <p class="featured-project-desc">Real-time football-analytics platform: a simulated event feed flows through Kafka into a stats aggregator, an ML prediction service, and a live Grafana dashboard.</p>
+                        <p class="featured-project-desc">A distributed CI engine built from scratch in Go, centered on coordinating remote work without letting stale runners corrupt durable state.</p>
                         <ul class="featured-project-highlights">
-                            <li>Idempotent event ingestion, dead-letter handling, and OpenTelemetry traces across every hop</li>
-                            <li>Go + Python microservices, Kubernetes/Kustomize + ArgoCD GitOps, Kyverno admission policies</li>
+                            <li>Fenced job leases reject stale source, artifact, log, and completion operations</li>
+                            <li>Immutable source revisions, content-addressed storage, restart recovery, and durable GitHub Check delivery</li>
                         </ul>
                         <div class="featured-project-actions">
                             <a href="projects.html" class="project-link">View Project</a>
-                            <a href="https://github.com/nhatminh06/matchsense" class="project-link" target="_blank" rel="noopener noreferrer">GitHub</a>
+                            <a href="https://github.com/nhatminh06/forgeci" class="project-link" target="_blank" rel="noopener noreferrer">GitHub</a>
                         </div>
                     </article>
                     <article class="dashboard-card featured-project-card">
                         <div class="featured-project-header">
-                            <h3 class="featured-project-title">Market Pulse</h3>
-                            <span class="featured-project-tag">Data Engineering</span>
+                            <h3 class="featured-project-title">QuorumKV</h3>
+                            <span class="featured-project-tag">Consensus</span>
                         </div>
-                        <p class="featured-project-desc">A local stock-market analytics lakehouse: Bronze/Silver/Gold tables on Apache Iceberg, transformed with dbt-on-Trino, orchestrated by Airflow.</p>
+                        <p class="featured-project-desc">A distributed key-value store with Raft implemented from scratch, including the persistence and client semantics needed beyond leader election.</p>
                         <ul class="featured-project-highlights">
-                            <li>Incremental + idempotent ingestion, deterministic fixtures, and a manual/weekly E2E workflow against a live stack</li>
-                            <li>Terraform-provisioned MinIO, dbt data-quality tests, CI on every PR</li>
+                            <li>Quorum-confirmed ReadIndex reads and replicated request identity for retry deduplication</li>
+                            <li>PreVote, snapshots, joint consensus, leadership transfer, and crash tests using real processes</li>
                         </ul>
                         <div class="featured-project-actions">
                             <a href="projects.html" class="project-link">View Project</a>
-                            <a href="https://github.com/nhatminh06/market-pulse" class="project-link" target="_blank" rel="noopener noreferrer">GitHub</a>
+                            <a href="https://github.com/nhatminh06/quorumkv" class="project-link" target="_blank" rel="noopener noreferrer">GitHub</a>
                         </div>
                     </article>
                     <article class="dashboard-card featured-project-card">
                         <div class="featured-project-header">
-                            <h3 class="featured-project-title">Linux Kernel Lab</h3>
-                            <span class="featured-project-tag">Systems Programming</span>
+                            <h3 class="featured-project-title">CommerceCore</h3>
+                            <span class="featured-project-tag">Backend Correctness</span>
                         </div>
-                        <p class="featured-project-desc">Built Linux 6.10 from source, wrote a character-device driver, and debugged early boot with GDB attached to QEMU.</p>
+                        <p class="featured-project-desc">A Spring backend for studying checkout correctness when inventory is contended, messages are redelivered, and a remote payment result is ambiguous.</p>
                         <ul class="featured-project-highlights">
-                            <li>Diagnosed real GCC/C23, BTF, LLVM/LTO, and QEMU CPU-model incompatibilities</li>
-                            <li>Reproducible build/boot/debug scripts, not a one-off walkthrough</li>
+                            <li>Conditional inventory updates, idempotent checkout, and a transactional outbox</li>
+                            <li>UNKNOWN payment state and lookup-based reconciliation across a real gRPC provider boundary</li>
                         </ul>
                         <div class="featured-project-actions">
                             <a href="projects.html" class="project-link">View Project</a>
-                            <a href="https://github.com/nhatminh06/linux-kernel-lab" class="project-link" target="_blank" rel="noopener noreferrer">GitHub</a>
+                            <a href="https://github.com/nhatminh06/commercecore" class="project-link" target="_blank" rel="noopener noreferrer">GitHub</a>
                         </div>
                     </article>
                 </div>
@@ -228,16 +228,16 @@
                 <h2 id="writing-heading" class="home-section-heading">Technical writing</h2>
                 <p class="home-blog-lead">Notes from building systems, debugging infrastructure, running experiments, and learning how software behaves beyond the happy path.</p>
                 <div class="blog-entry">
-                    <a class="blog-title" href="blog/summer-2026-systems-retrospective.html">Summer 2026: From Building Apps to Understanding Systems</a>
-                    <div class="blog-preview-meta">Aug 2026 · Personal</div>
+                    <a class="blog-title" href="blog/payment-timeout-is-not-a-decline.html">A Payment Timeout Is Not a Decline</a>
+                    <div class="blog-preview-meta">Sep 2026 · Backend</div>
                 </div>
                 <div class="blog-entry">
-                    <a class="blog-title" href="blog/building-matchsense-event-driven-systems.html">Building MatchSense: What Event-Driven Systems Taught Me About Failure</a>
-                    <div class="blog-preview-meta">Aug 2026 · Systems</div>
+                    <a class="blog-title" href="blog/ci-system-is-a-lease-protocol.html">A CI System Is a Lease Protocol with Shell Commands Attached</a>
+                    <div class="blog-preview-meta">Sep 2026 · Distributed Systems</div>
                 </div>
                 <div class="blog-entry">
-                    <a class="blog-title" href="blog/linux-kernel-qemu-gdb-driver.html">Debugging Linux from the Kernel to QEMU: My Linux Kernel Lab</a>
-                    <div class="blog-preview-meta">Aug 2026 · Systems</div>
+                    <a class="blog-title" href="blog/raft-after-leader-election.html">Leader Election Was the Easy Part: What Building Raft Actually Required</a>
+                    <div class="blog-preview-meta">Sep 2026 · Distributed Systems</div>
                 </div>
                 <a href="blog.html" class="home-blog-all">View all posts &rarr;</a>
             </section>

@@ -46,6 +46,18 @@
                     <button class="filter-btn" data-filter="personal">Personal</button>
                 </div>
                 <div class="blog-card-grid">
+                    <article class="blog-card" data-tags="systems projects"><div class="blog-card-header"><span class="blog-tag systems">backend</span><span class="blog-date">Sep 7, 2026</span></div><h3 class="blog-title"><a href="blog/payment-timeout-is-not-a-decline.html">A Payment Timeout Is Not a Decline</a></h3><div class="blog-excerpt">A gRPC deadline can expire after the provider commits. Why CommerceCore preserves UNKNOWN, retries with durable identity, and reconciles by asking what happened instead of authorizing again.</div><div class="blog-meta"><span class="read-time">8 min read</span><span class="blog-category">correctness</span></div></article>
+
+                    <article class="blog-card" data-tags="systems projects"><div class="blog-card-header"><span class="blog-tag systems">systems</span><span class="blog-date">Sep 6, 2026</span></div><h3 class="blog-title"><a href="blog/ci-system-is-a-lease-protocol.html">A CI System Is a Lease Protocol with Shell Commands Attached</a></h3><div class="blog-excerpt">The hard part of remote CI is deciding who still owns a job. ForgeCI uses fenced leases so an expired runner cannot publish logs, artifacts, or a terminal result after ownership changes.</div><div class="blog-meta"><span class="read-time">7 min read</span><span class="blog-category">distributed systems</span></div></article>
+
+                    <article class="blog-card" data-tags="systems projects"><div class="blog-card-header"><span class="blog-tag systems">systems</span><span class="blog-date">Sep 5, 2026</span></div><h3 class="blog-title"><a href="blog/raft-after-leader-election.html">Leader Election Was the Easy Part: What Building Raft Actually Required</a></h3><div class="blog-excerpt">A leader is only the beginning: persistent consensus state, ReadIndex, request deduplication, snapshots, membership changes, and crash testing made QuorumKV useful.</div><div class="blog-meta"><span class="read-time">8 min read</span><span class="blog-category">consensus</span></div></article>
+
+                    <article class="blog-card" data-tags="infrastructure systems"><div class="blog-card-header"><span class="blog-tag infrastructure">infrastructure</span><span class="blog-date">Sep 4, 2026</span></div><h3 class="blog-title"><a href="blog/high-availability-is-not-recovery.html">High Availability Is Not Recovery</a></h3><div class="blog-excerpt">PostgreSQL replication can faithfully copy a valid DELETE everywhere. PgSentry separates failover from the backup and WAL history needed to recover data.</div><div class="blog-meta"><span class="read-time">7 min read</span><span class="blog-category">databases</span></div></article>
+
+                    <article class="blog-card" data-tags="systems projects"><div class="blog-card-header"><span class="blog-tag systems">systems</span><span class="blog-date">Sep 3, 2026</span></div><h3 class="blog-title"><a href="blog/tcp-after-curl-worked.html">I Built TCP Until curl Worked — Then the Interesting Problems Started</a></h3><div class="blog-excerpt">A handshake and one HTTP response were only the checkpoint. WireStack still needed retransmission, RTT estimation, congestion recovery, reassembly, SACK, FIN, and zero-window behavior.</div><div class="blog-meta"><span class="read-time">8 min read</span><span class="blog-category">networking</span></div></article>
+
+                    <article class="blog-card" data-tags="ml systems projects"><div class="blog-card-header"><span class="blog-tag ml">ml systems</span><span class="blog-date">Sep 2, 2026</span></div><h3 class="blog-title"><a href="blog/performance-model-meets-gpu.html">When the Performance Model Meets the GPU</a></h3><div class="blog-excerpt">TensorForge's equations expose assumptions; measured workloads expose where those assumptions stop. The model becomes context for regression evidence, not a replacement for it.</div><div class="blog-meta"><span class="read-time">7 min read</span><span class="blog-category">performance</span></div></article>
+
                     <article class="blog-card" data-tags="personal systems">
                         <div class="blog-card-header">
                             <span class="blog-tag personal">personal</span>
@@ -165,6 +177,8 @@
                             <span class="blog-category">hackathon</span>
                         </div>
                     </article>
+
+                    <div class="blog-archive-heading"><h2>Archive / Personal</h2><p>Earlier writing preserved as a record of what I was learning and thinking at the time.</p></div>
 
                     <article class="blog-card" data-tags="learning">
                         <div class="blog-card-header">

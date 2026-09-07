@@ -36,8 +36,38 @@
 
             <section class="projects-section">
                 <div class="projects-grid">
+                    <!-- ForgeCI -->
+                    <div class="project-card" style="order: 1;">
+                        <div class="project-header"><h3>ForgeCI</h3><span class="project-status completed">Completed</span></div>
+                        <p class="project-description">Distributed Systems: A CI engine built from scratch in Go to explore the control plane behind remote execution. It persists DAG state, schedules jobs across runners, freezes each submission as an immutable source snapshot, and delivers logs, artifacts, cache entries, and GitHub Checks through durable boundaries.</p>
+                        <div class="project-tech-tags"><span>Go</span><span>PostgreSQL</span><span>Docker</span><span>GitHub Apps</span><span>Content-addressed storage</span></div>
+                        <div class="project-details"><div class="project-highlights"><strong>Design highlight:</strong> every job lease is fenced by runner, run, job, lease ID, generation, and expiration. A stale worker cannot download source, transfer artifacts, append logs, or report completion after ownership changes.</div></div>
+                        <p class="project-note">Lost remote jobs are conservatively marked aborted; automatic job retry and reassignment are intentionally out of scope.</p>
+                        <div class="project-links"><a href="https://github.com/nhatminh06/forgeci" class="project-link" target="_blank" rel="noopener noreferrer">GitHub Repo</a></div>
+                    </div>
+
+                    <!-- CommerceCore -->
+                    <div class="project-card" style="order: 3;">
+                        <div class="project-header"><h3>CommerceCore</h3><span class="project-status completed">Completed</span></div>
+                        <p class="project-description">Backend Engineering: A correctness-first Spring backend for checkout under inventory contention, request retries, payment ambiguity, and message redelivery. A separate Payment Service provides a real PostgreSQL-backed gRPC ownership boundary rather than an in-process mock.</p>
+                        <div class="project-tech-tags"><span>Java</span><span>Spring Boot</span><span>PostgreSQL</span><span>gRPC</span><span>Kafka</span><span>Testcontainers</span></div>
+                        <div class="project-details"><div class="project-highlights"><strong>Design highlight:</strong> a payment deadline does not become a false decline. CommerceCore persists <code>UNKNOWN</code>, then reconciles by looking up the provider's durable result without reauthorizing; stable request identity makes retries idempotent.</div></div>
+                        <p class="project-note">The project models one merchant and one currency; it is a correctness laboratory, not a complete commerce product.</p>
+                        <div class="project-links"><a href="https://github.com/nhatminh06/commercecore" class="project-link" target="_blank" rel="noopener noreferrer">GitHub Repo</a></div>
+                    </div>
+
+                    <!-- PgSentry -->
+                    <div class="project-card" style="order: 4;">
+                        <div class="project-header"><h3>PgSentry</h3><span class="project-status completed">Completed</span></div>
+                        <p class="project-description">Database Reliability: A PostgreSQL high-availability and recovery lab using Patroni with etcd quorum, streaming replication, and HAProxy routing. It separates failover from data recovery through partition tests, durability experiments, backups, WAL archiving, and point-in-time recovery.</p>
+                        <div class="project-tech-tags"><span>PostgreSQL</span><span>Patroni</span><span>etcd</span><span>HAProxy</span><span>WAL</span><span>Docker Compose</span></div>
+                        <div class="project-details"><div class="project-highlights"><strong>Design highlight:</strong> replicas can preserve and reproduce a valid destructive write. The recovery path therefore restores database history from a base backup plus archived WAL instead of treating automatic failover as a substitute for recovery.</div></div>
+                        <p class="project-note">A local failure lab with deliberate faults, not a hosted database service or a claim of zero data loss under every configuration.</p>
+                        <div class="project-links"><a href="https://github.com/nhatminh06/pgsentry" class="project-link" target="_blank" rel="noopener noreferrer">GitHub Repo</a></div>
+                    </div>
+
                     <!-- MatchSense -->
-                    <div class="project-card">
+                    <div class="project-card" style="order: 9;">
                         <div class="project-header">
                             <h3>MatchSense</h3>
                             <span class="project-status ongoing">Active Development</span>
@@ -60,7 +90,7 @@
                     </div>
 
                     <!-- Aegis -->
-                    <div class="project-card">
+                    <div class="project-card" style="order: 8;">
                         <div class="project-header">
                             <h3>Aegis</h3>
                             <span class="project-status completed">Completed</span>
@@ -83,7 +113,7 @@
                     </div>
 
                     <!-- Market Pulse -->
-                    <div class="project-card">
+                    <div class="project-card" style="order: 10;">
                         <div class="project-header">
                             <h3>Market Pulse</h3>
                             <span class="project-status ongoing">Active Development</span>
@@ -105,7 +135,7 @@
                     </div>
 
                     <!-- Linux Kernel Lab -->
-                    <div class="project-card">
+                    <div class="project-card" style="order: 11;">
                         <div class="project-header">
                             <h3>Linux Kernel Lab</h3>
                             <span class="project-status completed">Completed</span>
@@ -127,7 +157,7 @@
                     </div>
 
                     <!-- Personal Cognitive Load Monitor -->
-                    <div class="project-card">
+                    <div class="project-card" style="order: 13;">
                         <div class="project-header">
                             <h3>Personal Cognitive Load Monitor</h3>
                             <span class="project-status ongoing">Active Development</span>
@@ -150,7 +180,7 @@
                     </div>
 
                     <!-- Company Research -->
-                    <div class="project-card">
+                    <div class="project-card" style="order: 14;">
                         <div class="project-header">
                             <h3>Company Research</h3>
                             <span class="project-status completed">Completed</span>
@@ -172,7 +202,7 @@
                     </div>
 
                     <!-- QuorumKV -->
-                    <div class="project-card">
+                    <div class="project-card" style="order: 2;">
                         <div class="project-header">
                             <h3>QuorumKV</h3>
                             <span class="project-status in-progress">In Progress</span>
@@ -195,7 +225,7 @@
                     </div>
 
                     <!-- PageDB -->
-                    <div class="project-card">
+                    <div class="project-card" style="order: 6;">
                         <div class="project-header">
                             <h3>PageDB</h3>
                             <span class="project-status in-progress">In Progress</span>
@@ -218,7 +248,7 @@
                     </div>
 
                     <!-- Wirestack -->
-                    <div class="project-card">
+                    <div class="project-card" style="order: 5;">
                         <div class="project-header">
                             <h3>Wirestack</h3>
                             <span class="project-status in-progress">In Progress</span>
@@ -241,7 +271,7 @@
                     </div>
 
                     <!-- TensorForge -->
-                    <div class="project-card">
+                    <div class="project-card" style="order: 7;">
                         <div class="project-header">
                             <h3>TensorForge</h3>
                             <span class="project-status in-progress">In Progress</span>
@@ -266,8 +296,8 @@
                 </div>
 
                 <div class="section-intro" style="margin-top: 1rem;">
-                    <h3 class="section-title" style="font-size: 1.6rem;">Additional Work</h3>
-                    <p class="section-subtitle" style="font-size: 1rem;">Smaller tools and labs I've built along the way.</p>
+                    <h3 class="section-title" style="font-size: 1.6rem;">Earlier Projects &amp; Labs</h3>
+                    <p class="section-subtitle" style="font-size: 1rem;">Earlier application work, infrastructure labs, and smaller tools.</p>
                 </div>
 
                 <div class="projects-grid projects-grid--secondary">
@@ -344,7 +374,7 @@
 
                 <div class="projects-footer">
                     <h3>What I'm focused on</h3>
-                    <p>Most of my energy right now goes into distributed and low-level systems work: a from-scratch Raft implementation (QuorumKV), a database engine built bottom-up in C (PageDB), a userspace TCP/IP stack (Wirestack), and accelerator performance modeling (TensorForge), alongside MatchSense, Aegis, and Market Pulse. I iterate in public on GitHub.</p>
+                    <p>Most of my energy now goes into correctness at system boundaries: distributed execution in ForgeCI, consensus in QuorumKV, ambiguous remote outcomes in CommerceCore, and recovery in PgSentry, alongside low-level networking, database, and accelerator work. I iterate in public on GitHub.</p>
                 </div>
             </section>
         </main>

@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>A Payment Timeout Is Not a Decline | Minh Pham</title>
+    <meta name="description" content="How CommerceCore preserves payment uncertainty after a gRPC deadline, then uses durable request identity and lookup-based reconciliation to recover the business result.">
+    <link rel="canonical" href="https://minhpham06.com/blog/payment-timeout-is-not-a-decline.html">
+    <meta property="og:title" content="A Payment Timeout Is Not a Decline"><meta property="og:description" content="Transport failure is not a business result: payment ambiguity, idempotency, and reconciliation in CommerceCore."><meta property="og:type" content="article"><meta property="og:url" content="https://minhpham06.com/blog/payment-timeout-is-not-a-decline.html"><meta property="og:image" content="https://minhpham06.com/static/avatar.jpg">
+    <meta name="twitter:card" content="summary"><link rel="icon" href="/static/favicon.png"><link rel="stylesheet" href="/static/style.css?v=20260812b">
+</head>
+<body><div class="dashboard-layout">
+<nav class="navbar"><div class="navbar-logo"><span class="dashboard-title-navbar">Minh Pham</span></div><ul class="navbar-nav"><li><a href="../index.html">Home</a></li><li><a href="../about.html">About</a></li><li><a href="../projects.html">Projects</a></li><li class="active"><a href="../blog.html">Blog</a></li><li><a href="../contact.html">Contact</a></li></ul></nav>
+<main class="main-content"><article class="blog-post">
+<div class="blog-post-header"><a href="../blog.html" class="back-to-blog">← Back to Blog</a><div class="blog-post-meta"><span class="blog-post-date">Sep 7, 2026</span><span class="blog-post-read-time">8 min read</span></div></div>
+<h1 class="blog-post-title">A Payment Timeout Is Not a Decline</h1>
+<div class="blog-post-content">
+<p>I used to think of a payment call as having two useful outcomes: it worked, or it failed.</p><p>That model breaks as soon as the payment provider runs in another process.</p><p>In <a href="https://github.com/nhatminh06/commercecore">CommerceCore</a>, the application sends an authorization request to a separate Payment Service over gRPC. The provider can commit the authorization to its own PostgreSQL database and then, before the response reaches CommerceCore, the RPC can hit its deadline.</p><p>From CommerceCore's point of view, the call timed out. From the provider's point of view, the customer has already been authorized. Those are both true.</p><p>That small gap between them ended up shaping most of the payment design.</p>
+<h2>The dangerous version</h2><p>The tempting implementation looks roughly like this:</p><pre><code>authorize payment
+
+if success:
+    payment = AUTHORIZED
+else:
+    payment = FAILED</code></pre><p>A timeout goes through the <code>else</code>. That is wrong.</p><p>A timeout tells me that I did not receive a result before my deadline. It does not tell me that the provider rejected the payment. The request may have died before reaching the provider, failed there, or succeeded before the response was lost.</p><p>CommerceCore therefore has a third outcome: <code>UNKNOWN</code>. It is a real business state: an authorization may have happened, and the application lacks enough information to make a destructive decision.</p>
+<h2>Why FAILED would be unsafe</h2><p>CommerceCore connects payment state to inventory reservations and order state. A proven failure permits cancellation and eventual inventory release. Misclassifying an ambiguous timeout as <code>FAILED</code> could release stock even though the provider authorized the payment. The customer is then charged for an order the application believes it cancelled.</p><p>The opposite shortcut is unsafe too. Marking every timeout <code>AUTHORIZED</code> would advance an order on unproven payment. The system has to preserve uncertainty until it gets better evidence.</p>
+<h2>Retrying creates another problem</h2><p>Sending the request again is safe only if repetition cannot create another authorization. CommerceCore gives every authorization a stable provider request ID derived from its payment identity. The Payment Service persists that identity with the result.</p><pre><code>same logical payment
++
+same amount
+=
+same provider result</code></pre><p>A repeated provider request with a different amount is a conflict, not a retry. The decision lives in durable provider state, so restarting the Payment Service does not erase it. Process-local deduplication solves almost none of the failures I care about; the interesting retry often follows a crash.</p>
+<h2>Reconciliation should ask, not act</h2><p>Suppose CommerceCore stores <code>UNKNOWN</code> while the provider stores <code>AUTHORIZED</code>. My reconciliation path uses a provider lookup operation. It does not call authorization again.</p><pre><code>reconciliation asks what happened
+reconciliation does not make it happen again</code></pre><p>Reconciliation recovers knowledge. If it repeats the original side effect, a mechanism intended to resolve ambiguity can produce a new ambiguous side effect. Once CommerceCore retrieves provider truth, it transitions based on evidence rather than what the original RPC appeared to do.</p>
+<h2>At-least-once shows up again</h2><p>A provider can deliver a webhook more than once. CommerceCore stores event receipts and makes the business transition idempotent instead of pretending the transport is exactly-once.</p><p>The transactional outbox uses the same philosophy. A business fact and the intent to publish it commit in one local PostgreSQL transaction. Kafka publication happens afterward and is at-least-once. An event can reach a consumer and then be retried before the publisher records completion, so consumers tolerate duplicate delivery.</p>
+<h2>Authorization after inventory expiry</h2><p>Another race makes the state machine less tidy:</p><pre><code>inventory reserved
+payment authorization starts
+reservation expires
+inventory becomes available again
+payment provider says AUTHORIZED</code></pre><p>Automatically confirming is unsafe because the stock may now belong to someone else. Pretending the payment never happened is also wrong. CommerceCore moves the case to <code>REQUIRES_REVIEW</code> and avoids automatically mutating inventory.</p><p>Sometimes correct software preserves an uncomfortable fact rather than forcing reality into a clean success/failure enum.</p>
+<h2>What PostgreSQL owns</h2><p>Inside CommerceCore, PostgreSQL provides a strong local boundary. Checkout can atomically create the order, attach reservations, persist the idempotency mapping, and write the outbox intent.</p><p>That transaction cannot also own an independently operated Payment Service and Kafka without introducing a distributed transaction protocol. CommerceCore's database owns CommerceCore state. The Payment Service database owns provider state. Kafka distributes already-committed facts. Idempotency, durable intermediate states, and reconciliation cover the gaps.</p>
+<h2>The test that made it concrete</h2><p>One failure case runs the Payment Service over a real localhost TCP gRPC connection. The provider commits an authorization, but CommerceCore's deadline expires before it receives success.</p><pre><code>Payment Service: AUTHORIZED
+CommerceCore:    UNKNOWN</code></pre><p>Reconciliation queries the provider's persisted state and resolves the ambiguity without issuing another authorization. The successful path proves the API works. The timeout path proves the state model means something.</p>
+<h2>What changed in how I think about remote calls</h2><p>I no longer treat an RPC error as a business result. A deadline exceeded means the transport stopped waiting; it says nothing definitive about whether the remote side committed.</p><p>Once I treated that distinction seriously, <code>UNKNOWN</code>, durable request identity, lookup-based reconciliation, at-least-once consumers, and <code>REQUIRES_REVIEW</code> stopped looking like incidental complexity. The payment API did not get simpler. Its behavior got more honest.</p>
+</div><div class="blog-post-footer"><div class="blog-post-nav"><a href="../blog.html" class="nav-link"><span>← Back to Blog</span><span>All Posts</span></a></div></div>
+</article></main></div><footer class="footer-bar"><div class="footer-motto">Code. Learn. Share.</div></footer><script src="/static/script.js"></script></body></html>
