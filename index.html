@@ -6,6 +6,7 @@
     <title>Minh Pham | CS + Math @ UMN: Distributed Systems, ML Systems, Platform Engineering</title>
     <meta name="description" content="Minh Pham is a Computer Science and Mathematics student at the University of Minnesota building distributed systems, data platforms, ML infrastructure, and low-level software. Summer 2026: DevSecOps Engineering Intern at VietinBank.">
     <link rel="canonical" href="https://minhpham06.com/">
+    <link rel="alternate" type="application/rss+xml" title="Minh Pham — Engineering Writing" href="/feed.xml">
     <meta property="og:title" content="Minh Pham | CS + Math @ UMN">
     <meta property="og:description" content="Distributed systems, ML infrastructure, data platforms, and low-level software, with an emphasis on reliability, observability, security, and reproducibility.">
     <meta property="og:type" content="website">
@@ -41,9 +42,11 @@
             </div>
             <ul class="navbar-nav">
                 <li class="active"><a href="index.html">Home</a></li>
-                <li><a href="about.html">About</a></li>
                 <li><a href="projects.html">Projects</a></li>
-                <li><a href="blog.html">Blog</a></li>
+                <li><a href="blog.html">Writing</a></li>
+                <li><a href="research.html">Research</a></li>
+                <li><a href="now.html">Now</a></li>
+                <li><a href="about.html">About</a></li>
                 <li><a href="contact.html">Contact</a></li>
             </ul>
         </nav>
@@ -69,43 +72,21 @@
                 </div>
             </section>
 
-            <section class="summer-2026-section" aria-labelledby="summer-2026-heading">
-                <h2 id="summer-2026-heading" class="home-section-heading">Summer 2026</h2>
-                <p class="summer-2026-lead">Internship, independent systems projects, and everything I shipped between May and August 2026.</p>
+            <section class="summer-2026-section" aria-labelledby="current-work-heading">
+                <h2 id="current-work-heading" class="home-section-heading">Current Work</h2>
+                <p class="summer-2026-lead">Systems where correctness depends on ownership, persistence, retries, and recovery—not only the successful path.</p>
                 <div class="summer-2026-grid">
-                    <div class="summer-card summer-card--primary">
-                        <span class="summer-card-eyebrow">Internship</span>
-                        <h3 class="summer-card-title">VietinBank</h3>
-                        <p class="summer-card-sub">DevSecOps Engineering Intern</p>
-                        <p class="summer-card-desc">Built and maintained Jenkins and GitLab CI/CD pipelines across Java, Go, Python, and React services on a Kubernetes environment, with security gates (Gitleaks, Semgrep, Trivy, SonarQube), HashiCorp Vault, and Istio mTLS / AuthorizationPolicy.</p>
+                    <div class="summer-card">
+                        <span class="summer-card-eyebrow">Distributed CI</span><h3 class="summer-card-title">ForgeCI</h3><p class="summer-card-desc">A durable control plane, immutable source transport, and fenced remote execution across runner and GitHub failures.</p>
                     </div>
                     <div class="summer-card">
-                        <span class="summer-card-eyebrow">Distributed Systems</span>
-                        <h3 class="summer-card-title">MatchSense</h3>
-                        <p class="summer-card-sub">Event-driven analytics platform</p>
-                        <p class="summer-card-desc">Go + Python microservices over Kafka and Redis, full OpenTelemetry tracing, and a GitOps/Kyverno delivery pipeline with supply-chain controls.</p>
+                        <span class="summer-card-eyebrow">Consensus</span><h3 class="summer-card-title">QuorumKV</h3><p class="summer-card-desc">Raft persistence, ReadIndex, deduplicated client requests, snapshots, membership changes, and real-process failure tests.</p>
                     </div>
                     <div class="summer-card">
-                        <span class="summer-card-eyebrow">Data Engineering</span>
-                        <h3 class="summer-card-title">Market Pulse</h3>
-                        <p class="summer-card-sub">Local data lakehouse</p>
-                        <p class="summer-card-desc">Bronze/Silver/Gold pipeline on Apache Iceberg, MinIO, Trino, and dbt, orchestrated with Airflow and provisioned with Terraform.</p>
+                        <span class="summer-card-eyebrow">Backend Correctness</span><h3 class="summer-card-title">CommerceCore</h3><p class="summer-card-desc">Inventory contention, ambiguous payment results, transactional outbox delivery, and reconciliation across a gRPC boundary.</p>
                     </div>
                     <div class="summer-card">
-                        <span class="summer-card-eyebrow">Systems Programming</span>
-                        <h3 class="summer-card-title">Linux Kernel Lab</h3>
-                        <p class="summer-card-sub">Kernel build, driver, QEMU/GDB</p>
-                        <p class="summer-card-desc">Custom Linux 6.10 build, a character-device driver, and kernel debugging with GDB attached to a paused QEMU instance at <code>start_kernel</code>.</p>
-                    </div>
-                    <div class="summer-card summer-card--secondary">
-                        <span class="summer-card-eyebrow">MLOps</span>
-                        <h3 class="summer-card-title">Personal Cognitive Load Monitor</h3>
-                        <p class="summer-card-sub">FastAPI · MLflow · DVC · KServe</p>
-                    </div>
-                    <div class="summer-card summer-card--secondary">
-                        <span class="summer-card-eyebrow">Applied AI</span>
-                        <h3 class="summer-card-title">Company Research</h3>
-                        <p class="summer-card-sub">RAG pipeline over pgvector</p>
+                        <span class="summer-card-eyebrow">Database Reliability</span><h3 class="summer-card-title">PgSentry</h3><p class="summer-card-desc">PostgreSQL failover, DCS partitions, acknowledgement durability, WAL archiving, and point-in-time recovery.</p>
                     </div>
                 </div>
             </section>

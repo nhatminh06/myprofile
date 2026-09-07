@@ -3134,3 +3134,26 @@ table td:last-child {
 
 .blog-archive-heading h2 { margin-bottom: .35rem; }
 .blog-archive-heading p { margin: 0; color: var(--text-secondary, #667085); }
+
+/* Evidence and case-study content reuses the existing card vocabulary. */
+.case-study { max-width: 1000px; margin: 0 auto; width: 100%; }
+.case-hero { margin: 1rem 0 2rem; }
+.case-kicker { color: #ffb86c; font-weight: 600; text-transform: uppercase; letter-spacing: .06em; font-size: .82rem; }
+.case-actions { margin-top: 1.25rem; }
+.case-section { margin: 2rem 0; }
+.case-section h2 { color: #61dafb; margin-bottom: .75rem; }
+.case-section p, .case-section li { color: #b0b0b0; line-height: 1.75; }
+.case-section ul { padding-left: 1.35rem; }
+.case-tech, .evidence-panel { border-left: 3px solid #ffb86c; padding: 1rem 1.25rem; background: #181d24; border-radius: 0 10px 10px 0; }
+.case-links { list-style: none; padding-left: 0 !important; }
+.case-links a, .footer-text-links a { color: #61dafb; text-decoration: none; }
+.footer-text-links { display: flex; gap: 1rem; flex-wrap: wrap; }
+.research-card { max-width: 900px; }
+.project-card--moved { display: none; }
+.research-card h2, .research-card h3 { color: #61dafb; margin: 1rem 0 .5rem; }
+
+@media (max-width: 768px) {
+  .case-study { min-width: 0; }
+  .case-section pre, .blog-post-content pre { max-width: 100%; overflow-x: auto; }
+  .case-section table, .blog-post-content table { display: block; max-width: 100%; overflow-x: auto; }
+}

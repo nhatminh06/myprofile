@@ -6,6 +6,7 @@
     <title>Minh Pham - Projects</title>
     <meta name="description" content="Distributed systems, security-proven platform engineering, data engineering, ML infrastructure, and Linux systems projects by Minh Pham: MatchSense, Aegis, Market Pulse, Linux Kernel Lab, and more.">
     <link rel="canonical" href="https://minhpham06.com/projects.html">
+    <link rel="alternate" type="application/rss+xml" title="Minh Pham — Engineering Writing" href="/feed.xml">
     <meta property="og:title" content="Projects | Minh Pham">
     <meta property="og:description" content="Real repositories: event-driven systems, GitOps security platforms, data lakehouses, Linux kernel work, and MLOps.">
     <meta property="og:type" content="website">
@@ -22,9 +23,9 @@
             </div>
             <ul class="navbar-nav">
                 <li><a href="index.html">Home</a></li>
-                <li><a href="about.html">About</a></li>
                 <li class="active"><a href="projects.html">Projects</a></li>
-                <li><a href="blog.html">Blog</a></li>
+                <li><a href="blog.html">Writing</a></li>
+                <li><a href="research.html">Research</a></li><li><a href="now.html">Now</a></li><li><a href="about.html">About</a></li>
                 <li><a href="contact.html">Contact</a></li>
             </ul>
         </nav>
@@ -35,6 +36,7 @@
             </div>
 
             <section class="projects-section">
+                <h2 class="home-section-heading">Flagship Systems</h2>
                 <div class="projects-grid">
                     <!-- ForgeCI -->
                     <div class="project-card" style="order: 1;">
@@ -43,7 +45,7 @@
                         <div class="project-tech-tags"><span>Go</span><span>PostgreSQL</span><span>Docker</span><span>GitHub Apps</span><span>Content-addressed storage</span></div>
                         <div class="project-details"><div class="project-highlights"><strong>Design highlight:</strong> every job lease is fenced by runner, run, job, lease ID, generation, and expiration. A stale worker cannot download source, transfer artifacts, append logs, or report completion after ownership changes.</div></div>
                         <p class="project-note">Lost remote jobs are conservatively marked aborted; automatic job retry and reassignment are intentionally out of scope.</p>
-                        <div class="project-links"><a href="https://github.com/nhatminh06/forgeci" class="project-link" target="_blank" rel="noopener noreferrer">GitHub Repo</a></div>
+<div class="project-links"><a href="projects/forgeci.html" class="project-link">Case Study →</a><a href="https://github.com/nhatminh06/forgeci" class="project-link" target="_blank" rel="noopener noreferrer">GitHub Repo</a></div>
                     </div>
 
                     <!-- CommerceCore -->
@@ -53,7 +55,7 @@
                         <div class="project-tech-tags"><span>Java</span><span>Spring Boot</span><span>PostgreSQL</span><span>gRPC</span><span>Kafka</span><span>Testcontainers</span></div>
                         <div class="project-details"><div class="project-highlights"><strong>Design highlight:</strong> a payment deadline does not become a false decline. CommerceCore persists <code>UNKNOWN</code>, then reconciles by looking up the provider's durable result without reauthorizing; stable request identity makes retries idempotent.</div></div>
                         <p class="project-note">The project models one merchant and one currency; it is a correctness laboratory, not a complete commerce product.</p>
-                        <div class="project-links"><a href="https://github.com/nhatminh06/commercecore" class="project-link" target="_blank" rel="noopener noreferrer">GitHub Repo</a></div>
+<div class="project-links"><a href="projects/commercecore.html" class="project-link">Case Study →</a><a href="https://github.com/nhatminh06/commercecore" class="project-link" target="_blank" rel="noopener noreferrer">GitHub Repo</a></div>
                     </div>
 
                     <!-- PgSentry -->
@@ -63,11 +65,11 @@
                         <div class="project-tech-tags"><span>PostgreSQL</span><span>Patroni</span><span>etcd</span><span>HAProxy</span><span>WAL</span><span>Docker Compose</span></div>
                         <div class="project-details"><div class="project-highlights"><strong>Design highlight:</strong> replicas can preserve and reproduce a valid destructive write. The recovery path therefore restores database history from a base backup plus archived WAL instead of treating automatic failover as a substitute for recovery.</div></div>
                         <p class="project-note">A local failure lab with deliberate faults, not a hosted database service or a claim of zero data loss under every configuration.</p>
-                        <div class="project-links"><a href="https://github.com/nhatminh06/pgsentry" class="project-link" target="_blank" rel="noopener noreferrer">GitHub Repo</a></div>
+<div class="project-links"><a href="projects/pgsentry.html" class="project-link">Case Study →</a><a href="https://github.com/nhatminh06/pgsentry" class="project-link" target="_blank" rel="noopener noreferrer">GitHub Repo</a></div>
                     </div>
 
                     <!-- MatchSense -->
-                    <div class="project-card" style="order: 9;">
+                    <div class="project-card project-card--moved" style="order: 9;">
                         <div class="project-header">
                             <h3>MatchSense</h3>
                             <span class="project-status ongoing">Active Development</span>
@@ -108,12 +110,13 @@
                         </div>
                         <p class="project-note">A development-security posture, evidence-backed at every layer tested; not described as zero-trust, and its feature set is intentionally frozen.</p>
                         <div class="project-links">
+                            <a href="projects/aegis.html" class="project-link">Case Study →</a>
                             <a href="https://github.com/nhatminh06/aeigs" class="project-link" target="_blank" rel="noopener noreferrer">GitHub Repo</a>
                         </div>
                     </div>
 
                     <!-- Market Pulse -->
-                    <div class="project-card" style="order: 10;">
+                    <div class="project-card project-card--moved" style="order: 10;">
                         <div class="project-header">
                             <h3>Market Pulse</h3>
                             <span class="project-status ongoing">Active Development</span>
@@ -135,7 +138,7 @@
                     </div>
 
                     <!-- Linux Kernel Lab -->
-                    <div class="project-card" style="order: 11;">
+                    <div class="project-card project-card--moved" style="order: 11;">
                         <div class="project-header">
                             <h3>Linux Kernel Lab</h3>
                             <span class="project-status completed">Completed</span>
@@ -157,7 +160,7 @@
                     </div>
 
                     <!-- Personal Cognitive Load Monitor -->
-                    <div class="project-card" style="order: 13;">
+                    <div class="project-card project-card--moved" style="order: 13;">
                         <div class="project-header">
                             <h3>Personal Cognitive Load Monitor</h3>
                             <span class="project-status ongoing">Active Development</span>
@@ -180,7 +183,7 @@
                     </div>
 
                     <!-- Company Research -->
-                    <div class="project-card" style="order: 14;">
+                    <div class="project-card project-card--moved" style="order: 14;">
                         <div class="project-header">
                             <h3>Company Research</h3>
                             <span class="project-status completed">Completed</span>
@@ -220,6 +223,7 @@
                         </div>
                         <p class="project-note">Correctness properties are implemented and tested, not formally proven.</p>
                         <div class="project-links">
+                            <a href="projects/quorumkv.html" class="project-link">Case Study →</a>
                             <a href="https://github.com/nhatminh06/quorumkv" class="project-link" target="_blank" rel="noopener noreferrer">GitHub Repo</a>
                         </div>
                     </div>
@@ -243,6 +247,7 @@
                         </div>
                         <p class="project-note">Physical execution is read-only, single-threaded, and single-table; no joins, transactions, WAL, or crash recovery yet.</p>
                         <div class="project-links">
+                            <a href="projects/pagedb.html" class="project-link">Case Study →</a>
                             <a href="https://github.com/nhatminh06/pagedb" class="project-link" target="_blank" rel="noopener noreferrer">GitHub Repo</a>
                         </div>
                     </div>
@@ -266,6 +271,7 @@
                         </div>
                         <p class="project-note">A learning project prioritizing protocol correctness over performance; TCP simultaneous open, DSACK, and modern congestion control (CUBIC/BBR) are not implemented.</p>
                         <div class="project-links">
+                            <a href="projects/wirestack.html" class="project-link">Case Study →</a>
                             <a href="https://github.com/nhatminh06/wirestack" class="project-link" target="_blank" rel="noopener noreferrer">GitHub Repo</a>
                         </div>
                     </div>
@@ -289,6 +295,7 @@
                         </div>
                         <p class="project-note">An analytical modeling toolkit, not a cycle-accurate simulator or a complete Transformer/CNN inference simulator.</p>
                         <div class="project-links">
+                            <a href="projects/tensorforge.html" class="project-link">Case Study →</a>
                             <a href="https://github.com/nhatminh06/tensorforge" class="project-link" target="_blank" rel="noopener noreferrer">GitHub Repo</a>
                         </div>
                     </div>
@@ -301,6 +308,11 @@
                 </div>
 
                 <div class="projects-grid projects-grid--secondary">
+                    <div class="project-card project-card--compact"><div class="project-header"><h3>MatchSense</h3><span class="project-status completed">Earlier Project</span></div><p class="project-description">Event-driven football analytics built around idempotent Kafka ingestion, Redis state, cross-service traces, and simulator-generated events.</p><div class="project-links"><a href="https://github.com/nhatminh06/matchsense" class="project-link">GitHub Repo</a></div></div>
+                    <div class="project-card project-card--compact"><div class="project-header"><h3>Market Pulse</h3><span class="project-status completed">Earlier Project</span></div><p class="project-description">A local Iceberg lakehouse with incremental ingestion, dbt-on-Trino transformations, data-quality gates, and a verified end-to-end workflow.</p><div class="project-links"><a href="https://github.com/nhatminh06/market-pulse" class="project-link">GitHub Repo</a></div></div>
+                    <div class="project-card project-card--compact"><div class="project-header"><h3>Linux Kernel Lab</h3><span class="project-status completed">Completed Lab</span></div><p class="project-description">A Linux source build, BusyBox initramfs, QEMU/GDB early-boot workflow, and character-device driver with recorded toolchain failures.</p><div class="project-links"><a href="https://github.com/nhatminh06/linux-kernel-lab" class="project-link">GitHub Repo</a></div></div>
+                    <div class="project-card project-card--compact"><div class="project-header"><h3>Personal Cognitive Load Monitor</h3><span class="project-status completed">Course Project</span></div><p class="project-description">An educational MLOps system using synthetic data, tracked experiments, FastAPI serving, drift reports, and Kubernetes manifests.</p><div class="project-links"><a href="https://github.com/nhatminh06/personal-cognitive-load-monitor" class="project-link">GitHub Repo</a></div></div>
+                    <div class="project-card project-card--compact"><div class="project-header"><h3>Company Research</h3><span class="project-status completed">Earlier Project</span></div><p class="project-description">A full-stack company research application with a pgvector retrieval path and streamed resume-fit evaluation.</p><div class="project-links"><a href="https://github.com/nhatminh06/company-research" class="project-link">GitHub Repo</a></div></div>
                     <div class="project-card project-card--compact">
                         <div class="project-header">
                             <h3>LearnOps Tracker</h3>
