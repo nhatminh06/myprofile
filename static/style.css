@@ -2081,6 +2081,15 @@ a.btn-hero {
   background: rgba(15, 23, 42, .42);
 }
 
+.blog-post-opening {
+  margin: 1.25rem 0 0;
+  color: #c7c7c7;
+  font-size: 1.1rem;
+  line-height: 1.8;
+}
+
+.blog-post-opening a { color: #61dafb; }
+
 .project-context-label {
   margin: 0 0 .35rem;
   color: #8b949e;
@@ -2097,6 +2106,11 @@ a.btn-hero {
 .project-context dt { color: #8b949e; font-size: .78rem; font-weight: 700; text-transform: uppercase; }
 .project-context dd { margin: .25rem 0 0; line-height: 1.5; overflow-wrap: anywhere; }
 .project-context-actions { display: flex; flex-wrap: wrap; gap: 1rem; margin-top: 1rem; }
+
+.writing-notes { margin-top: 3rem; }
+.writing-notes .section-intro--compact { margin-bottom: 1.25rem; }
+.writing-notes .section-title { font-size: 1.8rem; }
+.writing-notes-all { margin-top: 1rem; }
 
 @media (max-width: 640px) {
   .project-context dl { grid-template-columns: 1fr; }

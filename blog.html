@@ -245,6 +245,19 @@
                         </div>
                     </article>
                 </div>
+                <section class="writing-notes" aria-labelledby="engineering-notes-heading">
+                    <div class="section-intro section-intro--compact">
+                        <h2 id="engineering-notes-heading" class="section-title">Engineering Notes</h2>
+                        <p class="section-subtitle">Short explanations from active projects. These stay narrower than the project case studies and long-form articles above.</p>
+                    </div>
+                    <div class="projects-grid projects-grid--secondary">
+                        <article class="project-card project-card--compact"><p class="case-kicker">QuorumKV</p><h3>Why ReadIndex Exists</h3><p class="project-description">The test a leader needs before its local state is safe to return as a linearizable read.</p><div class="project-links"><a class="project-link" href="notes/read-index.html">Read note →</a></div></article>
+                        <article class="project-card project-card--compact"><p class="case-kicker">PgSentry</p><h3>Why Replicas Are Not Backups</h3><p class="project-description">A replica preserves current state, including a valid destructive transaction. Recovery needs history.</p><div class="project-links"><a class="project-link" href="notes/replicas-not-backups.html">Read note →</a></div></article>
+                        <article class="project-card project-card--compact"><p class="case-kicker">ForgeCI</p><h3>What a Fencing Token Prevents</h3><p class="project-description">Why an expired worker can remain alive while losing permission to mutate a job.</p><div class="project-links"><a class="project-link" href="notes/fencing-token.html">Read note →</a></div></article>
+                        <article class="project-card project-card--compact"><p class="case-kicker">CommerceCore</p><h3>Why an Outbox Is Still At-Least-Once</h3><p class="project-description">Atomic local intent prevents loss, but publication can still be repeated after a crash.</p><div class="project-links"><a class="project-link" href="notes/outbox-at-least-once.html">Read note →</a></div></article>
+                    </div>
+                    <p class="writing-notes-all"><a class="project-link" href="notes.html">View all engineering notes →</a></p>
+                </section>
                 <div class="blog-footer">
                     <h3>Follow the writing</h3>
                     <p>New technical articles and engineering notes are available through <a href="/feed.xml">RSS →</a></p>
