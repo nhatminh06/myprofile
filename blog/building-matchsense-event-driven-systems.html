@@ -26,21 +26,21 @@
                 <li><a href="../index.html">Home</a></li>
                 <li><a href="../about.html">About</a></li>
                 <li><a href="../projects.html">Projects</a></li>
-                <li class="active"><a href="../blog.html">Blog</a></li>
+                <li class="active"><a href="../blog.html">Writing</a></li>
                 <li><a href="../contact.html">Contact</a></li>
             </ul>
         </nav>
         <main class="main-content">
             <article class="blog-post">
                 <div class="blog-post-header">
-                    <a href="../blog.html" class="back-to-blog">&larr; Back to Blog</a>
+                    <a href="../blog.html" class="back-to-blog">&larr; Back to Writing</a>
                     <div class="blog-post-meta">
                         <span class="blog-post-date">Aug 10, 2026</span>
                         <span class="blog-post-read-time">15 min read</span>
                     </div>
                 </div>
 
-                <h1 class="blog-post-title">Building MatchSense: What Event-Driven Systems Taught Me About Failure</h1><p class="blog-post-opening">MatchSense is a real-time football (soccer) analytics platform: match events (goals, shots, fouls, corners, cards) flow through Kafka into a stats aggregator, then into an ML prediction service, and out through a read API and a live Grafana dashboard. The match data is simulator-generated, not a live sports feed, and the xG and win-probability models are trained on synthetic data. What's real is everything downstream of the event: the pipeline, the failure handling, and the observability. That's also where almost everything I learned actually happened.</p><aside class="project-context" aria-labelledby="context-matchsense"><p class="project-context-label">About this project</p><h2 id="context-matchsense">MatchSense</h2><p>A simulated football-event platform built around Kafka delivery, Redis state, an ML service, and end-to-end tracing.</p><dl><div><dt>Why I built it</dt><dd>To practice treating duplicates and partial failures as normal application behavior.</dd></div><div><dt>Stack</dt><dd>Go · Python · Kafka · Redis · OpenTelemetry</dd></div><div><dt>Status</dt><dd>Earlier project</dd></div></dl><div class="project-context-actions"><a class="project-link" href="../projects.html">View project →</a><a class="project-link" href="https://github.com/nhatminh06/matchsense" target="_blank" rel="noopener noreferrer">GitHub →</a></div></aside><div class="blog-post-content">
+                <h1 class="blog-post-title">Building MatchSense: What Event-Driven Systems Taught Me About Failure</h1><p class="blog-post-opening">MatchSense is an event-driven football (soccer) analytics platform: match events (goals, shots, fouls, corners, cards) flow through Kafka into a stats aggregator, then into an ML prediction service, and out through a read API and a live Grafana dashboard. The match data is simulator-generated, not a live sports feed, and the xG and win-probability models are trained on synthetic data. What's real is everything downstream of the event: the pipeline, the failure handling, and the observability. That's also where almost everything I learned actually happened.</p><aside class="project-context" aria-labelledby="context-matchsense"><p class="project-context-label">About this project</p><h2 id="context-matchsense">MatchSense</h2><p>A simulated football-event platform built around Kafka delivery, Redis state, an ML service, and end-to-end tracing.</p><dl><div><dt>Why I built it</dt><dd>To practice treating duplicates and partial failures as normal application behavior.</dd></div><div><dt>Stack</dt><dd>Go · Python · Kafka · Redis · OpenTelemetry</dd></div><div><dt>Status</dt><dd>Earlier project</dd></div></dl><div class="project-context-actions"><a class="project-link" href="../projects.html">View project →</a><a class="project-link" href="https://github.com/nhatminh06/matchsense" target="_blank" rel="noopener noreferrer">GitHub →</a></div></aside><div class="blog-post-content">
 
 
                     <h2>Key technologies</h2>
@@ -98,7 +98,7 @@
                 <div class="blog-post-footer">
                     <div class="blog-post-nav">
                         <a href="../blog.html" class="nav-link">
-                            <span>&larr; Back to Blog</span>
+                            <span>&larr; Back to Writing</span>
                             <span>All Posts</span>
                         </a>
                     </div>

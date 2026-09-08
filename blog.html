@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Minh Pham - Blog</title>
+    <title>Writing | Minh Pham</title>
     <meta name="description" content="Notes from building systems, debugging infrastructure, running experiments, and learning how software behaves beyond the happy path.">
     <link rel="canonical" href="https://minhpham06.com/blog.html">
     <link rel="alternate" type="application/rss+xml" title="Minh Pham — Engineering Writing" href="/feed.xml">
-    <meta property="og:title" content="Blog | Minh Pham">
+    <meta property="og:title" content="Writing | Minh Pham">
     <meta property="og:description" content="Notes from building systems, debugging infrastructure, running experiments, and learning how software behaves beyond the happy path.">
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://minhpham06.com/blog.html">
@@ -31,7 +31,7 @@
         </nav>
         <main class="main-content">
             <div class="section-intro">
-                <h1 class="section-title">My Blog</h1>
+                <h1 class="section-title">Writing</h1>
                 <p class="section-subtitle">Notes from building systems, debugging infrastructure, running experiments, and learning how software behaves beyond the happy path.</p>
             </div>
             <section class="blog-section">
@@ -183,7 +183,20 @@
                         </div>
                     </article>
 
-                    <div class="blog-archive-heading"><h2>Archive / Personal</h2><p>Earlier writing preserved as a record of what I was learning and thinking at the time.</p></div>
+                </div>
+                <section class="writing-notes" aria-labelledby="engineering-notes-heading">
+                    <div class="section-intro section-intro--compact">
+                        <h2 id="engineering-notes-heading" class="section-title">Engineering Notes</h2>
+                        <p class="section-subtitle">Short explanations from active projects. These stay narrower than the project case studies and long-form articles above.</p>
+                    </div>
+                    <div class="projects-grid projects-grid--secondary">
+                        <article class="project-card project-card--compact"><p class="case-kicker">QuorumKV</p><h3>Why ReadIndex Exists</h3><p class="project-description">The test a leader needs before its local state is safe to return as a linearizable read.</p><div class="project-links"><a class="project-link" href="notes/read-index.html">Read note →</a></div></article>
+                        <article class="project-card project-card--compact"><p class="case-kicker">PgSentry</p><h3>Why Replicas Are Not Backups</h3><p class="project-description">A replica preserves current state, including a valid destructive transaction. Recovery needs history.</p><div class="project-links"><a class="project-link" href="notes/replicas-not-backups.html">Read note →</a></div></article>
+                        <article class="project-card project-card--compact"><p class="case-kicker">ForgeCI</p><h3>What a Fencing Token Prevents</h3><p class="project-description">Why an expired worker can remain alive while losing permission to mutate a job.</p><div class="project-links"><a class="project-link" href="notes/fencing-token.html">Read note →</a></div></article>
+                        <article class="project-card project-card--compact"><p class="case-kicker">CommerceCore</p><h3>Why an Outbox Is Still At-Least-Once</h3><p class="project-description">Atomic local intent prevents loss, but publication can still be repeated after a crash.</p><div class="project-links"><a class="project-link" href="notes/outbox-at-least-once.html">Read note →</a></div></article>
+                    </div>
+                    <p class="writing-notes-all"><a class="project-link" href="notes.html">View all engineering notes →</a></p>
+                </section>\n                <div class="blog-card-grid blog-card-grid--archive">\n                    <div class="blog-archive-heading"><h2>Archive / Personal</h2><p>Earlier writing preserved as a record of what I was learning and thinking at the time.</p></div>
 
                     <article class="blog-card" data-tags="learning">
                         <div class="blog-card-header">
@@ -245,19 +258,6 @@
                         </div>
                     </article>
                 </div>
-                <section class="writing-notes" aria-labelledby="engineering-notes-heading">
-                    <div class="section-intro section-intro--compact">
-                        <h2 id="engineering-notes-heading" class="section-title">Engineering Notes</h2>
-                        <p class="section-subtitle">Short explanations from active projects. These stay narrower than the project case studies and long-form articles above.</p>
-                    </div>
-                    <div class="projects-grid projects-grid--secondary">
-                        <article class="project-card project-card--compact"><p class="case-kicker">QuorumKV</p><h3>Why ReadIndex Exists</h3><p class="project-description">The test a leader needs before its local state is safe to return as a linearizable read.</p><div class="project-links"><a class="project-link" href="notes/read-index.html">Read note →</a></div></article>
-                        <article class="project-card project-card--compact"><p class="case-kicker">PgSentry</p><h3>Why Replicas Are Not Backups</h3><p class="project-description">A replica preserves current state, including a valid destructive transaction. Recovery needs history.</p><div class="project-links"><a class="project-link" href="notes/replicas-not-backups.html">Read note →</a></div></article>
-                        <article class="project-card project-card--compact"><p class="case-kicker">ForgeCI</p><h3>What a Fencing Token Prevents</h3><p class="project-description">Why an expired worker can remain alive while losing permission to mutate a job.</p><div class="project-links"><a class="project-link" href="notes/fencing-token.html">Read note →</a></div></article>
-                        <article class="project-card project-card--compact"><p class="case-kicker">CommerceCore</p><h3>Why an Outbox Is Still At-Least-Once</h3><p class="project-description">Atomic local intent prevents loss, but publication can still be repeated after a crash.</p><div class="project-links"><a class="project-link" href="notes/outbox-at-least-once.html">Read note →</a></div></article>
-                    </div>
-                    <p class="writing-notes-all"><a class="project-link" href="notes.html">View all engineering notes →</a></p>
-                </section>
                 <div class="blog-footer">
                     <h3>Follow the writing</h3>
                     <p>New technical articles and engineering notes are available through <a href="/feed.xml">RSS →</a></p>
