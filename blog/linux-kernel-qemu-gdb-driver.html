@@ -13,6 +13,8 @@
     <meta name="twitter:card" content="summary">
     <link rel="icon" type="image/png" sizes="32x32" href="/static/favicon.png">
     <link rel="stylesheet" href="/static/style.css?v=20260812b">
+    <link rel="alternate" type="application/rss+xml" title="Minh Pham — Engineering Writing" href="/feed.xml">
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"BlogPosting","headline":"Debugging Linux from the Kernel to QEMU: My Linux Kernel Lab","datePublished":"2026-08-08","author":{"@type":"Person","name":"Minh Pham","url":"https://minhpham06.com"},"url":"https://minhpham06.com/blog/linux-kernel-qemu-gdb-driver.html"}</script>
 </head>
 <body>
     <div class="dashboard-layout">
@@ -38,7 +40,7 @@
                     </div>
                 </div>
 
-                <h1 class="blog-post-title">Debugging Linux from the Kernel to QEMU: My Linux Kernel Lab</h1>
+                <h1 class="blog-post-title">Debugging Linux from the Kernel to QEMU: My Linux Kernel Lab</h1><aside class="project-context" aria-labelledby="context-linux-kernel-lab"><p class="project-context-label">About this project</p><h2 id="context-linux-kernel-lab">Linux Kernel Lab</h2><p>A Linux source build, BusyBox initramfs, QEMU/GDB boot workflow, and character-device driver.</p><dl><div><dt>Why I built it</dt><dd>To work below containers and learn how failures cross compiler, kernel, module, and emulator boundaries.</dd></div><div><dt>Stack</dt><dd>C · Linux 6.10 · QEMU · GDB · BusyBox</dd></div><div><dt>Status</dt><dd>Completed lab</dd></div></dl><div class="project-context-actions"><a class="project-link" href="../projects.html">View project →</a><a class="project-link" href="https://github.com/nhatminh06/linux-kernel-lab" target="_blank" rel="noopener noreferrer">GitHub →</a></div></aside>
 
                 <div class="blog-post-content">
                     <p>I built Linux 6.10 from source, booted it in QEMU with a custom BusyBox initramfs, wrote a character-device driver, and attached GDB to a paused kernel to step through early boot at <code>start_kernel</code>. None of that description is the interesting part. The interesting part is that almost every step of it broke first, for reasons that had nothing to do with the kernel and everything to do with toolchain versions I hadn't thought to question.</p>

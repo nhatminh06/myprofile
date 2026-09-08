@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>The SQL Query That Made Me Rethink Every Layer Below It | Minh Pham</title>
+  <meta name="description" content="What building PageDB from disk pages through a SQL server taught me about storage boundaries, ownership, and the features I have not built yet.">
+  <link rel="canonical" href="https://minhpham06.com/blog/pagedb-from-pages-to-sql.html">
+  <link rel="alternate" type="application/rss+xml" title="Minh Pham — Engineering Writing" href="/feed.xml">
+  <meta property="og:title" content="The SQL Query That Made Me Rethink Every Layer Below It"><meta property="og:description" content="Building PageDB from fixed pages to a bounded SQL server, one inspectable layer at a time."><meta property="og:type" content="article"><meta property="og:url" content="https://minhpham06.com/blog/pagedb-from-pages-to-sql.html"><meta name="twitter:card" content="summary">
+  <link rel="icon" href="/static/favicon.png"><link rel="stylesheet" href="/static/style.css?v=20260908">
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"BlogPosting","headline":"The SQL Query That Made Me Rethink Every Layer Below It","datePublished":"2026-09-08","author":{"@type":"Person","name":"Minh Pham","url":"https://minhpham06.com"},"url":"https://minhpham06.com/blog/pagedb-from-pages-to-sql.html"}</script>
+</head>
+<body><div class="dashboard-layout">
+<nav class="navbar"><div class="navbar-logo"><span class="dashboard-title-navbar">Minh Pham</span></div><ul class="navbar-nav"><li><a href="../index.html">Home</a></li><li><a href="../projects.html">Projects</a></li><li class="active"><a href="../blog.html">Writing</a></li><li><a href="../notes.html">Notes</a></li><li><a href="../research.html">Research</a></li><li><a href="../now.html">Now</a></li><li><a href="../about.html">About</a></li></ul></nav>
+<main class="main-content"><article class="blog-post">
+<div class="blog-post-header"><a href="../blog.html" class="back-to-blog">← Back to Writing</a><div class="blog-post-meta"><span class="blog-post-date">Sep 8, 2026</span><span class="blog-post-read-time">10 min read</span></div></div>
+<h1 class="blog-post-title">The SQL Query That Made Me Rethink Every Layer Below It</h1>
+<aside class="project-context" aria-labelledby="context-pagedb"><p class="project-context-label">About this project</p><h2 id="context-pagedb">PageDB</h2><p>A relational database engine I am building bottom-up in C23, currently exposed through a loopback server and a bounded binary protocol.</p><dl><div><dt>Why I built it</dt><dd>To follow a query all the way down to bytes on disk without hiding the storage engine behind a library.</dd></div><div><dt>Stack</dt><dd>C23 · CMake · B+ tree · TCP</dd></div><div><dt>Status</dt><dd>In progress</dd></div></dl><div class="project-context-actions"><a class="project-link" href="../projects/pagedb.html">View project →</a><a class="project-link" href="https://github.com/nhatminh06/pagedb" target="_blank" rel="noopener noreferrer">GitHub →</a></div></aside>
+<div class="blog-post-content">
+<p>The first PageDB query that returned a row was almost anticlimactic. The SQL was small. The interesting part was that I could point to every boundary it crossed: a parser produced owned tokens, a binder resolved columns against a catalog schema, a planner built a scan and filters, an executor pulled typed tuples, and the table heap found records through a buffer pool backed by persistent pages.</p>
+<p>Before this project, I understood those pieces separately. Making them depend on one another changed what I paid attention to. A record identifier is not just two integers. A page is not just a byte array. Even a projection operator needs a precise rule for who owns the returned tuple and how long its values remain valid.</p>
+
+<h2>I started where the abstractions stop</h2>
+<p>PageDB begins with fixed-size persistent pages managed by a disk manager. Above that, slotted pages store variable-length records. The slot directory lets a record keep the same page-and-slot identity while its bytes move during compaction. That distinction became the first useful lesson: logical identity and physical position should not be the same thing unless I am willing to make every caller absorb layout changes.</p>
+<p>The buffer pool made resource ownership harder. A page can be resident, pinned, dirty, or eligible for Clock replacement. Evicting a pinned page is wrong; forgetting to mark a changed page dirty silently loses work; retaining a pointer after unpinning lets a later eviction invalidate it. What looked like a cache was really an agreement about lifetime.</p>
+
+<pre><code>SQL request
+  → parser / binder / planner
+  → pull-based operators
+  → catalog and typed tuples
+  → table heap / B+ tree
+  → buffer pool
+  → slotted page
+  → disk manager</code></pre>
+
+<h2>Record IDs connected the storage layers</h2>
+<p>A table heap links pages and exposes records as stable <code>RecordId</code> values. Insertion may choose another page, and records can move within a slotted page, but callers continue to address the record through its page and slot. Multi-page scans forced me to define what happens at page boundaries and how a scan advances without leaking pins.</p>
+<p>The current heap is intentionally simple: a linked page chain, linear first-fit insertion, and linear membership validation. Records cannot span pages. Deleted slots remain tombstones rather than being reused. Those decisions kept the format inspectable, but they also give the design concrete limits: a page can exhaust slot-directory space even when record bytes have been deleted, and insertion does more scanning than a free-space map would require.</p>
+
+<h2>The index could not pretend failures were atomic</h2>
+<p>PageDB's B+ tree supports unique signed 64-bit keys, exact lookup, ordered forward traversal, insertion, and rebalanced deletion. Splits and merges made persistence feel different from an in-memory data-structure exercise. A root change has to survive reopening, siblings and parents must agree after structural edits, and every referenced page must be reachable.</p>
+<p>But there is no transaction layer or write-ahead log yet. A failure during a split, merge, or root update can leave unreachable pages or an invalid tree. Saying that plainly matters. Passing insertion and reopen tests demonstrates the implemented path; it does not manufacture crash atomicity that the storage stack does not provide.</p>
+
+<h2>SQL pushed ownership upward</h2>
+<p>The execution layer uses pull-based operators: sequential and integer-range index scans, typed column-literal filters, and projections. Composing filters represents logical <code>AND</code>. The SQL layer parses one explicit-length <code>SELECT</code> statement for one catalog table, binds named columns, and plans the supported predicates.</p>
+<p>This is not broad SQL support. There are no joins, aggregates, sorting, aliases, DML, DDL, or optimizer. SQL plans currently choose sequential scans rather than discovering catalog indexes. Keeping the grammar bounded let me concentrate on error offsets, type checking, tuple ownership, and the handoff between planning and execution.</p>
+
+<h2>A server made the boundary observable</h2>
+<p>The loopback C server accepts exactly one request per TCP connection using a documented binary protocol. Frames have explicit lengths and bounded fields. The server opens the database, loads a caller-supplied catalog page, runs the same SQL path used by the engine, and serializes either rows or an error.</p>
+<p>That interface exposed stale assumptions quickly. Internal structs are not a wire format. Host byte order is not a protocol. A parser error needs a stable representation after crossing a socket. It also forced an honest inventory of missing work: the server is sequential, unauthenticated, has no TLS, and binds only to <code>127.0.0.1</code>.</p>
+
+<h2>What I actually tested</h2>
+<p>The repository tests page serialization and record mutation, buffer eviction and dirty-page persistence, multi-page heap behavior, typed tuple encoding, catalog reopen, B+ tree insertion/search/deletion/range traversal, operator composition, SQL binding and diagnostics, and requests through the server protocol. I also run the suite under AddressSanitizer and UndefinedBehaviorSanitizer configurations.</p>
+<p>The failures I care about are boundary failures: using a record after its page lifetime ended, reopening a structure with the wrong header identity, accepting a truncated protocol frame, or letting an index point at a stale record. Those cases say more about the engine than a happy-path <code>SELECT</code>.</p>
+
+<h2>What remains unfinished</h2>
+<p>PageDB has no transactions, WAL, crash recovery, concurrent execution, page reuse, joins, or Java client. The catalog page ID must be supplied at startup because automatic catalog discovery is not implemented. The repository README once described the Java client as future work, and the current source still agrees; I am not presenting a planned language boundary as a completed one.</p>
+<p>The project changed how I read database diagrams. The boxes are useful, but the difficult parts live in the contracts between them: identity versus location, ownership versus lifetime, dirty state versus durable state, and a successful operation versus one that survives a crash.</p>
+
+<p><strong>Related project:</strong> <a href="../projects/pagedb.html">PageDB case study →</a></p>
+</div>
+<div class="blog-post-footer"><div class="blog-post-nav"><a href="../blog.html" class="nav-link"><span>← Back to Writing</span><span>All posts</span></a></div></div>
+</article></main></div><footer class="footer-bar"><div class="footer-motto">Code. Learn. Share.</div></footer></body></html>

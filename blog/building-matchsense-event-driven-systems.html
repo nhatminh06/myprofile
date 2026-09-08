@@ -13,6 +13,8 @@
     <meta name="twitter:card" content="summary">
     <link rel="icon" type="image/png" sizes="32x32" href="/static/favicon.png">
     <link rel="stylesheet" href="/static/style.css?v=20260812b">
+    <link rel="alternate" type="application/rss+xml" title="Minh Pham — Engineering Writing" href="/feed.xml">
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"BlogPosting","headline":"Building MatchSense: What Event-Driven Systems Taught Me About Failure","datePublished":"2026-08-10","author":{"@type":"Person","name":"Minh Pham","url":"https://minhpham06.com"},"url":"https://minhpham06.com/blog/building-matchsense-event-driven-systems.html"}</script>
 </head>
 <body>
     <div class="dashboard-layout">
@@ -38,7 +40,7 @@
                     </div>
                 </div>
 
-                <h1 class="blog-post-title">Building MatchSense: What Event-Driven Systems Taught Me About Failure</h1>
+                <h1 class="blog-post-title">Building MatchSense: What Event-Driven Systems Taught Me About Failure</h1><aside class="project-context" aria-labelledby="context-matchsense"><p class="project-context-label">About this project</p><h2 id="context-matchsense">MatchSense</h2><p>A simulated football-event platform built around Kafka delivery, Redis state, an ML service, and end-to-end tracing.</p><dl><div><dt>Why I built it</dt><dd>To practice treating duplicates and partial failures as normal application behavior.</dd></div><div><dt>Stack</dt><dd>Go · Python · Kafka · Redis · OpenTelemetry</dd></div><div><dt>Status</dt><dd>Earlier project</dd></div></dl><div class="project-context-actions"><a class="project-link" href="../projects.html">View project →</a><a class="project-link" href="https://github.com/nhatminh06/matchsense" target="_blank" rel="noopener noreferrer">GitHub →</a></div></aside>
 
                 <div class="blog-post-content">
                     <p>MatchSense is a real-time football (soccer) analytics platform: match events (goals, shots, fouls, corners, cards) flow through Kafka into a stats aggregator, then into an ML prediction service, and out through a read API and a live Grafana dashboard. The match data is simulator-generated, not a live sports feed, and the xG and win-probability models are trained on synthetic data. What's real is everything downstream of the event: the pipeline, the failure handling, and the observability. That's also where almost everything I learned actually happened.</p>

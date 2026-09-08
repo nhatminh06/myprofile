@@ -2072,6 +2072,36 @@ a.btn-hero {
   font-size: 1.1rem;
 }
 
+/* Compact source context for technical articles. */
+.project-context {
+  margin: 1.5rem 0 2rem;
+  padding: 1.25rem;
+  border: 1px solid rgba(148, 163, 184, .24);
+  border-radius: 12px;
+  background: rgba(15, 23, 42, .42);
+}
+
+.project-context-label {
+  margin: 0 0 .35rem;
+  color: #8b949e;
+  font-size: .78rem;
+  font-weight: 700;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+}
+
+.project-context h2 { margin: 0 0 .55rem; font-size: 1.25rem; }
+.project-context > p:not(.project-context-label) { margin: 0 0 1rem; }
+.project-context dl { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: .8rem; margin: 0; }
+.project-context dl div { min-width: 0; }
+.project-context dt { color: #8b949e; font-size: .78rem; font-weight: 700; text-transform: uppercase; }
+.project-context dd { margin: .25rem 0 0; line-height: 1.5; overflow-wrap: anywhere; }
+.project-context-actions { display: flex; flex-wrap: wrap; gap: 1rem; margin-top: 1rem; }
+
+@media (max-width: 640px) {
+  .project-context dl { grid-template-columns: 1fr; }
+}
+
 .blog-post-content h2 {
   color: #61dafb;
   font-size: 1.8rem;

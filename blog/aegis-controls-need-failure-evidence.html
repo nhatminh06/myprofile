@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>A Security Control Is a Claim Until It Meets a Failure | Minh Pham</title>
+  <meta name="description" content="How Aegis used admission failures, a bad signed release, destructive restores, and a broken ingress datapath to test platform claims.">
+  <link rel="canonical" href="https://minhpham06.com/blog/aegis-controls-need-failure-evidence.html"><link rel="alternate" type="application/rss+xml" title="Minh Pham — Engineering Writing" href="/feed.xml">
+  <meta property="og:title" content="A Security Control Is a Claim Until It Meets a Failure"><meta property="og:description" content="What deliberate failures in Aegis showed about supply-chain trust, recovery, and architecture."><meta property="og:type" content="article"><meta property="og:url" content="https://minhpham06.com/blog/aegis-controls-need-failure-evidence.html"><meta name="twitter:card" content="summary">
+  <link rel="icon" href="/static/favicon.png"><link rel="stylesheet" href="/static/style.css?v=20260908">
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"BlogPosting","headline":"A Security Control Is a Claim Until It Meets a Failure","datePublished":"2026-09-08","author":{"@type":"Person","name":"Minh Pham","url":"https://minhpham06.com"},"url":"https://minhpham06.com/blog/aegis-controls-need-failure-evidence.html"}</script>
+</head>
+<body><div class="dashboard-layout"><nav class="navbar"><div class="navbar-logo"><span class="dashboard-title-navbar">Minh Pham</span></div><ul class="navbar-nav"><li><a href="../index.html">Home</a></li><li><a href="../projects.html">Projects</a></li><li class="active"><a href="../blog.html">Writing</a></li><li><a href="../notes.html">Notes</a></li><li><a href="../research.html">Research</a></li><li><a href="../now.html">Now</a></li><li><a href="../about.html">About</a></li></ul></nav><main class="main-content"><article class="blog-post">
+<div class="blog-post-header"><a href="../blog.html" class="back-to-blog">← Back to Writing</a><div class="blog-post-meta"><span class="blog-post-date">Sep 8, 2026</span><span class="blog-post-read-time">11 min read</span></div></div>
+<h1 class="blog-post-title">A Security Control Is a Claim Until It Meets a Failure</h1>
+<aside class="project-context" aria-labelledby="context-aegis"><p class="project-context-label">About this project</p><h2 id="context-aegis">Aegis</h2><p>A GitOps platform lab organized around building controls, breaking assumptions, recovering state, and preserving the evidence.</p><dl><div><dt>Why I built it</dt><dd>To test whether platform controls change real failure outcomes, not merely whether their manifests apply.</dd></div><div><dt>Stack</dt><dd>Kubernetes · Flux · Cilium · Kyverno · Prometheus</dd></div><div><dt>Status</dt><dd>Completed lab</dd></div></dl><div class="project-context-actions"><a class="project-link" href="../projects/aegis.html">View project →</a><a class="project-link" href="https://github.com/nhatminh06/aeigs" target="_blank" rel="noopener noreferrer">GitHub →</a></div></aside>
+<div class="blog-post-content">
+<p>I could have finished Aegis with a diagram full of tools. Flux reconciled manifests, Kyverno held admission policies, Cilium enforced network policy, and Prometheus scraped metrics. Every component looked correct from its own status page.</p>
+<p>That was not enough. The question I wanted the project to answer was narrower: when I introduce the failure a control is supposed to stop, does the outcome actually change? That turned the work into a repeating loop: build, secure, observe, break, recover, and keep the command output that proves what happened.</p>
+
+<h2>Admission produced two different failures</h2>
+<p>The release path builds an owned Go service, scans the image, attaches an SBOM, signs through GitHub Actions OIDC, and records an immutable digest. Kyverno verifies the expected signing identity before admission.</p>
+<p>I tested an actually unsigned image rather than reading the policy and declaring success. Admission rejected it because no signature existed. Then I signed an image from an unrelated workflow. That image was not unsigned; it had the wrong identity. Kyverno rejected it with a subject mismatch. The distinction matters because presence of a signature and trust in its signer are separate properties.</p>
+<p>This also separated responsibilities in the pipeline. Flux image policy selects what Git records as desired. Kyverno independently decides whether Kubernetes may admit that digest. Neither one establishes that the application behaves correctly after it starts.</p>
+
+<h2>The trusted release that was still bad</h2>
+<p>The clearest failure was a release containing an intentionally inefficient Fibonacci implementation. The image came from trusted CI, passed scanning, carried its SBOM and expected signature, and was admitted. Kubernetes considered its pods healthy. The application returned successful responses.</p>
+<p>It was still a bad release because latency crossed the service objective under the experiment load. Prometheus caught behavior that provenance and availability checks were not designed to judge. Recovery went through Git: stop image automation, restore the known-good digest, let Flux reconcile, fix the implementation, and add a regression test before resuming promotion.</p>
+<p>My earlier mental model treated supply-chain gates as a long funnel ending in a safe workload. The experiment replaced that with independent questions:</p>
+<pre><code>Was this artifact built by the identity I trust?
+May this artifact enter the cluster?
+Is the admitted application behaving acceptably?
+Can I recover if the answer changes?</code></pre>
+<p>A passing answer at one boundary does not imply a passing answer at the next.</p>
+
+<h2>Network policy needed traffic evidence</h2>
+<p>For lateral movement, I ran probes from an unrelated namespace toward Authentik's PostgreSQL and application ports. I captured the allowed flows before enforcing the policy, then repeated the probes and observed denied traffic while legitimate peer relationships continued to work.</p>
+<p>That before-and-after pattern prevented a weak test. A timeout alone is ambiguous: the service might already be broken, DNS could be wrong, or the probe might target the wrong port. Establishing that the same path worked before enforcement made the later denial useful evidence.</p>
+
+<h2>Git rebuilt the database perfectly—and the row was gone</h2>
+<p>GitOps is good at reconstructing declared objects. It can restore a StatefulSet, Service, PVC declaration, policy, and encrypted configuration. It cannot restore mutable rows that were never committed to Git.</p>
+<p>I deleted the storage behind a PostgreSQL workload and let Flux do exactly what it promises. It reconstructed a working but empty database. Only an encrypted off-host database backup recovered the original rows. I repeated the distinction with Authentik: after destroying its PostgreSQL volume, the platform and schema returned, but an API-created test identity was absent. Restoring the database brought back that same identity and its properties.</p>
+<p>The useful result was not “backup script succeeded.” The restore happened after deliberate destruction, and I checked for absence before restoring. Without that negative check, I could accidentally prove that the data never disappeared.</p>
+
+<h2>The architecture had to diverge</h2>
+<p>I initially wanted the disposable kind cluster and persistent home K3s host to use the same Cilium Gateway ingress path. On the home host, every request through that path returned an error even though the configuration looked healthy.</p>
+<p>Packet traces showed the backend responding to connections tagged with Cilium's ingress identity, but the handshake did not complete. I ran an ordinary nginx proxy against the same application paths as a control. That path completed the requests, which narrowed the failure to the Gateway datapath rather than the application or general host networking.</p>
+<p>The home environment now uses a small Flux-owned nginx proxy while the disposable environment retains Cilium Gateway. I prefer one architecture when the operational assumptions match. Here, forcing symmetry would have preserved a cleaner diagram and a broken data path.</p>
+
+<h2>What I actually tested</h2>
+<p>Aegis records live rejection of unsigned and wrong-signer images, lateral-movement probes before and after policy, detection and Git rollback of a signed bad release, destructive PostgreSQL and Authentik recovery, host restart and replacement-host reconstruction, and ingress control experiments. The repository keeps the runbooks, commands, and captured results alongside the configuration.</p>
+<p>The tests are bounded to two development environments: a disposable local cluster and a single-node home server. The monitoring stack is not highly available. Backups do not provide point-in-time recovery. Rollback remains a deliberate operator action, and important recovery keys are concentrated on one workstation. Those are constraints, not footnotes.</p>
+
+<h2>What changed for me</h2>
+<p>I now read an infrastructure claim as a proposed experiment. “Images are verified” suggests an unsigned image and a wrong signer. “Network isolation works” suggests a known-good connection followed by the same probe under policy. “GitOps recovers the platform” suggests deleting both declared objects and undeclared data, then observing what each recovery source can actually reconstruct.</p>
+<p>The tools still matter, but their names are not the result. The result is a changed failure outcome and enough evidence to explain why it changed.</p>
+<p><strong>Related project:</strong> <a href="../projects/aegis.html">Aegis case study →</a></p>
+</div><div class="blog-post-footer"><div class="blog-post-nav"><a href="../blog.html" class="nav-link"><span>← Back to Writing</span><span>All posts</span></a></div></div>
+</article></main></div><footer class="footer-bar"><div class="footer-motto">Code. Learn. Share.</div></footer></body></html>

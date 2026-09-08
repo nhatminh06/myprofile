@@ -13,6 +13,8 @@
     <meta name="twitter:card" content="summary">
     <link rel="icon" type="image/png" sizes="32x32" href="/static/favicon.png">
     <link rel="stylesheet" href="/static/style.css?v=20260812b">
+    <link rel="alternate" type="application/rss+xml" title="Minh Pham — Engineering Writing" href="/feed.xml">
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"BlogPosting","headline":"From Raw Market Data to Iceberg: Building Market Pulse","datePublished":"2026-08-09","author":{"@type":"Person","name":"Minh Pham","url":"https://minhpham06.com"},"url":"https://minhpham06.com/blog/market-pulse-building-a-lakehouse.html"}</script>
 </head>
 <body>
     <div class="dashboard-layout">
@@ -38,7 +40,7 @@
                     </div>
                 </div>
 
-                <h1 class="blog-post-title">From Raw Market Data to Iceberg: Building Market Pulse</h1>
+                <h1 class="blog-post-title">From Raw Market Data to Iceberg: Building Market Pulse</h1><aside class="project-context" aria-labelledby="context-market-pulse"><p class="project-context-label">About this project</p><h2 id="context-market-pulse">Market Pulse</h2><p>A local stock-market lakehouse that moves OHLCV data through Iceberg bronze, silver, and gold layers.</p><dl><div><dt>Why I built it</dt><dd>To understand rerunnable data pipelines, layer-specific correctness, and evidence beyond a successful task exit.</dd></div><div><dt>Stack</dt><dd>Iceberg · MinIO · Trino · dbt · Airflow</dd></div><div><dt>Status</dt><dd>Earlier project</dd></div></dl><div class="project-context-actions"><a class="project-link" href="../projects.html">View project →</a><a class="project-link" href="https://github.com/nhatminh06/market-pulse" target="_blank" rel="noopener noreferrer">GitHub →</a></div></aside>
 
                 <div class="blog-post-content">
                     <p>Market Pulse is a stock-market analytics lakehouse that runs entirely on a local machine: daily price data lands in an Iceberg bronze table, gets cleaned into silver, and rolls up into a gold analytics layer (returns, moving averages, volatility, volume-anomaly detection) computed in dbt-on-Trino SQL and orchestrated by Airflow. It's a data-engineering demonstration project, not a trading system: the market data comes from a free, delayed third-party feed, and nothing here is investment advice.</p>
