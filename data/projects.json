@@ -1,0 +1,168 @@
+{
+  "$schema": "./projects.schema.json",
+  "lastVerified": "2026-11-08",
+  "projects": [
+    {
+      "repository": "nhatminh06/tensorforge",
+      "name": "TensorForge",
+      "slug": "tensorforge",
+      "summary": "An analytical accelerator model paired with measured PyTorch/CUDA validation on one RTX 3050 Laptop GPU.",
+      "category": "ML Systems & GPU Performance",
+      "technologies": ["Python", "PyTorch", "CUDA", "NVML"],
+      "status": "Feature-frozen portfolio study",
+      "featuredPriority": 1,
+      "demoUrl": "https://nhatminh06.github.io/tensorforge/",
+      "architectureUrl": "https://github.com/nhatminh06/tensorforge/blob/main/docs/architecture.md",
+      "evidenceUrl": "https://github.com/nhatminh06/tensorforge/tree/main/docs/evidence/canonical",
+      "limitations": "Not cycle-accurate; the committed measurement is one capture on one physical laptop GPU and does not generalize to other devices.",
+      "evidenceSources": ["README.md", "docs/evidence/canonical/README.md", "docs/limitations.md"]
+    },
+    {
+      "repository": "nhatminh06/quorumkv",
+      "name": "QuorumKV",
+      "slug": "quorumkv",
+      "summary": "A Raft key-value store with persistent state, linearizable reads, retry deduplication, snapshots, and captured leader failover.",
+      "category": "Distributed Systems & Backend",
+      "technologies": ["Go", "Raft", "TCP", "WAL"],
+      "status": "Feature-frozen portfolio study",
+      "featuredPriority": 2,
+      "demoUrl": "https://nhatminh06.github.io/quorumkv/",
+      "architectureUrl": "https://github.com/nhatminh06/quorumkv/blob/main/docs/architecture.md",
+      "evidenceUrl": "https://github.com/nhatminh06/quorumkv/tree/main/docs/evidence/canonical",
+      "limitations": "The captured local-loopback run is an observation, not a formal proof or production failover guarantee.",
+      "evidenceSources": ["README.md", "docs/architecture.md", "docs/evidence/canonical/"]
+    },
+    {
+      "repository": "nhatminh06/forgeci",
+      "name": "ForgeCI",
+      "slug": "forgeci",
+      "summary": "A distributed CI control plane with fenced leases, exact source revisions, durable recovery, and remote runners.",
+      "category": "Distributed Systems & Backend",
+      "technologies": ["Go", "gRPC", "PostgreSQL", "GitHub Apps"],
+      "status": "Completed study",
+      "featuredPriority": 3,
+      "demoUrl": "https://nhatminh06.github.io/forgeci/",
+      "architectureUrl": "https://github.com/nhatminh06/forgeci/blob/main/docs/architecture.md",
+      "evidenceUrl": "https://github.com/nhatminh06/forgeci/tree/main/docs/evidence/canonical",
+      "limitations": "A self-hosted systems study, not a hosted multi-tenant CI service.",
+      "evidenceSources": ["README.md", "docs/architecture.md", "tools/demo/README.md"]
+    },
+    {
+      "repository": "nhatminh06/wirestack",
+      "name": "Wirestack",
+      "slug": "wirestack",
+      "summary": "A userspace Ethernet-to-HTTP stack with TCP retransmission, Reno/NewReno, SACK, and Linux packet-level interoperability tests.",
+      "category": "Operating Systems & Networking",
+      "technologies": ["C++20", "Linux TAP", "TCP/IP", "CTest"],
+      "status": "Active learning project",
+      "featuredPriority": 4,
+      "demoUrl": null,
+      "architectureUrl": "https://github.com/nhatminh06/wirestack/blob/main/architecture.png",
+      "evidenceUrl": "https://github.com/nhatminh06/wirestack/blob/main/docs/interoperability.md",
+      "limitations": "No simultaneous open, DSACK, PRR, CUBIC/BBR/ECN, TLS, IPv4 fragmentation, or general-purpose DNS.",
+      "evidenceSources": ["README.md", "docs/tcp.md", "docs/interoperability.md", "docs/benchmark.md"]
+    },
+    {
+      "repository": "nhatminh06/edgecloud-vision-lab",
+      "name": "EdgeCloud Vision Lab",
+      "slug": "edgecloud-vision-lab",
+      "summary": "A latency-aware vision scheduler with controlled failure injection, bounded local fallback, and reproducible experiment replay.",
+      "category": "ML Systems & GPU Performance",
+      "technologies": ["Python", "PyTorch", "FastAPI", "OpenCV"],
+      "status": "Completed local experiment",
+      "featuredPriority": 5,
+      "demoUrl": "https://nhatminh06.github.io/edgecloud-vision-lab/",
+      "architectureUrl": "https://github.com/nhatminh06/edgecloud-vision-lab#architecture",
+      "evidenceUrl": "https://github.com/nhatminh06/edgecloud-vision-lab/blob/main/docs/experiments/adaptive-failover.md",
+      "limitations": "The canonical run used two CPU workers on one machine and loopback HTTP, not a physical edge-to-cloud deployment.",
+      "evidenceSources": ["README.md", "docs/experiments/adaptive-failover.md", "demo-data/adaptive-failover.json"]
+    },
+    {
+      "repository": "nhatminh06/commercecore",
+      "name": "CommerceCore",
+      "slug": "commercecore",
+      "summary": "A correctness-focused commerce backend for inventory races, ambiguous payments, and at-least-once delivery.",
+      "category": "Distributed Systems & Backend",
+      "technologies": ["Java", "Spring Boot", "PostgreSQL", "Kafka", "gRPC"],
+      "status": "Completed study",
+      "featuredPriority": 6,
+      "demoUrl": null,
+      "architectureUrl": "https://github.com/nhatminh06/commercecore/blob/main/docs/architecture.md",
+      "evidenceUrl": "https://github.com/nhatminh06/commercecore#testing",
+      "limitations": "A bounded single-merchant correctness laboratory, not a complete storefront.",
+      "evidenceSources": ["README.md", "docs/architecture.md"]
+    },
+    {
+      "repository": "nhatminh06/pagedb",
+      "name": "PageDB",
+      "slug": "pagedb",
+      "summary": "A C23 database engine with persistent pages, a buffer pool, heaps, B+ trees, physical operators, and a read-only SQL subset.",
+      "category": "Operating Systems & Networking",
+      "technologies": ["C23", "CMake", "SQL", "B+ tree"],
+      "status": "In progress",
+      "featuredPriority": null,
+      "demoUrl": null,
+      "architectureUrl": "https://github.com/nhatminh06/pagedb#architecture-direction",
+      "evidenceUrl": "https://github.com/nhatminh06/pagedb#build-and-test",
+      "limitations": "SQL is read-only and single-table; transactions, WAL, crash recovery, optimizer, and Java client are unfinished.",
+      "evidenceSources": ["README.md", "docs/sql.md", "docs/execution.md", "docs/protocol.md"]
+    },
+    {
+      "repository": "nhatminh06/pgsentry",
+      "name": "PgSentry",
+      "slug": "pgsentry",
+      "summary": "A PostgreSQL reliability lab covering failover, partitions, migration safety, WAL archiving, PITR, and observability.",
+      "category": "Platform Engineering & Infrastructure",
+      "technologies": ["PostgreSQL", "Patroni", "Terraform", "Prometheus"],
+      "status": "Completed lab",
+      "featuredPriority": null,
+      "demoUrl": null,
+      "architectureUrl": "https://github.com/nhatminh06/pgsentry/blob/main/docs/architecture.md",
+      "evidenceUrl": "https://github.com/nhatminh06/pgsentry/blob/main/docs/evidence.md",
+      "limitations": "Lab evidence does not establish a managed production service or SLO.",
+      "evidenceSources": ["README.md", "docs/architecture.md", "docs/evidence.md"]
+    },
+    {
+      "repository": "nhatminh06/aeigs",
+      "name": "Aegis",
+      "slug": "aegis",
+      "summary": "A GitOps Kubernetes lab that tests security and reliability controls with deliberate failures and recorded recovery evidence.",
+      "category": "Platform Engineering & Infrastructure",
+      "technologies": ["Kubernetes", "Flux", "Kyverno", "Cilium", "Prometheus"],
+      "status": "Completed lab",
+      "featuredPriority": null,
+      "demoUrl": "https://nhatminh06.github.io/aeigs/",
+      "architectureUrl": "https://github.com/nhatminh06/aeigs/tree/main/docs/architecture",
+      "evidenceUrl": "https://github.com/nhatminh06/aeigs/tree/main/reliability-lab",
+      "limitations": "Evidence is bounded to development environments; home K3s is single-node and backups lack PITR.",
+      "evidenceSources": ["README.md", "docs/architecture/README.md", "security-lab/README.md", "reliability-lab/README.md"]
+    },
+    {
+      "repository": "nhatminh06/personal-cognitive-load-monitor",
+      "name": "Personal Cognitive Load Monitor",
+      "slug": "personal-cognitive-load-monitor",
+      "summary": "An educational MLOps platform for a synthetic cognitive-load classifier with serving, monitoring, and isolated cluster qualification.",
+      "category": "Earlier Projects & Labs",
+      "technologies": ["Python", "KServe", "Kubernetes", "MLflow", "DVC"],
+      "status": "Course project; local qualification only",
+      "featuredPriority": null,
+      "demoUrl": null,
+      "architectureUrl": "https://github.com/nhatminh06/personal-cognitive-load-monitor/blob/main/docs/architecture.md",
+      "evidenceUrl": "https://github.com/nhatminh06/personal-cognitive-load-monitor/blob/main/docs/module1/qualification-evidence-review.md",
+      "limitations": "Synthetic and nonclinical; a local kind run qualified an isolated fixture, while GKE deployment remains unproven and blocked.",
+      "evidenceSources": ["README.md", "docs/module1/qualification-evidence-review.md", "docs/module1/isolated-qualification.md"]
+    },
+    {
+      "repository": "nhatminh06/matchsense", "name": "MatchSense", "slug": "matchsense", "summary": "Event-driven football analytics with idempotent ingestion and cross-service tracing.", "category": "Earlier Projects & Labs", "technologies": ["Go", "FastAPI", "Kafka", "Redis"], "status": "Earlier project", "featuredPriority": null, "demoUrl": null, "architectureUrl": null, "evidenceUrl": "https://github.com/nhatminh06/matchsense", "limitations": "Events are simulator-generated.", "evidenceSources": ["README.md"]
+    },
+    {
+      "repository": "nhatminh06/market-pulse", "name": "Market Pulse", "slug": "market-pulse", "summary": "A local Iceberg lakehouse with incremental ingestion, dbt transformations, and data-quality gates.", "category": "Earlier Projects & Labs", "technologies": ["Iceberg", "Trino", "dbt", "Airflow"], "status": "Earlier project", "featuredPriority": null, "demoUrl": "https://nhatminh06.github.io/market-pulse/", "architectureUrl": null, "evidenceUrl": "https://github.com/nhatminh06/market-pulse", "limitations": "Validated locally rather than as a hosted data platform.", "evidenceSources": ["README.md"]
+    },
+    {
+      "repository": "nhatminh06/linux-kernel-lab", "name": "Linux Kernel Lab", "slug": "linux-kernel-lab", "summary": "A custom QEMU boot, GDB early-boot workflow, and message-oriented character device driver.", "category": "Earlier Projects & Labs", "technologies": ["C", "Linux", "QEMU", "GDB"], "status": "Completed lab", "featuredPriority": null, "demoUrl": null, "architectureUrl": null, "evidenceUrl": "https://github.com/nhatminh06/linux-kernel-lab", "limitations": "A focused learning lab, not a general kernel distribution.", "evidenceSources": ["README.md"]
+    },
+    {
+      "repository": "nhatminh06/company-research", "name": "Company Research", "slug": "company-research", "summary": "A full-stack company research application with pgvector retrieval and streamed resume-fit evaluation.", "category": "Earlier Projects & Labs", "technologies": ["TypeScript", "Node.js", "pgvector", "SSE"], "status": "Earlier project", "featuredPriority": null, "demoUrl": null, "architectureUrl": null, "evidenceUrl": "https://github.com/nhatminh06/company-research", "limitations": "No public hosted demonstration is recorded.", "evidenceSources": ["README.md"]
+    }
+  ]
+}

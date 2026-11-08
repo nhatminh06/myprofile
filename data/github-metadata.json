@@ -1,0 +1,210 @@
+{
+  "checkedAt": "2026-11-08T07:25:18.711Z",
+  "source": "live-github-api",
+  "repositories": [
+    {
+      "repository": "nhatminh06/aeigs",
+      "url": "https://github.com/nhatminh06/aeigs",
+      "description": "A self-hosted GitOps Kubernetes platform built to prove security and reliability controls under real, deliberate failure - not just to configure them.",
+      "homepage": "https://nhatminh06.github.io/aeigs/",
+      "topics": [],
+      "pushedAt": "2026-10-27T01:57:33Z",
+      "archived": false
+    },
+    {
+      "repository": "nhatminh06/commercecore",
+      "url": "https://github.com/nhatminh06/commercecore",
+      "description": "Correctness-first e-commerce backend with PostgreSQL concurrency, idempotent payments, Kafka outbox, gRPC provider boundaries, and Testcontainers CI.",
+      "homepage": null,
+      "topics": [],
+      "pushedAt": "2026-10-02T06:15:19Z",
+      "archived": false
+    },
+    {
+      "repository": "nhatminh06/company-research",
+      "url": "https://github.com/nhatminh06/company-research",
+      "description": null,
+      "homepage": null,
+      "topics": [],
+      "pushedAt": "2026-07-15T09:24:43Z",
+      "archived": false
+    },
+    {
+      "repository": "nhatminh06/edgecloud-vision-lab",
+      "url": "https://github.com/nhatminh06/edgecloud-vision-lab",
+      "description": "Adaptive edge-to-cloud computer vision inference with latency-aware scheduling, failure fallback, and reproducible experiment replay.",
+      "homepage": "https://nhatminh06.github.io/edgecloud-vision-lab/",
+      "topics": [],
+      "pushedAt": "2026-10-01T05:05:01Z",
+      "archived": false
+    },
+    {
+      "repository": "nhatminh06/forgeci",
+      "url": "https://github.com/nhatminh06/forgeci",
+      "description": "Self-hosted distributed CI engine in Go with DAG scheduling, remote runners, durable logs, artifacts/cache, exact Git revisions, GitHub App webhooks, and GitHub Checks.",
+      "homepage": "https://nhatminh06.github.io/forgeci/",
+      "topics": [],
+      "pushedAt": "2026-10-04T00:50:15Z",
+      "archived": false
+    },
+    {
+      "repository": "nhatminh06/linux-kernel-lab",
+      "url": "https://github.com/nhatminh06/linux-kernel-lab",
+      "description": "Linux kernel lab with a custom QEMU boot, GDB early-boot debugging, and a message-oriented character device driver.",
+      "homepage": null,
+      "topics": [],
+      "pushedAt": "2026-10-02T05:46:30Z",
+      "archived": false
+    },
+    {
+      "repository": "nhatminh06/market-pulse",
+      "url": "https://github.com/nhatminh06/market-pulse",
+      "description": "End-to-end local data lakehouse platform for stock market analytics - MinIO + Apache Iceberg + Trino + dbt + Airflow + Superset",
+      "homepage": "https://nhatminh06.github.io/market-pulse/",
+      "topics": [],
+      "pushedAt": "2026-08-06T03:20:53Z",
+      "archived": false
+    },
+    {
+      "repository": "nhatminh06/matchsense",
+      "url": "https://github.com/nhatminh06/matchsense",
+      "description": "Event-driven football analytics platform with Go, FastAPI, Kafka, Redis, OpenTelemetry, Kubernetes, and GitOps.",
+      "homepage": null,
+      "topics": [
+        "argocd",
+        "devsecops",
+        "fastapi",
+        "football-analytics",
+        "gitops",
+        "go",
+        "kafka",
+        "kubernetes",
+        "kyverno",
+        "machine-learning",
+        "microservices",
+        "observability",
+        "opentelemetry",
+        "python",
+        "redis"
+      ],
+      "pushedAt": "2026-11-02T13:56:50Z",
+      "archived": false
+    },
+    {
+      "repository": "nhatminh06/pagedb",
+      "url": "https://github.com/nhatminh06/pagedb",
+      "description": null,
+      "homepage": null,
+      "topics": [],
+      "pushedAt": "2026-08-23T17:16:01Z",
+      "archived": false
+    },
+    {
+      "repository": "nhatminh06/personal-cognitive-load-monitor",
+      "url": "https://github.com/nhatminh06/personal-cognitive-load-monitor",
+      "description": "Educational MLOps platform for a synthetic cognitive-load classifier: FastAPI serving, DVC, MLflow, Docker, Helm, Kubernetes/GKE, KServe, Prometheus/Grafana, and Evidently drift monitoring behind a coverage-gated CI/CD pipeline.",
+      "homepage": null,
+      "topics": [
+        "dvc",
+        "fastapi",
+        "helm",
+        "kserve",
+        "kubernetes",
+        "machine-learning",
+        "mlflow",
+        "mlops",
+        "prometheus",
+        "python",
+        "terraform"
+      ],
+      "pushedAt": "2026-11-02T16:24:13Z",
+      "archived": false
+    },
+    {
+      "repository": "nhatminh06/pgsentry",
+      "url": "https://github.com/nhatminh06/pgsentry",
+      "description": "PostgreSQL reliability engineering lab for HA, failure testing, migration safety, durability, PITR, and observability.",
+      "homepage": null,
+      "topics": [
+        "chaos-engineering",
+        "database-reliability",
+        "devops",
+        "distributed-systems",
+        "etcd",
+        "failure-testing",
+        "golang",
+        "grafana",
+        "haproxy",
+        "high-availability",
+        "libvirt",
+        "migration-safety",
+        "observability",
+        "patroni",
+        "pgbackrest",
+        "pitr",
+        "postgresql",
+        "prometheus",
+        "sre",
+        "terraform"
+      ],
+      "pushedAt": "2026-09-07T15:35:52Z",
+      "archived": false
+    },
+    {
+      "repository": "nhatminh06/quorumkv",
+      "url": "https://github.com/nhatminh06/quorumkv",
+      "description": null,
+      "homepage": null,
+      "topics": [],
+      "pushedAt": "2026-10-04T22:02:00Z",
+      "archived": false
+    },
+    {
+      "repository": "nhatminh06/tensorforge",
+      "url": "https://github.com/nhatminh06/tensorforge",
+      "description": null,
+      "homepage": null,
+      "topics": [],
+      "pushedAt": "2026-10-04T05:25:56Z",
+      "archived": false
+    },
+    {
+      "repository": "nhatminh06/wirestack",
+      "url": "https://github.com/nhatminh06/wirestack",
+      "description": null,
+      "homepage": null,
+      "topics": [],
+      "pushedAt": "2026-10-19T00:37:18Z",
+      "archived": false
+    }
+  ],
+  "missing": [],
+  "discovered": [
+    "nhatminh06/aegis-api",
+    "nhatminh06/api-gateway",
+    "nhatminh06/bootdev",
+    "nhatminh06/corona-backend",
+    "nhatminh06/corona-frontend",
+    "nhatminh06/corona-go",
+    "nhatminh06/corona-python",
+    "nhatminh06/curriculum",
+    "nhatminh06/detectivedb",
+    "nhatminh06/devops-exercises",
+    "nhatminh06/devops-ssh-lab",
+    "nhatminh06/devsecops-lab",
+    "nhatminh06/disputepilot",
+    "nhatminh06/gitops-config",
+    "nhatminh06/lay-off-link",
+    "nhatminh06/learn-cicd-starter",
+    "nhatminh06/learnops-tracker",
+    "nhatminh06/makermedic",
+    "nhatminh06/myprofile",
+    "nhatminh06/n8n-nodes-starter",
+    "nhatminh06/neetcode-submissions",
+    "nhatminh06/nhatminh06",
+    "nhatminh06/note-svc",
+    "nhatminh06/notekeeper-platform",
+    "nhatminh06/skills-introduction-to-github",
+    "nhatminh06/user-svc"
+  ]
+}

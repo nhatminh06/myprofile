@@ -25,18 +25,18 @@
                 <li><a href="index.html">Home</a></li>
                 <li class="active"><a href="projects.html">Projects</a></li>
                 <li><a href="blog.html">Writing</a></li>
-                <li><a href="research.html">Research</a></li><li><a href="now.html">Now</a></li><li><a href="about.html">About</a></li>
+                <li><a href="research.html">Research</a></li><li><a href="about.html">About</a></li>
                 <li><a href="contact.html">Contact</a></li>
             </ul>
         </nav>
         <main class="main-content">
             <div class="section-intro">
                 <h1 class="section-title">My Projects</h1>
-                <p class="section-subtitle">Real repositories I own and ship: distributed systems, data platforms, ML infrastructure, and low-level software. Each card links to the code behind it.</p>
+                <p class="section-subtitle">Verified public work across ML systems and GPU performance, distributed systems and backend engineering, operating systems and networking, platform infrastructure, and earlier labs. Each repository appears once.</p>
             </div>
 
             <section class="projects-section">
-                <h2 class="home-section-heading">Flagship Systems</h2>
+                <h2 class="home-section-heading">Engineering Projects by Area</h2>
                 <div class="projects-grid">
                     <!-- ForgeCI -->
                     <div class="project-card" style="order: 1;">
@@ -72,7 +72,7 @@
                     <div class="project-card project-card--moved" style="order: 9;">
                         <div class="project-header">
                             <h3>MatchSense</h3>
-                            <span class="project-status ongoing">Active Development</span>
+                            <span class="project-status completed">Earlier Project</span>
                         </div>
                         <p class="project-description">
                             Distributed Systems: Real-time football (soccer) analytics: simulated match events flow through Kafka into a stats aggregator, an ML prediction service, and a live Grafana dashboard. The interesting part isn't the sport, it's making the event pipeline survive retries, duplicates, and partial failures.
@@ -163,7 +163,7 @@
                     <div class="project-card project-card--moved" style="order: 13;">
                         <div class="project-header">
                             <h3>Personal Cognitive Load Monitor</h3>
-                            <span class="project-status ongoing">Active Development</span>
+                            <span class="project-status completed">Course Project · Local Qualification</span>
                         </div>
                         <p class="project-description">
                             MLOps: An educational MLOps platform around a FastAPI cognitive-load classifier: experiment tracking, data versioning, containerized serving, and drift monitoring, built to exercise the full path from notebook to (would-be) production.
@@ -173,10 +173,10 @@
                         </div>
                         <div class="project-details">
                             <div class="project-highlights">
-                                <strong>Design highlight:</strong> KServe scale-to-zero serving behind an HPA, with Evidently drift reports, Tempo tracing, and Loki logging wired into the same coverage-gated CI/CD pipeline as the model code.
+                                <strong>Verified evidence:</strong> local tests cover the application and configuration; a preserved isolated kind run observed KServe scaling 2 → 0 → 2 and bounded cold activation for a disposable synthetic fixture.
                             </div>
                         </div>
-                        <p class="project-note">Uses synthetic data for an educational MLOps demonstration, not a medical or clinically validated system.</p>
+                        <p class="project-note">Synthetic and nonclinical. Local kind qualification does not prove GKE compatibility or successful cloud deployment; the repository's GKE matrix remains blocked.</p>
                         <div class="project-links">
                             <a href="https://github.com/nhatminh06/personal-cognitive-load-monitor" class="project-link" target="_blank" rel="noopener noreferrer">GitHub Repo</a>
                         </div>
@@ -208,7 +208,7 @@
                     <div class="project-card" style="order: 2;">
                         <div class="project-header">
                             <h3>QuorumKV</h3>
-                            <span class="project-status in-progress">In Progress</span>
+                            <span class="project-status completed">Feature-frozen</span>
                         </div>
                         <p class="project-description">
                             Distributed Systems: A distributed key-value store built to study consensus from first principles. Raft is implemented from scratch here, not imported as a library: persistent state, log replication, leader election with PreVote, snapshotting, joint-consensus membership changes, leadership transfer, and quorum-confirmed reads, driven by a real node executable over real TCP.
@@ -221,9 +221,11 @@
                                 <strong>Design highlight:</strong> at-most-once PUT/DELETE effects for retried requests via a replicated per-client request identity, and quorum-confirmed (ReadIndex) linearizable GET to eliminate stale reads from an isolated old leader; crash-recovery correctness is checked with real subprocess kills at each meaningful write point, not simulated failures.
                             </div>
                         </div>
-                        <p class="project-note">Correctness properties are implemented and tested, not formally proven.</p>
+                        <p class="project-note">The canonical incident is one captured local-loopback run. It supports the implementation evidence but is not a formal proof or production failover guarantee.</p>
                         <div class="project-links">
                             <a href="projects/quorumkv.html" class="project-link">Case Study →</a>
+                            <a href="https://nhatminh06.github.io/quorumkv/" class="project-link" target="_blank" rel="noopener noreferrer">Incident Viewer</a>
+                            <a href="https://github.com/nhatminh06/quorumkv/blob/main/docs/architecture.md" class="project-link" target="_blank" rel="noopener noreferrer">Architecture</a>
                             <a href="https://github.com/nhatminh06/quorumkv" class="project-link" target="_blank" rel="noopener noreferrer">GitHub Repo</a>
                         </div>
                     </div>
@@ -232,7 +234,7 @@
                     <div class="project-card" style="order: 6;">
                         <div class="project-header">
                             <h3>PageDB</h3>
-                            <span class="project-status in-progress">In Progress</span>
+                            <span class="project-status in-progress">Read-only SQL subset</span>
                         </div>
                         <p class="project-description">
                             Systems Programming: A relational database engine built bottom-up in C23: persistent slotted pages, a Clock buffer pool, multi-page table heaps, typed schemas and catalog, a persistent B+ tree index, pull-based physical execution operators, and a bounded SQL parser/planner behind a loopback-only server speaking a custom binary wire protocol.
@@ -245,7 +247,7 @@
                                 <strong>Design highlight:</strong> each layer of the storage stack (disk manager, slotted pages, buffer pool, heap, index, executor, SQL) is built and tested on top of the one below it, so the current read-only SELECT subset runs end to end through a real page cache and B+ tree rather than an in-memory stand-in.
                             </div>
                         </div>
-                        <p class="project-note">Physical execution is read-only, single-threaded, and single-table; no joins, transactions, WAL, or crash recovery yet.</p>
+                        <p class="project-note">Physical execution is read-only, single-threaded, and single-table. Transactions, WAL, crash recovery, optimizer, DML/DDL, and the Java client remain unfinished.</p>
                         <div class="project-links">
                             <a href="projects/pagedb.html" class="project-link">Case Study →</a>
                             <a href="https://github.com/nhatminh06/pagedb" class="project-link" target="_blank" rel="noopener noreferrer">GitHub Repo</a>
@@ -272,6 +274,8 @@
                         <p class="project-note">A learning project prioritizing protocol correctness over performance; TCP simultaneous open, DSACK, and modern congestion control (CUBIC/BBR) are not implemented.</p>
                         <div class="project-links">
                             <a href="projects/wirestack.html" class="project-link">Case Study →</a>
+                            <a href="https://github.com/nhatminh06/wirestack/blob/main/docs/interoperability.md" class="project-link" target="_blank" rel="noopener noreferrer">Packet Evidence</a>
+                            <a href="https://github.com/nhatminh06/wirestack/blob/main/architecture.png" class="project-link" target="_blank" rel="noopener noreferrer">Architecture</a>
                             <a href="https://github.com/nhatminh06/wirestack" class="project-link" target="_blank" rel="noopener noreferrer">GitHub Repo</a>
                         </div>
                     </div>
@@ -280,108 +284,38 @@
                     <div class="project-card" style="order: 7;">
                         <div class="project-header">
                             <h3>TensorForge</h3>
-                            <span class="project-status in-progress">In Progress</span>
+                            <span class="project-status completed">Feature-frozen</span>
                         </div>
                         <p class="project-description">
-                            ML Systems: An analytical AI-accelerator performance modeling toolkit for GEMM, Transformer, and Conv2D workloads. It makes every step of accelerator performance reasoning explicit and traceable to a formula: arithmetic intensity, PE-array mapping, SRAM feasibility, tiling, and roofline-based compute/memory timing.
+                            ML Systems &amp; GPU Performance: An analytical accelerator model for GEMM, Transformer, and Conv2D workloads, paired with an evidence pipeline that runs corresponding PyTorch/CUDA workloads and compares predicted with measured latency.
                         </p>
                         <div class="project-tech-tags">
-                            <span>Python</span><span>Roofline Modeling</span><span>Design-Space Exploration</span>
+                            <span>Python</span><span>PyTorch / CUDA</span><span>NVML</span><span>Roofline Modeling</span>
                         </div>
                         <div class="project-details">
                             <div class="project-highlights">
-                                <strong>Design highlight:</strong> three explicit, fully-specified tiling/loop schedules (c-resident, a-resident, b-resident) each derive a different exact DRAM traffic total from the same GEMM arithmetic, and a bounded design-space search ranks user-supplied tile/schedule/PE-array candidates by modeled execution time.
+                                <strong>Verified evidence:</strong> the committed canonical bundle validates an analytical prediction against 50 measured FP16 iterations on one RTX 3050 Laptop GPU and preserves manifest, telemetry, calibration, and integrity checks.
                             </div>
                         </div>
-                        <p class="project-note">An analytical modeling toolkit, not a cycle-accurate simulator or a complete Transformer/CNN inference simulator.</p>
+                        <p class="project-note">Not cycle-accurate. One capture on one physical laptop GPU does not generalize to other devices, workloads, or every RTX 3050 Laptop GPU.</p>
                         <div class="project-links">
                             <a href="projects/tensorforge.html" class="project-link">Case Study →</a>
+                            <a href="https://nhatminh06.github.io/tensorforge/" class="project-link" target="_blank" rel="noopener noreferrer">Showcase</a>
+                            <a href="https://github.com/nhatminh06/tensorforge/tree/main/docs/evidence/canonical" class="project-link" target="_blank" rel="noopener noreferrer">Canonical Evidence</a>
                             <a href="https://github.com/nhatminh06/tensorforge" class="project-link" target="_blank" rel="noopener noreferrer">GitHub Repo</a>
                         </div>
                     </div>
 
-                </div>
-
-                <div class="section-intro" style="margin-top: 1rem;">
-                    <h3 class="section-title" style="font-size: 1.6rem;">Earlier Projects &amp; Labs</h3>
-                    <p class="section-subtitle" style="font-size: 1rem;">Earlier application work, infrastructure labs, and smaller tools.</p>
-                </div>
-
-                <div class="projects-grid projects-grid--secondary">
-                    <div class="project-card project-card--compact"><div class="project-header"><h3>MatchSense</h3><span class="project-status completed">Earlier Project</span></div><p class="project-description">Event-driven football analytics built around idempotent Kafka ingestion, Redis state, cross-service traces, and simulator-generated events.</p><div class="project-links"><a href="https://github.com/nhatminh06/matchsense" class="project-link">GitHub Repo</a></div></div>
-                    <div class="project-card project-card--compact"><div class="project-header"><h3>Market Pulse</h3><span class="project-status completed">Earlier Project</span></div><p class="project-description">A local Iceberg lakehouse with incremental ingestion, dbt-on-Trino transformations, data-quality gates, and a verified end-to-end workflow.</p><div class="project-links"><a href="https://github.com/nhatminh06/market-pulse" class="project-link">GitHub Repo</a></div></div>
-                    <div class="project-card project-card--compact"><div class="project-header"><h3>Linux Kernel Lab</h3><span class="project-status completed">Completed Lab</span></div><p class="project-description">A Linux source build, BusyBox initramfs, QEMU/GDB early-boot workflow, and character-device driver with recorded toolchain failures.</p><div class="project-links"><a href="https://github.com/nhatminh06/linux-kernel-lab" class="project-link">GitHub Repo</a></div></div>
-                    <div class="project-card project-card--compact"><div class="project-header"><h3>Personal Cognitive Load Monitor</h3><span class="project-status completed">Course Project</span></div><p class="project-description">An educational MLOps system using synthetic data, tracked experiments, FastAPI serving, drift reports, and Kubernetes manifests.</p><div class="project-links"><a href="https://github.com/nhatminh06/personal-cognitive-load-monitor" class="project-link">GitHub Repo</a></div></div>
-                    <div class="project-card project-card--compact"><div class="project-header"><h3>Company Research</h3><span class="project-status completed">Earlier Project</span></div><p class="project-description">A full-stack company research application with a pgvector retrieval path and streamed resume-fit evaluation.</p><div class="project-links"><a href="https://github.com/nhatminh06/company-research" class="project-link">GitHub Repo</a></div></div>
-                    <div class="project-card project-card--compact">
-                        <div class="project-header">
-                            <h3>LearnOps Tracker</h3>
-                            <span class="project-status completed">Completed</span>
-                        </div>
-                        <p class="project-description">Full-stack DevOps learning tracker: skills, certifications, roadmap items, and analytics, with GitHub repo linking and import/export.</p>
-                        <div class="project-tech-tags">
-                            <span>Next.js</span><span>TypeScript</span><span>Prisma</span><span>PostgreSQL</span>
-                        </div>
-                        <div class="project-links">
-                            <a href="https://github.com/nhatminh06/learnops-tracker" class="project-link" target="_blank" rel="noopener noreferrer">GitHub Repo</a>
-                        </div>
+                    <!-- EdgeCloud Vision Lab -->
+                    <div class="project-card" style="order: 8;">
+                        <div class="project-header"><h3>EdgeCloud Vision Lab</h3><span class="project-status completed">Completed local experiment</span></div>
+                        <p class="project-description">ML Systems: A latency-aware computer-vision scheduler that chooses between local and HTTP workers, injects controlled delay and outage phases, applies bounded local fallback, and exports versioned runs for deterministic replay.</p>
+                        <div class="project-tech-tags"><span>Python</span><span>PyTorch</span><span>FastAPI</span><span>OpenCV</span></div>
+                        <div class="project-details"><div class="project-highlights"><strong>Verified evidence:</strong> the canonical capture moves through normal, delayed-edge, remote-down, and recovered phases; the public viewer replays committed events without a live backend.</div></div>
+                        <p class="project-note">Both CPU workers ran on one machine and the remote path used loopback HTTP. This is not a validated physical edge-to-cloud deployment.</p>
+                        <div class="project-links"><a href="https://nhatminh06.github.io/edgecloud-vision-lab/" class="project-link" target="_blank" rel="noopener noreferrer">Replay Showcase</a><a href="https://github.com/nhatminh06/edgecloud-vision-lab/blob/main/docs/experiments/adaptive-failover.md" class="project-link" target="_blank" rel="noopener noreferrer">Experiment Evidence</a><a href="https://github.com/nhatminh06/edgecloud-vision-lab" class="project-link" target="_blank" rel="noopener noreferrer">GitHub Repo</a></div>
                     </div>
 
-                    <div class="project-card project-card--compact">
-                        <div class="project-header">
-                            <h3>NoteKeeper Platform</h3>
-                            <span class="project-status completed">Completed</span>
-                        </div>
-                        <p class="project-description">GitOps microservices platform: three Go services, CI security gates (Gitleaks, Trivy, Cosign), and Kyverno admission policies enforced through ArgoCD.</p>
-                        <div class="project-tech-tags">
-                            <span>Go</span><span>ArgoCD</span><span>Kyverno</span><span>Cosign</span>
-                        </div>
-                        <div class="project-links">
-                            <a href="https://github.com/nhatminh06/notekeeper-platform" class="project-link" target="_blank" rel="noopener noreferrer">GitHub Repo</a>
-                        </div>
-                    </div>
-
-                    <div class="project-card project-card--compact">
-                        <div class="project-header">
-                            <h3>Lay-Off-Link</h3>
-                            <span class="project-status ongoing">Active Development</span>
-                        </div>
-                        <p class="project-description">End-to-end MLOps and data platform: model training/serving, data pipelines, and Kubernetes deployment behind a multi-stage CI/CD pipeline.</p>
-                        <div class="project-tech-tags">
-                            <span>Kubernetes</span><span>Helm</span><span>Terraform</span><span>MLflow</span>
-                        </div>
-                        <div class="project-links">
-                            <a href="https://github.com/nhatminh06/lay-off-link" class="project-link" target="_blank" rel="noopener noreferrer">GitHub Repo</a>
-                        </div>
-                    </div>
-
-                    <div class="project-card project-card--compact">
-                        <div class="project-header">
-                            <h3>DevSecOps Lab</h3>
-                            <span class="project-status in-progress">In Progress</span>
-                        </div>
-                        <p class="project-description">A personal, from-scratch DevSecOps pipeline across multiple VMs: Jenkins security gates before pushing to a private Harbor registry and deploying via Helm to Kubernetes.</p>
-                        <div class="project-tech-tags">
-                            <span>Jenkins</span><span>Kubernetes</span><span>Helm</span><span>Gitleaks / Semgrep / Trivy</span>
-                        </div>
-                        <div class="project-links">
-                            <a href="https://github.com/nhatminh06/devsecops-lab" class="project-link" target="_blank" rel="noopener noreferrer">GitHub Repo</a>
-                        </div>
-                    </div>
-
-                    <div class="project-card project-card--compact">
-                        <div class="project-header">
-                            <h3>DevOps SSH Lab</h3>
-                            <span class="project-status completed">Completed</span>
-                        </div>
-                        <p class="project-description">Secure remote Linux administration over a private Tailscale network: SSH hardening, key-based access, and connectivity troubleshooting.</p>
-                        <div class="project-tech-tags">
-                            <span>Linux</span><span>SSH</span><span>Tailscale</span>
-                        </div>
-                        <div class="project-links">
-                            <a href="https://github.com/nhatminh06/devops-ssh-lab" class="project-link" target="_blank" rel="noopener noreferrer">GitHub Repo</a>
-                        </div>
-                    </div>
                 </div>
 
                 <div class="projects-footer">

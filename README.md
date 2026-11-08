@@ -64,7 +64,15 @@ Then open `http://localhost:8000`.
 
 ## Content updates
 
-**Adding a project card** — edit `projects.html`, following the existing `.project-card` markup (name, status, description, `.project-tech-tags`, and a GitHub link). Keep the featured/secondary split: strongest, most current projects go in the main `.projects-grid`; smaller or older work goes under "Additional Work" in `.projects-grid--secondary`.
+**Updating projects** — update the editorial registry in `data/projects.json` and the matching static card. GitHub-owned fields are cached separately in `data/github-metadata.json`; browser code never discovers or publishes repositories.
+
+```bash
+node scripts/validate-projects.mjs
+node --test
+node scripts/refresh-github-metadata.mjs
+```
+
+The refresh command pages through public GitHub repositories, updates only explicitly selected entries, reports new repositories for human review, and labels cached metadata when GitHub is unavailable. The weekly workflow uploads a review artifact without rewriting portfolio claims.
 
 **Adding a blog post** — copy an existing file under `blog/` as a template (keep the shared header/nav/footer), write the post, then add a matching `<article class="blog-card">` entry to `blog.html` with accurate `data-tags` for the filter buttons. Posts are auto-sorted newest-first by `static/script.js` based on the `.blog-date` text, so use a real, parseable date.
 

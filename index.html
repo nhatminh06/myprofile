@@ -45,7 +45,6 @@
                 <li><a href="projects.html">Projects</a></li>
                 <li><a href="blog.html">Writing</a></li>
                 <li><a href="research.html">Research</a></li>
-                <li><a href="now.html">Now</a></li>
                 <li><a href="about.html">About</a></li>
                 <li><a href="contact.html">Contact</a></li>
             </ul>
@@ -72,25 +71,6 @@
                 </div>
             </section>
 
-            <section class="summer-2026-section" aria-labelledby="current-work-heading">
-                <h2 id="current-work-heading" class="home-section-heading">Current Work</h2>
-                <p class="summer-2026-lead">Systems where correctness depends on ownership, persistence, retries, and recovery—not only the successful path.</p>
-                <div class="summer-2026-grid">
-                    <div class="summer-card">
-                        <span class="summer-card-eyebrow">Distributed CI</span><h3 class="summer-card-title">ForgeCI</h3><p class="summer-card-desc">A durable control plane, immutable source transport, and fenced remote execution across runner and GitHub failures.</p>
-                    </div>
-                    <div class="summer-card">
-                        <span class="summer-card-eyebrow">Consensus</span><h3 class="summer-card-title">QuorumKV</h3><p class="summer-card-desc">Raft persistence, ReadIndex, deduplicated client requests, snapshots, membership changes, and real-process failure tests.</p>
-                    </div>
-                    <div class="summer-card">
-                        <span class="summer-card-eyebrow">Backend Correctness</span><h3 class="summer-card-title">CommerceCore</h3><p class="summer-card-desc">Inventory contention, ambiguous payment results, transactional outbox delivery, and reconciliation across a gRPC boundary.</p>
-                    </div>
-                    <div class="summer-card">
-                        <span class="summer-card-eyebrow">Database Reliability</span><h3 class="summer-card-title">PgSentry</h3><p class="summer-card-desc">PostgreSQL failover, DCS partitions, acknowledgement durability, WAL archiving, and point-in-time recovery.</p>
-                    </div>
-                </div>
-            </section>
-
             <section class="home-featured-wrap" aria-labelledby="featured-heading">
                 <h2 id="featured-heading" class="home-section-heading">Featured projects</h2>
                 <div class="home-featured-grid">
@@ -101,11 +81,11 @@
                         </div>
                         <p class="featured-project-desc">A distributed CI engine built from scratch in Go, centered on coordinating remote work without letting stale runners corrupt durable state.</p>
                         <ul class="featured-project-highlights">
-                            <li>Fenced job leases reject stale source, artifact, log, and completion operations</li>
-                            <li>Immutable source revisions, content-addressed storage, restart recovery, and durable GitHub Check delivery</li>
+                            <li>Fenced leases protect durable state; exact revisions and restart tests provide evidence</li>
+                            <li>Scope: self-hosted systems study, not a hosted multi-tenant CI service</li>
                         </ul>
                         <div class="featured-project-actions">
-                            <a href="projects.html" class="project-link">View Project</a>
+                            <a href="projects/forgeci.html" class="project-link">Case Study</a>
                             <a href="https://github.com/nhatminh06/forgeci" class="project-link" target="_blank" rel="noopener noreferrer">GitHub</a>
                         </div>
                     </article>
@@ -116,11 +96,11 @@
                         </div>
                         <p class="featured-project-desc">A distributed key-value store with Raft implemented from scratch, including the persistence and client semantics needed beyond leader election.</p>
                         <ul class="featured-project-highlights">
-                            <li>Quorum-confirmed ReadIndex reads and replicated request identity for retry deduplication</li>
-                            <li>PreVote, snapshots, joint consensus, leadership transfer, and crash tests using real processes</li>
+                            <li>Real-process tests and a captured leader-failure run exercise persistence and recovery</li>
+                            <li>Scope: tested implementation, not a formal proof or production failover guarantee</li>
                         </ul>
                         <div class="featured-project-actions">
-                            <a href="projects.html" class="project-link">View Project</a>
+                            <a href="projects/quorumkv.html" class="project-link">Case Study</a>
                             <a href="https://github.com/nhatminh06/quorumkv" class="project-link" target="_blank" rel="noopener noreferrer">GitHub</a>
                         </div>
                     </article>
@@ -131,13 +111,25 @@
                         </div>
                         <p class="featured-project-desc">A Spring backend for studying checkout correctness when inventory is contended, messages are redelivered, and a remote payment result is ambiguous.</p>
                         <ul class="featured-project-highlights">
-                            <li>Conditional inventory updates, idempotent checkout, and a transactional outbox</li>
-                            <li>UNKNOWN payment state and lookup-based reconciliation across a real gRPC provider boundary</li>
+                            <li>Concurrency and failure tests validate idempotency, outbox delivery, and reconciliation</li>
+                            <li>Scope: one-merchant correctness laboratory, not a complete storefront</li>
                         </ul>
                         <div class="featured-project-actions">
-                            <a href="projects.html" class="project-link">View Project</a>
+                            <a href="projects/commercecore.html" class="project-link">Case Study</a>
                             <a href="https://github.com/nhatminh06/commercecore" class="project-link" target="_blank" rel="noopener noreferrer">GitHub</a>
                         </div>
+                    </article>
+                    <article class="dashboard-card featured-project-card">
+                        <div class="featured-project-header"><h3 class="featured-project-title">TensorForge</h3><span class="featured-project-tag">ML Systems</span></div>
+                        <p class="featured-project-desc">An inspectable accelerator model paired with real PyTorch/CUDA measurements instead of treating estimates as hardware truth.</p>
+                        <ul class="featured-project-highlights"><li>Canonical evidence compares predictions with one RTX 3050 Laptop GPU capture</li><li>Scope: analytical, not cycle-accurate or generalizable across devices</li></ul>
+                        <div class="featured-project-actions"><a href="projects/tensorforge.html" class="project-link">Case Study</a><a href="https://nhatminh06.github.io/tensorforge/" class="project-link" target="_blank" rel="noopener noreferrer">Showcase</a></div>
+                    </article>
+                    <article class="dashboard-card featured-project-card">
+                        <div class="featured-project-header"><h3 class="featured-project-title">EdgeCloud Vision Lab</h3><span class="featured-project-tag">Inference Scheduling</span></div>
+                        <p class="featured-project-desc">A latency-aware vision scheduler with controlled failures, bounded fallback, and deterministic experiment replay.</p>
+                        <ul class="featured-project-highlights"><li>Committed events replay normal, delayed, failed, and recovered phases</li><li>Scope: local CPU workers and loopback HTTP, not a physical edge/cloud deployment</li></ul>
+                        <div class="featured-project-actions"><a href="https://nhatminh06.github.io/edgecloud-vision-lab/" class="project-link" target="_blank" rel="noopener noreferrer">Replay</a><a href="https://github.com/nhatminh06/edgecloud-vision-lab" class="project-link" target="_blank" rel="noopener noreferrer">GitHub</a></div>
                     </article>
                 </div>
                 <a href="projects.html" class="home-blog-all">View all projects &rarr;</a>
