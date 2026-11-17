@@ -102,7 +102,7 @@
     {
       "repository": "nhatminh06/personal-cognitive-load-monitor",
       "url": "https://github.com/nhatminh06/personal-cognitive-load-monitor",
-      "description": "Educational MLOps platform for a synthetic cognitive-load classifier: FastAPI serving, DVC, MLflow, Docker, Helm, Kubernetes/GKE, KServe, Prometheus/Grafana, and Evidently drift monitoring behind a coverage-gated CI/CD pipeline.",
+      "description": "Educational MLOps platform using synthetic cognitive-load proxy labels, authenticated FastAPI endpoints, deterministic event processing, durable SQLite persistence, and security-focused CI.",
       "homepage": null,
       "topics": [
         "dvc",

@@ -141,16 +141,16 @@
       "repository": "nhatminh06/personal-cognitive-load-monitor",
       "name": "Personal Cognitive Load Monitor",
       "slug": "personal-cognitive-load-monitor",
-      "summary": "An educational MLOps platform for a synthetic cognitive-load classifier with serving, monitoring, and isolated cluster qualification.",
+      "summary": "CogniFlow is an educational MLOps platform using deterministic synthetic cognitive-load proxy labels, authenticated FastAPI endpoints, and replay-safe event processing.",
       "category": "Earlier Projects & Labs",
-      "technologies": ["Python", "KServe", "Kubernetes", "MLflow", "DVC"],
-      "status": "Course project; local qualification only",
+      "technologies": ["Python", "FastAPI", "SQLite", "DVC", "MLflow", "GitHub Actions"],
+      "status": "Sanitized public release; educational only",
       "featuredPriority": null,
       "demoUrl": null,
       "architectureUrl": "https://github.com/nhatminh06/personal-cognitive-load-monitor/blob/main/docs/architecture.md",
-      "evidenceUrl": "https://github.com/nhatminh06/personal-cognitive-load-monitor/blob/main/docs/module1/qualification-evidence-review.md",
-      "limitations": "Synthetic and nonclinical; a local kind run qualified an isolated fixture, while GKE deployment remains unproven and blocked.",
-      "evidenceSources": ["README.md", "docs/module1/qualification-evidence-review.md", "docs/module1/isolated-qualification.md"]
+      "evidenceUrl": "https://github.com/nhatminh06/personal-cognitive-load-monitor/tree/b7f3ddef1d30eb52e80887d27445c5724a198ce3",
+      "limitations": "Synthetic and nonclinical; the release does not establish Kubernetes or GCP deployment, an image release, clinical validation, or production operation.",
+      "evidenceSources": ["README.md", "docs/publication-status.md", ".github/workflows/ci-cd.yaml"]
     },
     {
       "repository": "nhatminh06/matchsense", "name": "MatchSense", "slug": "matchsense", "summary": "Event-driven football analytics with idempotent ingestion and cross-service tracing.", "category": "Earlier Projects & Labs", "technologies": ["Go", "FastAPI", "Kafka", "Redis"], "status": "Earlier project", "featuredPriority": null, "demoUrl": null, "architectureUrl": null, "evidenceUrl": "https://github.com/nhatminh06/matchsense", "limitations": "Events are simulator-generated.", "evidenceSources": ["README.md"]

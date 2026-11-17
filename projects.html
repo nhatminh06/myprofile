@@ -163,22 +163,23 @@
                     <div class="project-card project-card--moved" style="order: 13;">
                         <div class="project-header">
                             <h3>Personal Cognitive Load Monitor</h3>
-                            <span class="project-status completed">Course Project · Local Qualification</span>
+                            <span class="project-status completed">Sanitized Public Release</span>
                         </div>
                         <p class="project-description">
-                            MLOps: An educational MLOps platform around a FastAPI cognitive-load classifier: experiment tracking, data versioning, containerized serving, and drift monitoring, built to exercise the full path from notebook to (would-be) production.
+                            MLOps: CogniFlow is an educational platform using deterministic synthetic cognitive-load proxy labels, with authenticated FastAPI prediction and model-information endpoints plus deterministic anomaly-event processing.
                         </p>
                         <div class="project-tech-tags">
-                            <span>FastAPI</span><span>MLflow</span><span>DVC</span><span>Docker / Helm</span><span>KServe</span><span>Prometheus / Grafana</span><span>Evidently</span>
+                            <span>Python</span><span>FastAPI</span><span>SQLite</span><span>DVC / MLflow</span><span>GitHub Actions</span>
                         </div>
                         <div class="project-details">
                             <div class="project-highlights">
-                                <strong>Verified evidence:</strong> local tests cover the application and configuration; a preserved isolated kind run observed KServe scaling 2 → 0 → 2 and bounded cold activation for a disposable synthetic fixture.
+                                <strong>Release evidence:</strong> canonical events, SHA-256 identities, rules, and alert outbox state persist in SQLite; conflicting or unverifiable replays return HTTP 409. Hosted tests, the coverage gate, and tree plus commit-range secret scanning passed for the published release.
                             </div>
                         </div>
-                        <p class="project-note">Synthetic and nonclinical. Local kind qualification does not prove GKE compatibility or successful cloud deployment; the repository's GKE matrix remains blocked.</p>
+                        <p class="project-note">Synthetic and nonclinical. This release does not claim Kubernetes or GCP deployment, an image release, clinical validation, or production operation.</p>
                         <div class="project-links">
                             <a href="https://github.com/nhatminh06/personal-cognitive-load-monitor" class="project-link" target="_blank" rel="noopener noreferrer">GitHub Repo</a>
+                            <a href="https://github.com/nhatminh06/personal-cognitive-load-monitor/tree/b7f3ddef1d30eb52e80887d27445c5724a198ce3" class="project-link" target="_blank" rel="noopener noreferrer">Release Commit</a>
                         </div>
                     </div>
 
